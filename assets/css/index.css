@@ -347,13 +347,11 @@ body {
 }
 
 .controls-grid {
-   width: 100%;
-   display: grid;
-   grid-template-columns: repeat(var(--control-grid-cols), 1fr);
+   display: flex;
    align-items: center;
    justify-content: center;
-   justify-items: var(--control-justify-items);
-   gap: var(--spacing-xs);
+   gap: 20px;
+   width: 100%;
 }
 
 /* =========================================
@@ -482,6 +480,39 @@ body {
 .modal-btn-cancel:active {
    transform: scale(0.95);
 }
+
+/* Bug Report Button */
+.btn-bug-report {
+   background-color: #dc3545;
+   border: none;
+   outline: none;
+   color: var(--color-text-primary);
+   font-weight: bold;
+   text-shadow: 1px 1px 1px #000;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   transition: filter 0.2s, transform 0.1s;
+   cursor: pointer;
+   padding: 10px;
+   border-radius: 50%;
+   font-size: 1.2rem;
+   width: 45px;
+   height: 45px;
+   min-width: 45px;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-bug-report:hover {
+   filter: brightness(1.2);
+   transform: scale(1.05);
+   box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+.btn-bug-report:active {
+   transform: scale(0.95);
+}
+
 
 /* Preset Buttons */
 .preset-grid {
