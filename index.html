@@ -1,0 +1,1878 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <!-- Primary Meta Tags -->
+   <title>OP Retreat Talent Calculator | Optimize Your Build & Skills</title>
+   <meta name="title" content="OP Retreat Talent Calculator | Optimize Your Build & Skills">
+   <meta name="description"
+      content="Free unofficial talent calculator for OP Retreat by Habby. Plan and optimize your character builds with our interactive talent tree tool. Calculate talent points for Low HP and Full HP modes.">
+   <meta name="keywords"
+      content="OP Retreat, talent calculator, build planner, character optimizer, Habby games, talent tree, skill planner, gaming tool, OP Retreat guide, talent points calculator">
+   <meta name="author" content="Pl4yer810 & Miguel Amaya">
+   <meta name="robots" content="index, follow">
+   <meta name="language" content="English">
+   <meta name="theme-color" content="#1a1a1a">
+
+   <!-- Canonical URL (update when deployed) -->
+   <link rel="canonical" href="https://your-domain.vercel.app/">
+
+   <!-- Open Graph / Facebook -->
+   <meta property="og:type" content="website">
+   <meta property="og:url" content="https://your-domain.vercel.app/">
+   <meta property="og:site_name" content="OP Retreat Calculator">
+   <meta property="og:title" content="OP Retreat Talent Calculator | Optimize Your Build">
+   <meta property="og:description"
+      content="Free interactive talent calculator for OP Retreat. Plan your character builds, calculate talent points, and optimize your gameplay strategy.">
+   <meta property="og:image" content="https://your-domain.vercel.app/assets/images/og-preview.png">
+   <meta property="og:image:width" content="1200">
+   <meta property="og:image:height" content="630">
+   <meta property="og:image:alt" content="OP Retreat Talent Calculator Interface">
+   <meta property="og:locale" content="en_US">
+
+   <!-- Twitter Card -->
+   <meta name="twitter:card" content="summary_large_image">
+   <meta name="twitter:url" content="https://your-domain.vercel.app/">
+   <meta name="twitter:title" content="OP Retreat Talent Calculator | Build Optimizer">
+   <meta name="twitter:description"
+      content="Free interactive talent calculator for OP Retreat. Plan your character builds and optimize talent points.">
+   <meta name="twitter:image" content="https://your-domain.vercel.app/assets/images/og-preview.png">
+   <meta name="twitter:image:alt" content="OP Retreat Calculator Preview">
+
+   <!-- Favicons -->
+   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+   <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
+   <link rel="manifest" href="site.webmanifest">
+
+   <!-- Structured Data (JSON-LD) -->
+   <script type="application/ld+json">
+   {
+     "@context": "https://schema.org",
+     "@type": "WebApplication",
+     "name": "OP Retreat Talent Calculator",
+     "applicationCategory": "GameApplication",
+     "description": "Free interactive talent calculator for OP Retreat game. Plan character builds and optimize talent point distribution.",
+     "url": "https://your-domain.vercel.app/",
+     "author": {
+       "@type": "Organization",
+       "name": "Pl4yer810 & Miguel Amaya"
+     },
+     "offers": {
+       "@type": "Offer",
+       "price": "0",
+       "priceCurrency": "USD"
+     },
+     "browserRequirements": "Requires JavaScript",
+     "operatingSystem": "Any",
+     "screenshot": "https://your-domain.vercel.app/assets/images/og-preview.png"
+   }
+   </script>
+
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="assets/css/index.css">
+</head>
+
+<body>
+   <!-- Navbar 1: Brand & Logo -->
+   <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+      <div class="container-fluid">
+         <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="assets/images/icons/gears.svg" alt="Settings" class="gear-icon nav-logo me-2">
+            <span class="navbar-brand-text">OP Retreat Calculator</span>
+         </a>
+      </div>
+   </nav>
+
+   <!-- Navbar 2: Navigation Links -->
+   <nav class="navbar navbar-expand-lg navbar-dark navbar-secondary">
+      <div class="container-fluid justify-content-center">
+         <div class="d-flex">
+            <a class="nav-link nav-link-custom" href="#">Calculator</a>
+            <a class="nav-link nav-link-custom nav-link-disabled" href="#">Help</a>
+            <a class="nav-link nav-link-custom nav-link-disabled" href="#">Exchange</a>
+         </div>
+      </div>
+   </nav>
+
+   <main class="container-fluid p-0">
+      <section class="talent__tree">
+         <div class="container pb-5">
+            <div class="talent__rows__container">
+               <!--rom 23-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="64">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Elite Player</div>
+                        <img src="assets/images/talents/elite-player.webp" alt="64-Elite Player" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="65">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Flesh Bargain</div>
+                        <img src="assets/images/talents/flesh-bargain.webp" alt="65-Flesh Bargain" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="66">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Neck and Neck</div>
+                        <img src="assets/images/talents/neck-and-neck.webp" alt="66-Neck and Neck" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 22-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="61">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Hot-Blooded</div>
+                        <img src="assets/images/talents/hot-blooded.webp" alt="61-Hot-Blooded" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="62">
+                     <div class="talent__bg talent__bg__blue">
+                        <div class="talent__name">Golden Touch</div>
+                        <img src="assets/images/talents/golden-touch.webp" alt="62-Golden Touch" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="63">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Core Strength</div>
+                        <img src="assets/images/talents/core-strength.webp" alt="63-Core Strength" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 21-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="58">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Shield Cycle</div>
+                        <img src="assets/images/talents/shield-cycle.webp" alt="58-Shield Cycle" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="59">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Core Strength</div>
+                        <img src="assets/images/talents/core-strength.webp" alt="59-Core Strength" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="60">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Eternally Clad</div>
+                        <img src="assets/images/talents/eternally-clad.webp" alt="60-Eternally Clad"
+                           class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 20-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="55">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Core Strength</div>
+                        <img src="assets/images/talents/core-strength.webp" alt="55-Core Strength" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="56">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Death Immunity</div>
+                        <img src="assets/images/talents/death-immunity.webp" alt="56-Death Immunity"
+                           class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="57">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Altar Envoy</div>
+                        <img src="assets/images/talents/altar-envoy.webp" alt="57-Altar Envoy" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 19-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="52">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Corrupted</div>
+                        <img src="assets/images/talents/corrupted.webp" alt="52-Corrupted" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="53">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Shield Conversion</div>
+                        <img src="assets/images/talents/shield-conversion.webp" alt="53-Shield Conversion"
+                           class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="54">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Conversion</div>
+                        <img src="assets/images/talents/conversion.webp" alt="54-Conversion" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 18-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="49">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Martyr</div>
+                        <img src="assets/images/talents/matyr.webp" alt="49-Martyr" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="50">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Sacred Sword</div>
+                        <img src="assets/images/talents/sacred-sword.webp" alt="50-Sacred Sword" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="51">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Woundless</div>
+                        <img src="assets/images/talents/woundless.webp" alt="51-Woundless" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 17-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="46">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Titan Shield</div>
+                        <img src="assets/images/talents/titan-shield.webp" alt="46-Titan Shield" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="47">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Gas Mask</div>
+                        <img src="assets/images/talents/gas-mask.webp" alt="47-Gas Mask" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="48">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Core Strength</div>
+                        <img src="assets/images/talents/core-strength.webp" alt="48-Core Strength" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 16-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="43">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Blood Frenzy</div>
+                        <img src="assets/images/talents/blood-frenzy.webp" alt="43-Blood Frenzy" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="44">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Core Strength</div>
+                        <img src="assets/images/talents/core-strength.webp" alt="44-Core Strength" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="45">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Shield Bash</div>
+                        <img src="assets/images/talents/shield-bash.webp" alt="45-Shield Bash" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 15-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="40">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Damage Conversion</div>
+                        <img src="assets/images/talents/breath-of-life.webp" alt="40-Damage Conversion"
+                           class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="41">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Breath of Life</div>
+                        <img src="assets/images/talents/damage-conversion.webp" alt=" 41-Breath of Life"
+                           class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="42">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">First Strike</div>
+                        <img src="assets/images/talents/first-strike.webp" alt="42-First Strike" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 14-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="37">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Three Strikes</div>
+                        <img src="assets/images/talents/three-strikes.webp" alt="37-Three Strikes" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="38">
+                     <div class="talent__bg talent__bg__blue">
+                        <div class="talent__name">Family Empire</div>
+                        <img src="assets/images/talents/family-empire.webp" alt="38-Family Empire" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="39">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Double-Edged Sword</div>
+                        <img src="assets/images/talents/double-edged-sword.webp" alt="39-Double-Edged Sword"
+                           class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 13-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="34">
+                     <div class="talent__bg talent__bg__blue">
+                        <div class="talent__name">Weak Prey</div>
+                        <img src="assets/images/talents/weak-prey.webp" alt="34-Weak Prey" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="35">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Reverse Guard</div>
+                        <img src="assets/images/talents/reverse-guard.webp" alt="35-Reverse Guard" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="36">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Delayed Pain</div>
+                        <img src="assets/images/talents/delayed-pain.webp" alt="36-Delayed Pain" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 12-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="31">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Core Strength</div>
+                        <img src="assets/images/talents/core-strength.webp" alt="31-Core Strength" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="32">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Born Again</div>
+                        <img src="assets/images/talents/born-again.webp" alt="32-Born Again" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="33">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Double Blessing</div>
+                        <img src="assets/images/talents/double-blessing.webp" alt="33-Double Blessing"
+                           class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 11-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="28">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Gunmeister</div>
+                        <img src="assets/images/talents/gunmeister.webp" alt="28-Gunmeister" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="29">
+                     <div class="talent__bg talent__bg__blue">
+                        <div class="talent__name">Safe Box</div>
+                        <img src="assets/images/talents/safe-box.webp" alt="29-Safe Box" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="30">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Core Strength</div>
+                        <img src="assets/images/talents/core-strength.webp" alt="30-Core Strength" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 10-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="25">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Skill Collector</div>
+                        <img src="assets/images/talents/skill-collector.webp" alt="25-Skill Collector"
+                           class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="26">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">All-in</div>
+                        <img src="assets/images/talents/all-in.webp" alt="26-All-in" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="27">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Witch's Brew</div>
+                        <img src="assets/images/talents/witchs-brew.webp" alt="27-Witch's Brew" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 9-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="22">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Unwavering Will</div>
+                        <img src="assets/images/talents/unwavering-will.webp" alt="22-Unwavering Will"
+                           class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="23">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Core Strength</div>
+                        <img src="assets/images/talents/core-strength.webp" alt="23-Core Strength" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="24">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Bounty Contract</div>
+                        <img src="assets/images/talents/bounty-contract.webp" alt="24-Bounty Contract"
+                           class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 8-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="19">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Energized</div>
+                        <img src="assets/images/talents/energized.webp" alt="19-Energized" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="20">
+                     <div class="talent__bg talent__bg__blue">
+                        <div class="talent__name">Finance Advisor</div>
+                        <img src="assets/images/talents/finance-advisor.webp" alt="20-Finance Advisor"
+                           class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="21">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Dauntless</div>
+                        <img src="assets/images/talents/dauntless.webp" alt="21-Dauntless" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 7-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="16">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Risks and Reward</div>
+                        <img src="assets/images/talents/risk-and-reward.webp" alt="16-Risk and Reward"
+                           class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="17">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Shield Frenzy</div>
+                        <img src="assets/images/talents/shield-frenzy.webp" alt="17-Shield Frenzy" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="18">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Bloodletting</div>
+                        <img src="assets/images/talents/bloodletting.webp" alt="18-Bloodletting" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 6-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="13">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Intensity</div>
+                        <img src="assets/images/talents/intensity.webp" alt="13-Intensity" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="14">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Ninja</div>
+                        <img src="assets/images/talents/ninja.webp" alt="14-Ninja" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="15">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Warding Talisman</div>
+                        <img src="assets/images/talents/warding-talisman.webp" alt="15-Warding Talisman"
+                           class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 5-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="10">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">High Overload</div>
+                        <img src="assets/images/talents/high-overload.webp" alt="10-High Overload" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="11">
+                     <div class="talent__bg talent__bg__blue">
+                        <div class="talent__name">One More Time</div>
+                        <img src="assets/images/talents/one-more-time.webp" alt="11-One More Time" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="12">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Blood Giant</div>
+                        <img src="assets/images/talents/blood-giant.webp" alt="12-Blood Giant" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 4-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="7">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Core Strength</div>
+                        <img src="assets/images/talents/core-strength.webp" alt="7-Core Strength" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="8">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Meat Mountain</div>
+                        <img src="assets/images/talents/meat-mountain.webp" alt="8-Meat Mountain" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="9">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Core Strength</div>
+                        <img src="assets/images/talents/core-strength.webp" alt="9-Core Strength" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 3-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="4">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Born to Die</div>
+                        <img src="assets/images/talents/born-to-die.webp" alt="4-Born to Die" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="5">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Charge Shield</div>
+                        <img src="assets/images/talents/charge-shield.webp" alt="5-Charge Shield" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="6">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Clarity Boost</div>
+                        <img src="assets/images/talents/clarity-boost.webp" alt="6-Clarity Boost" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to row below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 2 (second-to-last) - connections converge to single node below-->
+               <div class="talent__row">
+                  <div class="talent__node talent--locked" data-id="1">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Relative Speed</div>
+                        <img src="assets/images/talents/relative-speed.webp" alt="1-Relative Speed"
+                           class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Diagonal connection to center node below -->
+                     <div class="connection__diagonal__left__bg">
+                        <div class="connection__diagonal__left__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="2">
+                     <div class="talent__bg talent__bg__blue">
+                        <div class="talent__name">Lv.3 Bag</div>
+                        <img src="assets/images/talents/lv3-bag.webp" alt="2-Lv.3 Bag" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Vertical connection to center node below -->
+                     <div class="connection__vertical__bg">
+                        <div class="connection__vertical__bar"></div>
+                     </div>
+                  </div>
+
+                  <!-- Horizontal connection -->
+                  <div class="connection__horizontal__bg">
+                     <div class="connection__horizontal__bar"></div>
+                  </div>
+
+                  <div class="talent__node talent--locked" data-id="3">
+                     <div class="talent__bg talent__bg__green">
+                        <div class="talent__name">Adrenal Surge</div>
+                        <img src="assets/images/talents/adrenal-surge.webp" alt="3-Adrenal Surge" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                     <!-- Diagonal connection to center node below -->
+                     <div class="connection__diagonal__right__bg">
+                        <div class="connection__diagonal__right__bar"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!--rom 1 (last row) - single centered node-->
+               <div class="talent__row talent__row--single">
+                  <div class="talent__node talent--locked" data-id="0">
+                     <div class="talent__bg talent__bg__red">
+                        <div class="talent__name">Core Strength</div>
+                        <img src="assets/images/talents/core-strength.webp" alt="0-Core Strength" class="talent__icon">
+                        <div class="talent__level-bar">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                           <img src="assets/images/icons/talent-level.webp" alt="level" class="talent__level-star">
+                        </div>
+                        <img src="assets/images/icons/lock.webp" alt="locked" class="talent__lock">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Main Controls Bar (Sticky) -->
+            <div class="controls-bar">
+               <div class="controls-grid" style="grid-template-columns: repeat(2, 1fr); width: auto; gap: 20px;">
+                  <button class="modal-btn-cancel" id="btn-reset">
+                     Reset
+                  </button>
+                  <button class="modal-btn-calc" onclick="openConfigModal()">
+                     Calculate
+                  </button>
+               </div>
+            </div>
+         </div>
+         </div>
+      </section>
+   </main>
+
+   <!-- Scripts -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+   <!-- Modal: Talent Configuration -->
+   <div class="modal fade" id="modal-talent-config" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content modal-custom bg-dark">
+            <div class="modal-header border-0">
+               <h5 class="modal-title w-100 text-center text-gold">Talent Configuration</h5>
+               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center ">
+
+               <!-- Section 1: Manual Calculation -->
+               <div class="mb-4">
+                  <label for="manual-points-input" class="form-label text-light">Please enter current points <br>(80 -
+                     200)</label>
+                  <div class="input-group justify-content-center">
+                     <input type="number" id="manual-points-input" class="form-control manual-input"
+                        placeholder="80-200" min="80" max="200">
+                  </div>
+                  <!-- Error Message Placeholder -->
+                  <div id="manual-calc-error" class="error-message"></div>
+
+                  <div class="d-flex justify-content-center gap-3 mt-3">
+                     <button id="btn-manual-submit" class="modal-btn-calc">Calculate</button>
+                     <button type="button" class="modal-btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                  </div>
+               </div>
+
+               <hr class="border-secondary my-4">
+
+               <!-- Section 2: Mode Switcher -->
+               <div class="mb-3">
+                  <div class="mode-switcher-container">
+                     <label class="btn-mode active" id="label-mode-low">
+                        <input type="radio" name="hpMode" value="low" checked>
+                        <span>Low HP</span>
+                     </label>
+                     <label class="btn-mode" id="label-mode-full">
+                        <input type="radio" name="hpMode" value="full">
+                        <span>Full HP</span>
+                     </label>
+                  </div>
+               </div>
+
+               <!-- Section 3: Preset Buttons Grid -->
+               <div class="preset-grid">
+                  <!-- Generated by JS or hardcoded? Hardcoding for now as per plan -->
+                  <button class="btn-preset" data-level="80">80</button>
+                  <button class="btn-preset" data-level="90">90</button>
+                  <button class="btn-preset" data-level="100">100</button>
+                  <button class="btn-preset" data-level="110">110</button>
+                  <button class="btn-preset" data-level="120">120</button>
+                  <button class="btn-preset" data-level="130">130</button>
+                  <button class="btn-preset" data-level="140">140</button>
+                  <button class="btn-preset" data-level="150">150</button>
+                  <button class="btn-preset" data-level="160">160</button>
+                  <button class="btn-preset" data-level="170">170</button>
+                  <button class="btn-preset" data-level="180">180</button>
+                  <button class="btn-preset" data-level="190">190</button>
+                  <button class="btn-preset" data-level="200">200</button>
+               </div>
+
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Full HP Warning Modal -->
+   <!-- Full HP Warning Modal (Bootstrap 5) -->
+   <div class="modal fade" id="modal-full-hp-warning" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content modal-content-dark">
+            <div class="modal-header modal-header-dark">
+               <h5 class="modal-title">Notice</h5>
+               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+               <p>Configuraciones Full HP en construcción</p>
+            </div>
+            <div class="modal-footer modal-footer-dark justify-content-center">
+               <button type="button" id="full-hp-ok" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="modal fade" id="modal-privacy" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content modal-content-dark bg-dark text-white border-secondary">
+            <div class="modal-header border-secondary">
+               <h5 class="modal-title">Privacy Policy</h5>
+               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+               <p>This site does not collect personal user data. We do not use databases to store browsing
+                  information.</p>
+               <p><strong>Cookies:</strong> Essential technical cookies are used for calculator functionality and
+                  interface preferences.</p>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="modal fade" id="modal-terms" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+         <div class="modal-content modal-content-dark bg-dark text-white border-secondary">
+            <div class="modal-header border-secondary">
+               <h5 class="modal-title text-warning">Terms of Use & Intellectual Property</h5>
+               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" style="font-size: 0.9rem; color: #ccc;">
+               <p>By using this website, you agree to the following terms:</p>
+
+               <h6 class="text-white">1. Intellectual Property</h6>
+               <p>All art, item icons,
+                  character names, skills, and logos shown on this site are the exclusive property of <strong>HABBY PTE.
+                     LTD.</strong>. This site claims no rights over such content.</p>
+
+               <h6 class="text-white">2. Project Nature</h6>
+               <p>This is a personal, free, non-profit project created to help the game community with calculation tools
+                  and guides. There is no commercial relationship with the official developers.</p>
+
+               <h6 class="text-white">3. Information Usage</h6>
+               <p>The information and calculations provided are for informational and entertainment purposes. Use of
+                  this tool is at the user's own risk.</p>
+
+               <h6 class="text-white">4. Content Removal (Take-down policy)</h6>
+               <p>If you are a legal representative of the developer and believe this site infringes on any policy,
+                  please contact us. We are willing to make changes or shut down the site immediately upon request.</p>
+
+               <h6 class="text-white">5. Fair Use</h6>
+               <p>The use of graphic assets on this site is made under the 'Fair Use' doctrine for educational,
+                  critical, and research purposes, providing an analytical tool that does not replace the original game
+                  experience.</p>
+
+               <h6 class="text-white">6. Data Accuracy</h6>
+               <p>While we strive to keep the calculator updated with official game values, we are not responsible for
+                  discrepancies caused by recent server updates, patches, or undocumented hidden attributes.</p>
+            </div>
+            <div class="modal-footer border-secondary">
+               <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <footer class="footer-legal py-4"
+      style="background-color: #1a1a1a; color: #888; font-size: 0.85rem; border-top: 1px solid #444;">
+      <div class="container text-center">
+         <p class="mb-2">
+            OP Retreat Calculator. <br>Developed by
+            <span class="text-warning">Pl4yer810</span> & <span class="text-warning">Miguel Amaya</span>.
+         </p>
+         <p class="mb-3 px-3" style="max-width: 800px; margin: 0 auto; line-height: 1.4;">
+            <strong>Legal Notice:</strong> This website is a non-profit fan project.
+            All visual content, talent icons (e.g., <em>Elite Player</em>, <em>Flesh Bargain</em>) and trademarks
+            are the exclusive intellectual property of <strong>HABBY PTE. LTD.</strong>.
+            This site is not affiliated with or endorsed by the game creators.
+         </p>
+         <div class="d-flex justify-content-center gap-3">
+            <a href="#" class="text-decoration-none text-secondary hover-white" data-bs-toggle="modal"
+               data-bs-target="#modal-privacy">Privacy Policy</a>
+            <span>|</span>
+            <a href="#" class="text-decoration-none text-secondary hover-white" data-bs-toggle="modal"
+               data-bs-target="#modal-terms">Terms of Use</a>
+         </div>
+      </div>
+   </footer>
+
+   <!-- Bootstrap Bundle with Popper -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+   <script type="module" src="assets/js/talents.js"></script>
+   <script type="module" src="assets/js/talents-renderer.js"></script>
+   <script type="module" src="assets/js/calculator.js"></script>
+   <script type="module" src="assets/js/tabs.js"></script>
+
+
+</body>
+
+</html>
