@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
    const controlsBar = document.querySelector('.controls-grid');
 
    if (!tabs.length || !controlsBar) {
-      console.error('Tabs or Controls Bar not found');
       return;
    }
 
