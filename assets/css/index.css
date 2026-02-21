@@ -66,6 +66,12 @@ body {
    font-family: var(--font-primary);
 }
 
+.navbar-brand-version {
+   font-size: 0.8rem;
+   color: var(--color-text-muted);
+   margin-left: 0.5rem;
+}
+
 /* =========================================
    TALENT TREE STYLES
    ========================================= */
