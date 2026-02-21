@@ -77,30 +77,34 @@
 
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
    <link rel="stylesheet" href="assets/css/index.css">
+   <link rel="stylesheet" href="assets/css/navbar.css">
 </head>
 
 <body>
-   <!-- Navbar 1: Brand & Logo -->
-   <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-      <div class="container-fluid">
-         <a class="navbar-brand d-flex align-items-center" href="index.html">
-            <img src="assets/images/icons/gears.svg" alt="Settings" class="gear-icon nav-logo me-2">
-            <span class="navbar-brand-text">OP Retreat Calculator</span>
-            <span class="navbar-brand-version">v1</span>
-         </a>
-      </div>
-   </nav>
+   <!-- New Navbar -->
+   <header class="app-navbar">
+      <div class="app-navbar__container">
+         <div class="app-navbar__logo">
+            <img src="assets/images/icons/gears.svg" alt="Settings">
+            <span>OP Retreat</span>
+         </div>
 
-   <!-- Navbar 2: Navigation Links -->
-   <nav class="navbar navbar-expand-lg navbar-dark navbar-secondary">
-      <div class="container-fluid justify-content-center">
-         <div class="d-flex">
-            <a class="nav-link nav-link-custom" href="index.html">Calculator</a>
-            <a class="nav-link nav-link-custom nav-link-disabled" href="#">Help</a>
-            <a class="nav-link nav-link-custom nav-link-disabled" href="#">Exchange</a>
+         <nav class="app-navbar__menu">
+            <ul>
+               <li><a href="index.html">Calculator</a></li>
+               <li><a href="#" style="cursor: not-allowed;">Help</a></li>
+               <li><a href="#" style="cursor: not-allowed;">Exchange</a></li>
+            </ul>
+         </nav>
+
+         <div class="app-navbar__controls">
+            <ion-icon name="settings-outline"></ion-icon>
+            <ion-icon name="person-circle-outline"></ion-icon>
+            <button id="app-btn-sign-up">More Info</button>
+            <ion-icon id="app-btn-menu" name="menu-outline"></ion-icon>
          </div>
       </div>
-   </nav>
+   </header>
 
    <main class="container-fluid p-0">
       <section class="talent__tree">
@@ -1939,6 +1943,9 @@
    </script>
 
 
+   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+   <script src="assets/js/navbar.js"></script>
 </body>
 
 </html>

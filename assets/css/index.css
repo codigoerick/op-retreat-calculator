@@ -66,17 +66,15 @@ body {
    font-family: var(--font-primary);
 }
 
-.navbar-brand-version {
-   font-size: 0.8rem;
-   color: var(--color-text-muted);
-   margin-left: 0.5rem;
-}
-
 /* =========================================
    TALENT TREE STYLES
    ========================================= */
+html {
+   scroll-padding-top: 80px;
+}
+
 .talent__tree {
-   padding: var(--spacing-xl) 0;
+   padding: calc(var(--spacing-xl) + 80px) 0 var(--spacing-xl) 0;
 }
 
 .talent__rows__container {
@@ -869,7 +867,7 @@ body {
    }
 
    .talent__tree {
-      padding: var(--spacing-lg) 0;
+      padding: calc(var(--spacing-lg) + 80px) 0 var(--spacing-lg) 0;
    }
 
    .controls-bar {
@@ -952,4 +950,6 @@ body {
    .modal-content h5 {
       font-size: 1.1rem;
    }
+
+
 }

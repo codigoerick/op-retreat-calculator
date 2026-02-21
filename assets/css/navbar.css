@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --navbar-bg: rgb(31, 31, 33);
+    --navbar-primary: rgb(237, 135, 60);
+    --navbar-text: rgb(255, 255, 255);
+    --navbar-hover: rgb(243, 175, 125);
+    --navbar-title: rgb(234, 217, 200);
+}
+
+.app-navbar {
+    width: 100%;
+    height: 80px;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    /* Increased to stay above talent tree */
+    background-color: var(--navbar-bg);
+    font-family: "Poppins", sans-serif;
+}
+
+.app-navbar__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+}
+
+.app-navbar__logo {
+    display: flex;
+    align-items: center;
+}
+
+.app-navbar__logo img {
+    height: 35px;
+    margin-right: 10px;
+    /* Increased spacing as requested */
+    animation: spin-navbar 4s linear infinite;
+}
+
+@keyframes spin-navbar {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.app-navbar__logo span {
+    font-size: 25px;
+    font-weight: 600;
+    color: var(--navbar-title);
+    white-space: nowrap;
+}
+
+/*options menu*/
+
+.app-navbar__menu {
+    height: auto;
+    background-color: var(--navbar-bg);
+}
+
+.app-navbar__menu ul {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0;
+    /* Bootstrap override */
+    padding-left: 0;
+}
+
+.app-navbar__menu li {
+    list-style: none;
+    margin: 15px;
+}
+
+.app-navbar__menu a {
+    text-decoration: none;
+    color: var(--navbar-text);
+    transition: color 0.2s ease;
+}
+
+.app-navbar__menu a:hover {
+    color: var(--navbar-primary);
+}
+
+/*user controls*/
+.app-navbar__controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    order: 1;
+}
+
+.app-navbar__controls ion-icon {
+    font-size: 25px;
+    color: var(--navbar-primary);
+    cursor: pointer;
+}
+
+.app-navbar__controls ion-icon:hover {
+    color: var(--navbar-hover);
+}
+
+#app-btn-sign-up {
+    border: none;
+    cursor: pointer;
+    width: 110px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: var(--navbar-primary);
+    color: var(--navbar-text);
+    font-size: 15px;
+}
+
+#app-btn-sign-up:hover {
+    background-color: var(--navbar-hover);
+}
+
+#app-btn-menu {
+    display: none;
+}
+
+/*responsive menu*/
+
+@media (max-width: 865px) {
+
+    #app-btn-menu {
+        display: block;
+    }
+
+    .app-navbar__menu {
+        height: 0;
+        overflow: hidden;
+        border-bottom: 2px solid var(--navbar-primary);
+        transition: height 0.5s ease;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+    }
+
+    .app-navbar__menu.show {
+        height: 280px;
+    }
+
+    .app-navbar__menu.min {
+        height: calc(100vh - 80px);
+        overflow: auto;
+    }
+
+    .app-navbar__menu ul {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+    }
+}
+
+@media (max-width: 325px) {
+    .app-navbar__logo ion-icon {
+        display: none;
+    }
+
+    .app-navbar__logo img {
+        height: 28px;
+        /* Slightly smaller but still visible */
+        margin-right: 6px;
+    }
+
+    .app-navbar__logo span {
+        font-size: 18px;
+        /* Reduced to fit small screens */
+    }
+}
