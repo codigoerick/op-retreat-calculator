@@ -1944,6 +1944,55 @@
    </script>
 
 
+   <!-- Maintenance Modal -->
+   <div id="maintenance-protection-layer" class="maintenance-overlay">
+      <div class="maintenance-modal">
+         <i class="bi bi-exclamation-triangle maintenance-icon"></i>
+         <h1 class="maintenance-title">El autor de este sitio decidió desactivarlo temporalmente.</h1>
+         <p class="maintenance-message">Disculpe las molestias...</p>
+      </div>
+   </div>
+
+   <script>
+      (function() {
+         const overlayId = 'maintenance-protection-layer';
+         const body = document.body;
+         
+         function ensureModal() {
+            let overlay = document.getElementById(overlayId);
+            if (!overlay) {
+               // Re-create if deleted
+               overlay = document.createElement('div');
+               overlay.id = overlayId;
+               overlay.className = 'maintenance-overlay';
+               overlay.innerHTML = `
+                  <div class="maintenance-modal">
+                     <i class="bi bi-exclamation-triangle maintenance-icon"></i>
+                     <h1 class="maintenance-title">El autor de este sitio decidió desactivarlo temporalmente.</h1>
+                     <p class="maintenance-message">Disculpe las molestias...</p>
+                  </div>
+               `;
+               body.appendChild(overlay);
+            }
+            
+            // Ensure styles persist
+            if (overlay.style.display === 'none') overlay.style.setProperty('display', 'flex', 'important');
+            if (overlay.style.visibility === 'hidden') overlay.style.setProperty('visibility', 'visible', 'important');
+            if (overlay.style.opacity === '0') overlay.style.setProperty('opacity', '1', 'important');
+         }
+
+         // Monitor for changes
+         const observer = new MutationObserver((mutations) => {
+            ensureModal();
+         });
+
+         observer.observe(body, { childList: true, attributes: true, subtree: true });
+         
+         // Regular interval check as fallback
+         setInterval(ensureModal, 1000);
+      })();
+   </script>
+
    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
    <script src="assets/js/navbar.js"></script>
