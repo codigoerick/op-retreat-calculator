@@ -33,20 +33,22 @@ export default function TalentNode({
     <div className={`talent__node ${!unlocked ? "talent--locked" : ""}`} data-id={id}>
       <div className={`talent__bg ${bgClass}`}>
         <div className="talent__name">{name}</div>
-        <img src={`/${icon}`} alt={name} className="talent__icon" />
+        <Image src={`/${icon}`} alt={name} width={50} height={50} className="talent__icon" />
         <div className="talent__level-bar">
           {[...Array(5)].map((_, i) => (
-            <img
+            <Image
               key={i}
               src="/assets/images/icons/talent-level.webp"
               alt="level"
+              width={11}
+              height={11}
               className="talent__level-star"
               style={{ opacity: i < stars ? 1 : 0 }}
             />
           ))}
         </div>
         {!unlocked && (
-          <img src="/assets/images/icons/lock.webp" alt="locked" className="talent__lock" />
+          <Image src="/assets/images/icons/lock.webp" alt="locked" width={40} height={40} className="talent__lock" />
         )}
       </div>
 

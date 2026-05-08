@@ -10,6 +10,7 @@ import TermsModal from "@/components/TermsModal";
 import { useTalentCalculator } from "@/hooks/useTalentCalculator";
 import { trackCalculation } from "@/components/StatsDisplay";
 import StatsDisplay from "@/components/StatsDisplay";
+import Image from "next/image";
 
 export default function Home() {
   const {
@@ -41,7 +42,7 @@ export default function Home() {
       <header className="app-navbar">
         <div className="app-navbar__container">
           <div className="app-navbar__logo">
-            <img src="/assets/images/icons/gears.svg" alt="Settings" />
+            <Image src="/assets/images/icons/gears.svg" alt="Settings" width={35} height={35} priority />
             <span>OP Retreat</span>
           </div>
         </div>
