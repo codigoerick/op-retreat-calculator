@@ -1,0 +1,11 @@
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+
+# Evita que se indexen archivos de sistema o scripts directamente
+Disallow: /assets/js/
+Disallow: /node_modules/
+
+# Indica la ruta de tu Sitemap (reemplaza con tu URL de Vercel)
+Sitemap: https://op-retreat-calculator.vercel.app/sitemap.xml

@@ -1,0 +1,404 @@
+[
+  {
+    "id": 64,
+    "name": "Elite Player",
+    "icon": "assets/images/talents/elite-player.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 65,
+    "name": "Flesh Bargain",
+    "icon": "assets/images/talents/flesh-bargain.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 66,
+    "name": "Neck and Neck",
+    "icon": "assets/images/talents/neck-and-neck.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 61,
+    "name": "Hot-Blooded",
+    "icon": "assets/images/talents/hot-blooded.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 62,
+    "name": "Golden Touch",
+    "icon": "assets/images/talents/golden-touch.webp",
+    "bgClass": "talent__bg__blue"
+  },
+  {
+    "id": 63,
+    "name": "Core Strength",
+    "icon": "assets/images/talents/core-strength.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 58,
+    "name": "Shield Cycle",
+    "icon": "assets/images/talents/shield-cycle.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 59,
+    "name": "Core Strength",
+    "icon": "assets/images/talents/core-strength.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 60,
+    "name": "Eternally Clad",
+    "icon": "assets/images/talents/eternally-clad.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 55,
+    "name": "Core Strength",
+    "icon": "assets/images/talents/core-strength.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 56,
+    "name": "Death Immunity",
+    "icon": "assets/images/talents/death-immunity.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 57,
+    "name": "Altar Envoy",
+    "icon": "assets/images/talents/altar-envoy.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 52,
+    "name": "Corrupted",
+    "icon": "assets/images/talents/corrupted.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 53,
+    "name": "Shield Conversion",
+    "icon": "assets/images/talents/shield-conversion.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 54,
+    "name": "Conversion",
+    "icon": "assets/images/talents/conversion.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 49,
+    "name": "Martyr",
+    "icon": "assets/images/talents/matyr.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 50,
+    "name": "Sacred Sword",
+    "icon": "assets/images/talents/sacred-sword.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 51,
+    "name": "Woundless",
+    "icon": "assets/images/talents/woundless.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 46,
+    "name": "Titan Shield",
+    "icon": "assets/images/talents/titan-shield.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 47,
+    "name": "Gas Mask",
+    "icon": "assets/images/talents/gas-mask.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 48,
+    "name": "Core Strength",
+    "icon": "assets/images/talents/core-strength.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 43,
+    "name": "Blood Frenzy",
+    "icon": "assets/images/talents/blood-frenzy.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 44,
+    "name": "Core Strength",
+    "icon": "assets/images/talents/core-strength.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 45,
+    "name": "Shield Bash",
+    "icon": "assets/images/talents/shield-bash.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 40,
+    "name": "Damage Conversion",
+    "icon": "assets/images/talents/breath-of-life.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 41,
+    "name": "Breath of Life",
+    "icon": "assets/images/talents/damage-conversion.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 42,
+    "name": "First Strike",
+    "icon": "assets/images/talents/first-strike.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 37,
+    "name": "Three Strikes",
+    "icon": "assets/images/talents/three-strikes.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 38,
+    "name": "Family Empire",
+    "icon": "assets/images/talents/family-empire.webp",
+    "bgClass": "talent__bg__blue"
+  },
+  {
+    "id": 39,
+    "name": "Double-Edged Sword",
+    "icon": "assets/images/talents/double-edged-sword.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 34,
+    "name": "Weak Prey",
+    "icon": "assets/images/talents/weak-prey.webp",
+    "bgClass": "talent__bg__blue"
+  },
+  {
+    "id": 35,
+    "name": "Reverse Guard",
+    "icon": "assets/images/talents/reverse-guard.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 36,
+    "name": "Delayed Pain",
+    "icon": "assets/images/talents/delayed-pain.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 31,
+    "name": "Core Strength",
+    "icon": "assets/images/talents/core-strength.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 32,
+    "name": "Born Again",
+    "icon": "assets/images/talents/born-again.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 33,
+    "name": "Double Blessing",
+    "icon": "assets/images/talents/double-blessing.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 28,
+    "name": "Gunmeister",
+    "icon": "assets/images/talents/gunmeister.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 29,
+    "name": "Safe Box",
+    "icon": "assets/images/talents/safe-box.webp",
+    "bgClass": "talent__bg__blue"
+  },
+  {
+    "id": 30,
+    "name": "Core Strength",
+    "icon": "assets/images/talents/core-strength.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 25,
+    "name": "Skill Collector",
+    "icon": "assets/images/talents/skill-collector.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 26,
+    "name": "All-in",
+    "icon": "assets/images/talents/all-in.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 27,
+    "name": "Witch's Brew",
+    "icon": "assets/images/talents/witchs-brew.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 22,
+    "name": "Unwavering Will",
+    "icon": "assets/images/talents/unwavering-will.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 23,
+    "name": "Core Strength",
+    "icon": "assets/images/talents/core-strength.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 24,
+    "name": "Bounty Contract",
+    "icon": "assets/images/talents/bounty-contract.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 19,
+    "name": "Energized",
+    "icon": "assets/images/talents/energized.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 20,
+    "name": "Finance Advisor",
+    "icon": "assets/images/talents/finance-advisor.webp",
+    "bgClass": "talent__bg__blue"
+  },
+  {
+    "id": 21,
+    "name": "Dauntless",
+    "icon": "assets/images/talents/dauntless.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 16,
+    "name": "Risks and Reward",
+    "icon": "assets/images/talents/risk-and-reward.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 17,
+    "name": "Shield Frenzy",
+    "icon": "assets/images/talents/shield-frenzy.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 18,
+    "name": "Bloodletting",
+    "icon": "assets/images/talents/bloodletting.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 13,
+    "name": "Intensity",
+    "icon": "assets/images/talents/intensity.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 14,
+    "name": "Ninja",
+    "icon": "assets/images/talents/ninja.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 15,
+    "name": "Warding Talisman",
+    "icon": "assets/images/talents/warding-talisman.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 10,
+    "name": "High Overload",
+    "icon": "assets/images/talents/high-overload.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 11,
+    "name": "One More Time",
+    "icon": "assets/images/talents/one-more-time.webp",
+    "bgClass": "talent__bg__blue"
+  },
+  {
+    "id": 12,
+    "name": "Blood Giant",
+    "icon": "assets/images/talents/blood-giant.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 7,
+    "name": "Core Strength",
+    "icon": "assets/images/talents/core-strength.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 8,
+    "name": "Meat Mountain",
+    "icon": "assets/images/talents/meat-mountain.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 9,
+    "name": "Core Strength",
+    "icon": "assets/images/talents/core-strength.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 4,
+    "name": "Born to Die",
+    "icon": "assets/images/talents/born-to-die.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 5,
+    "name": "Charge Shield",
+    "icon": "assets/images/talents/charge-shield.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 6,
+    "name": "Clarity Boost",
+    "icon": "assets/images/talents/clarity-boost.webp",
+    "bgClass": "talent__bg__red"
+  },
+  {
+    "id": 1,
+    "name": "Relative Speed",
+    "icon": "assets/images/talents/relative-speed.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 2,
+    "name": "Lv.3 Bag",
+    "icon": "assets/images/talents/lv3-bag.webp",
+    "bgClass": "talent__bg__blue"
+  },
+  {
+    "id": 3,
+    "name": "Adrenal Surge",
+    "icon": "assets/images/talents/adrenal-surge.webp",
+    "bgClass": "talent__bg__green"
+  },
+  {
+    "id": 0,
+    "name": "Core Strength",
+    "icon": "assets/images/talents/core-strength.webp",
+    "bgClass": "talent__bg__red"
+  }
+]
