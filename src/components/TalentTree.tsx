@@ -1,3 +1,4 @@
+import React from "react";
 import TalentNode from "./TalentNode";
 import talents from "@/data/talents.json";
 
@@ -67,7 +68,7 @@ export default function TalentTree({ currentConfig }: TalentTreeProps) {
                 }
 
                 return (
-                  <div key={id} style={{ display: "flex", alignItems: "center" }}>
+                  <React.Fragment key={id}>
                     <TalentNode
                       {...talent}
                       stars={getStars(id)}
@@ -89,7 +90,7 @@ export default function TalentTree({ currentConfig }: TalentTreeProps) {
                         ></div>
                       </div>
                     )}
-                  </div>
+                  </React.Fragment>
                 );
               })}
             </div>

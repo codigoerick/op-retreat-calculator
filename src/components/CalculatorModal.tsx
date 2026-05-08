@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface CalculatorModalProps {
   show: boolean;
@@ -42,16 +42,18 @@ export default function CalculatorModal({
   if (!show) return null;
 
   return (
-    <div className={`modal fade show d-block`} style={{ backgroundColor: "rgba(0,0,0,0.8)" }}>
+    <div className="modal fade show d-block" style={{ backgroundColor: "rgba(0,0,0,0.85)" }}>
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content modal-custom bg-dark">
           <div className="modal-header border-0">
             <h5 className="modal-title w-100 text-center text-gold">Talent Configuration</h5>
-            <button type="button" className="btn-close btn-close-white" onClick={onClose}></button>
+            <button type="button" className="btn-close btn-close-white" onClick={onClose} aria-label="Close"></button>
           </div>
           <div className="modal-body text-center">
+            
+            {/* Section 1: Manual Calculation */}
             <div className="mb-4">
-              <label className="form-label text-light">Please enter current points (80 - 200)</label>
+              <label className="form-label text-light">Please enter current points <br/>(80 - 200)</label>
               <div className="input-group justify-content-center">
                 <input
                   type="number"
@@ -71,17 +73,21 @@ export default function CalculatorModal({
 
             <hr className="border-secondary my-4" />
 
+            {/* Section 2: Mode Switcher */}
             <div className="mb-3">
               <div className="mode-switcher-container">
                 <label className={`btn-mode ${mode === "low" ? "active" : ""}`} onClick={() => setMode("low")}>
+                  <input type="radio" name="hpMode" value="low" checked={mode === "low"} readOnly />
                   <span>Low HP</span>
                 </label>
                 <label className={`btn-mode ${mode === "full" ? "active" : ""}`} onClick={() => setMode("full")}>
+                  <input type="radio" name="hpMode" value="full" checked={mode === "full"} readOnly />
                   <span>Full HP</span>
                 </label>
               </div>
             </div>
 
+            {/* Section 3: Preset Buttons Grid */}
             <div className="preset-grid">
               {presets.map((lvl) => (
                 <button
@@ -97,7 +103,7 @@ export default function CalculatorModal({
                 </button>
               ))}
               {mode === "full" && (
-                  <button className="btn-preset" onClick={() => { onApplyLevel(144); onClose(); }}>144</button>
+                <button className="btn-preset" onClick={() => { onApplyLevel(144); onClose(); }}>144</button>
               )}
             </div>
           </div>
