@@ -70,12 +70,13 @@ body {
 /* =========================================
    TALENT TREE STYLES
    ========================================= */
+
 html {
    scroll-padding-top: 80px;
 }
 
 .talent__tree {
-   padding: calc(var(--spacing-xl) + 80px) 0 var(--spacing-xl) 0;
+   padding: 100px 0 20px 0;
 }
 
 .talent__rows__container {

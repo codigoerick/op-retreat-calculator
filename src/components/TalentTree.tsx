@@ -29,7 +29,7 @@ export default function TalentTree({ currentConfig }: TalentTreeProps) {
 
   return (
     <section className="talent__tree">
-      <div className="container pb-5">
+      <div className="container">
         <div className="talent__rows__container">
           {rows.map((row, rowIndex) => (
             <div key={rowIndex} className={`talent__row ${row.length === 1 ? "talent__row--single" : ""}`}>
