@@ -124,8 +124,8 @@ export default function Home() {
             <button
               className="btn-scroll-float btn-scroll-bottom"
               onClick={() => {
-                const footer = document.querySelector('footer');
-                const controls = document.querySelector('.controls-bar');
+                const footer = document.querySelector('footer') as HTMLElement | null;
+                const controls = document.querySelector('.controls-bar') as HTMLElement | null;
                 const footerHeight = (footer?.offsetHeight || 0) + (controls?.offsetHeight || 0);
                 window.scrollTo({
                   top: document.documentElement.scrollHeight - window.innerHeight - footerHeight + 100,
