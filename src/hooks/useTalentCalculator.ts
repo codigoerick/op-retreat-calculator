@@ -1,43 +1,77 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import talentsData from "@/data/talents.json";
-import talentsConfigLow from "@/data/talents_config.json";
-import talentsConfigFull from "@/data/talents_config_full.json";
+import { useState, useMemo, useEffect } from "react";
 import diffSequences from "@/data/diff_sequences.json";
-
-interface Talent {
-  id: number;
-  name: string;
-  icon: string;
-  bgClass: string;
-}
-
-interface Config {
-  [key: string]: number[];
-}
+import { supabase } from "@/lib/supabase";
 
 export function useTalentCalculator() {
   const [points, setPoints] = useState<number>(0);
   const [mode, setMode] = useState<"low" | "full">("low");
   const [manualPoints, setManualPoints] = useState<number | null>(null);
 
+  const [configsLow, setConfigsLow] = useState<any>(null);
+  const [configsFull, setConfigsFull] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Maintenance state
+  const [isMaintenance, setIsMaintenance] = useState(false);
+  const [maintenanceMessage, setMaintenanceMessage] = useState("");
+
+  useEffect(() => {
+    // Fail-safe: Force stop loading after 5 seconds if Supabase hangs (common on mobile/adblockers)
+    const failSafe = setTimeout(() => {
+      setIsLoading(false);
+    }, 5000);
+
+    async function fetchData() {
+      try {
+        setIsLoading(true);
+        
+        // Fetch Configs and Settings in parallel for speed
+        const [configRes, settingsRes] = await Promise.all([
+          supabase.from('talent_presets').select('mode, config_data'),
+          supabase.from('site_settings').select('*').eq('key', 'maintenance').single()
+        ]);
+
+        if (!configRes.error && configRes.data) {
+          const low = configRes.data.find(d => d.mode === 'low')?.config_data;
+          const full = configRes.data.find(d => d.mode === 'full')?.config_data;
+          if (low) setConfigsLow(low);
+          if (full) setConfigsFull(full);
+        }
+
+        if (!settingsRes.error && settingsRes.data) {
+          setIsMaintenance(settingsRes.data.value.enabled);
+          setMaintenanceMessage(settingsRes.data.value.message);
+        }
+      } catch (e) {
+        console.error("Error fetching data from Supabase:", e);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchData();
+
+    return () => clearTimeout(failSafe);
+  }, []);
+
   const currentConfig = useMemo(() => {
-    const configs: any = mode === "low" ? talentsConfigLow : talentsConfigFull;
+    if (isLoading) return null;
     
-    // If it's an exact level (80, 90, etc.)
+    const configs: any = mode === "low" ? configsLow : configsFull;
+    if (!configs) return null;
+
     if (manualPoints === null) {
         if (points === 0) return null;
         return configs[points.toString()];
     }
 
-    // Manual Calculation logic
     const p = manualPoints;
     if (configs[p.toString()]) return configs[p.toString()];
 
     const baseLevel = Math.floor(p / 10) * 10;
     const baseConfig = configs[baseLevel.toString()];
-    if (!baseConfig) return configs["80"]; // Fallback
+    if (!baseConfig) return configs["80"]; 
 
     const newConfig = JSON.parse(JSON.stringify(baseConfig));
     const pointsToAdd = p - baseLevel;
@@ -53,7 +87,7 @@ export function useTalentCalculator() {
       }
     }
     return newConfig;
-  }, [points, mode, manualPoints]);
+  }, [points, mode, manualPoints, configsLow, configsFull, isLoading]);
 
   const reset = () => {
     setPoints(0);
@@ -78,5 +112,10 @@ export function useTalentCalculator() {
     reset,
     applyLevel,
     applyManual,
+    isLoading,
+    isMaintenance,
+    maintenanceMessage,
+    configsLow,
+    configsFull
   };
 }

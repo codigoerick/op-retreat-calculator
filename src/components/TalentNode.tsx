@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Image from "next/image";
 
 interface TalentNodeProps {
@@ -15,7 +16,7 @@ interface TalentNodeProps {
   showDiagonalRightBar?: boolean;
 }
 
-export default function TalentNode({
+const TalentNode = ({
   id,
   name,
   icon,
@@ -28,7 +29,7 @@ export default function TalentNode({
   showVerticalBar,
   showDiagonalLeftBar,
   showDiagonalRightBar,
-}: TalentNodeProps) {
+}: TalentNodeProps) => {
   return (
     <div className={`talent__node ${!unlocked ? "talent--locked" : ""}`} data-id={id}>
       <div className={`talent__bg ${bgClass}`}>
@@ -71,4 +72,6 @@ export default function TalentNode({
       )}
     </div>
   );
-}
+};
+
+export default memo(TalentNode);

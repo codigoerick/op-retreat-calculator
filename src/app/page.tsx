@@ -20,6 +20,11 @@ export default function Home() {
     reset,
     applyLevel,
     applyManual,
+    isLoading,
+    isMaintenance,
+    maintenanceMessage,
+    configsLow,
+    configsFull
   } = useTalentCalculator();
 
   const [showCalcModal, setShowCalcModal] = useState(false);
@@ -37,8 +42,25 @@ export default function Home() {
     trackCalculation();
   };
 
+  if (isMaintenance) {
+    return (
+      <main className="container-fluid p-0 min-vh-100 d-flex flex-column align-items-center justify-content-center bg-dark text-center px-4">
+        <Image src="/assets/images/LoadUI.png" alt="Maintenance" width={400} height={200} className="mb-4 rounded-3 shadow-lg" style={{ objectFit: 'contain' }} />
+        <h1 className="text-warning mb-3" style={{ fontFamily: 'var(--font-heading)' }}>Modo Mantenimiento</h1>
+        <p className="text-white fs-5 max-w-600">{maintenanceMessage}</p>
+        <div className="mt-4 text-secondary small">Vuelve a visitarnos pronto.</div>
+      </main>
+    );
+  }
+
   return (
     <main className="container-fluid p-0 min-vh-100 d-flex flex-column">
+      {isLoading && (
+        <div className="position-fixed top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center bg-dark" style={{ zIndex: 9999, opacity: 0.9 }}>
+          <div className="spinner-border text-warning mb-3" role="status"></div>
+          <span className="text-white">Cargando configuraciones...</span>
+        </div>
+      )}
       <header className="app-navbar">
         <div className="app-navbar__container">
           <div className="app-navbar__logo">
@@ -65,6 +87,8 @@ export default function Home() {
         onApplyManual={handleApplyManual}
         mode={mode}
         setMode={setMode}
+        configsLow={configsLow}
+        configsFull={configsFull}
       />
 
       <ReportModal 
@@ -84,12 +108,11 @@ export default function Home() {
 
       <footer className="footer-legal pt-3 pb-4">
         <div className="container">
-          {/* Top Section: Credits (Left) and Links (Right) */}
           <div className="row align-items-center mb-4">
             <div className="col-md-6 text-center text-md-start mb-3 mb-md-0">
               <p className="mb-0" style={{ fontSize: "0.9rem" }}>
                 OP Retreat Calculator © 2025 - 2026. <br /><br className="d-md-none" />
-                Developed by <span className="text-warning fw-bold">Pl4yer810</span> & <span className="text-warning fw-bold">Miguel Amaya</span>
+                Desarrollado por <a href="/team" className="text-warning fw-bold text-decoration-none hover-underline">el Equipo de OP Retreat</a>
               </p>
             </div>
             <div className="col-md-6 d-flex justify-content-center justify-content-md-end gap-3">
@@ -111,7 +134,6 @@ export default function Home() {
 
           <div className="footer-divider mb-4"></div>
 
-          {/* Bottom Section: Stats (Numbers) */}
           <div className="row">
             <div className="col-12 d-flex justify-content-center">
               <StatsDisplay />

@@ -1,0 +1,196 @@
+.adminContainer {
+  min-height: 100vh;
+  background-color: #0f172a;
+  color: #e2e8f0;
+  display: flex;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background-color: #1e293b;
+  border-right: 1px solid #334155;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100vh;
+  z-index: 100;
+}
+
+.sidebarHeader {
+  padding: 30px 20px;
+  background: linear-gradient(to bottom, #2e4053, #1b2631);
+  border-bottom: 1px solid #334155;
+}
+
+.sidebarMenu {
+  padding: 20px 0;
+  flex-grow: 1;
+}
+
+.menuItem {
+  padding: 12px 25px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.menuItem:hover {
+  background-color: rgba(52, 152, 219, 0.05);
+  color: #3498db;
+}
+
+.menuItemActive {
+  background-color: rgba(52, 152, 219, 0.1);
+  color: #3498db;
+  border-left: 4px solid #3498db;
+}
+
+.sidebarFooter {
+  padding: 20px;
+  border-top: 1px solid #334155;
+}
+
+/* Content Area */
+.mainContent {
+  flex-grow: 1;
+  margin-left: 260px;
+  padding: 40px;
+  background-color: #0f172a;
+}
+
+/* vBulletin 6 Styles */
+.vbBlock {
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.vbBlockHeader {
+  background: linear-gradient(to bottom, #334155, #1e293b);
+  border-bottom: 1px solid #475569;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vbBlockTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #3498db;
+  margin: 0;
+}
+
+.vbBlockContent {
+  padding: 25px;
+}
+
+/* Components */
+.statusGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+  gap: 10px;
+}
+
+.badgeLevel {
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  padding: 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  text-align: center;
+  color: #64748b;
+}
+
+.badgeLevel.active {
+  border-color: #3498db;
+  color: #3498db;
+  background-color: rgba(52, 152, 219, 0.1);
+  box-shadow: 0 0 10px rgba(52, 152, 219, 0.1);
+}
+
+.uploadArea {
+  border: 2px dashed #334155;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 60px 40px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.uploadArea:hover {
+  border-color: #3498db;
+  background-color: rgba(52, 152, 219, 0.05);
+}
+
+.logsConsole {
+  background-color: #020617;
+  border-radius: 6px;
+  padding: 20px;
+  height: 400px;
+  overflow-y: auto;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.8rem;
+  border: 1px solid #1e293b;
+  line-height: 1.5;
+}
+
+.logEntry {
+  margin-bottom: 6px;
+  border-left: 3px solid transparent;
+  padding-left: 12px;
+}
+
+.logInfo { border-color: #3498db; color: #94a3b8; }
+.logSuccess { border-color: #22c55e; color: #22c55e; }
+.logError { border-color: #ef4444; color: #ef4444; }
+
+/* Login */
+.loginWrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url('/assets/images/backgrounds/talent_node_bg.png') center/cover;
+  position: relative;
+}
+
+.loginWrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+}
+
+.loginCard {
+  position: relative;
+  width: 420px;
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+}
+
+.maintInput {
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  color: white;
+  padding: 12px;
+  border-radius: 6px;
+  width: 100%;
+}

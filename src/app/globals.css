@@ -24,7 +24,8 @@
    --color-error: #dc3545;
 
    /* Fonts */
-   --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   --font-primary: var(--font-roboto-slab), serif;
+   --font-heading: var(--font-ubuntu), sans-serif;
 
    /* Talent Node Sizes (Mobile/Tablet Default) */
    --talent-node-size: 70px;
@@ -461,9 +462,10 @@ html {
    transition: filter 0.2s, transform 0.1s;
    cursor: pointer;
    padding: var(--spacing-sm) var(--spacing-md);
-   /*border-radius: var(--spacing-xs);*/
+   border-radius: var(--spacing-xs);
    font-size: 1rem;
    text-transform: uppercase;
+   font-family: var(--font-heading);
 }
 
 .modal-btn-calc {
@@ -558,8 +560,8 @@ html {
    transform: scale(0.95);
 }
 
-.btn-preset:disabled {
-   opacity: 0.6;
+.btn-preset:disabled, .btn-preset-disabled {
+   opacity: 0.4;
    cursor: not-allowed;
    filter: grayscale(100%);
    background-color: transparent;
@@ -675,6 +677,7 @@ html {
    color: var(--color-gold) !important;
    text-shadow: 1px 1px 2px #000;
    font-size: 1.5rem;
+   font-family: var(--font-heading);
 }
 
 .nav-logo {

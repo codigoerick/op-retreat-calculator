@@ -9,6 +9,8 @@ interface CalculatorModalProps {
   onApplyManual: (points: number) => void;
   mode: "low" | "full";
   setMode: (mode: "low" | "full") => void;
+  configsLow: any;
+  configsFull: any;
 }
 
 export default function CalculatorModal({
@@ -18,23 +20,32 @@ export default function CalculatorModal({
   onApplyManual,
   mode,
   setMode,
+  configsLow,
+  configsFull
 }: CalculatorModalProps) {
   const [manualInput, setManualInput] = useState("");
   const [error, setError] = useState("");
 
   const presets = [80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200];
-  const fullHpValid = [80, 120, 144, 190, 200];
+  
+  // Check if a specific level exists in DB for current mode
+  const isAvailable = (lvl: number) => {
+    const configs = mode === "low" ? configsLow : configsFull;
+    return !!configs && !!configs[lvl.toString()];
+  };
 
   const handleManualSubmit = () => {
     const val = parseInt(manualInput);
     if (isNaN(val) || val < 80 || val > 200) {
-      setError("Please enter a value between 80 and 200.");
+      setError("Por favor ingresa un valor entre 80 y 200.");
       return;
     }
-    if (mode === "full" && !fullHpValid.includes(val)) {
-        setError(`For Full HP, only levels ${fullHpValid.join(", ")} are supported.`);
-        return;
+
+    if (!isAvailable(val)) {
+      setError(`La configuración para el nivel ${val} (${mode === 'low' ? 'Low HP' : 'Full HP'}) aún no ha sido cargada por el administrador.`);
+      return;
     }
+
     onApplyManual(val);
     onClose();
   };
@@ -46,28 +57,31 @@ export default function CalculatorModal({
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content modal-custom bg-dark">
           <div className="modal-header border-0">
-            <h5 className="modal-title w-100 text-center text-gold">Talent Configuration</h5>
+            <h5 className="modal-title w-100 text-center text-gold">Configuración de Talentos</h5>
             <button type="button" className="btn-close btn-close-white" onClick={onClose} aria-label="Close"></button>
           </div>
           <div className="modal-body text-center">
             
             {/* Section 1: Manual Calculation */}
             <div className="mb-4">
-              <label className="form-label text-light">Please enter current points <br/>(80 - 200)</label>
+              <label className="form-label text-light small uppercase">Ingresa tus puntos actuales <br/>(80 - 200)</label>
               <div className="input-group justify-content-center">
                 <input
                   type="number"
                   className="form-control manual-input"
                   style={{ width: "100px" }}
                   value={manualInput}
-                  onChange={(e) => setManualInput(e.target.value)}
+                  onChange={(e) => {
+                    setManualInput(e.target.value);
+                    setError("");
+                  }}
                   placeholder="80-200"
                 />
               </div>
-              {error && <div className="error-message show shake">{error}</div>}
+              {error && <div className="text-danger small mt-2">{error}</div>}
               <div className="d-flex justify-content-center gap-3 mt-3">
-                <button className="modal-btn-calc" onClick={handleManualSubmit}>Calculate</button>
-                <button className="modal-btn-cancel" onClick={onClose}>Cancel</button>
+                <button className="modal-btn-calc" onClick={handleManualSubmit}>Calcular</button>
+                <button className="modal-btn-cancel" onClick={onClose}>Cancelar</button>
               </div>
             </div>
 
@@ -89,22 +103,35 @@ export default function CalculatorModal({
 
             {/* Section 3: Preset Buttons Grid */}
             <div className="preset-grid">
-              {presets.map((lvl) => (
-                <button
-                  key={lvl}
-                  className="btn-preset"
-                  disabled={mode === "full" && !fullHpValid.includes(lvl)}
-                  onClick={() => {
-                    onApplyLevel(lvl);
-                    onClose();
-                  }}
-                >
-                  {lvl}
-                </button>
-              ))}
-              {mode === "full" && (
-                <button className="btn-preset" onClick={() => { onApplyLevel(144); onClose(); }}>144</button>
-              )}
+              {presets.map((lvl) => {
+                const available = isAvailable(lvl);
+                return (
+                  <button
+                    key={lvl}
+                    className={`btn-preset ${available ? '' : 'btn-preset-disabled'}`}
+                    onClick={() => {
+                      if (available) {
+                        onApplyLevel(lvl);
+                        onClose();
+                      } else {
+                        alert(`La configuración para el nivel ${lvl} (${mode === 'low' ? 'Low HP' : 'Full HP'}) aún no está disponible.`);
+                      }
+                    }}
+                  >
+                    {lvl}
+                  </button>
+                );
+              })}
+              {/* Special case for 144 */}
+              <button 
+                className={`btn-preset ${isAvailable(144) ? '' : 'btn-preset-disabled'}`}
+                onClick={() => {
+                   if (isAvailable(144)) { onApplyLevel(144); onClose(); }
+                   else { alert("Configuración nivel 144 no disponible."); }
+                }}
+              >
+                144
+              </button>
             </div>
           </div>
         </div>

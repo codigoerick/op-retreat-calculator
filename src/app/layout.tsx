@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Poppins, Ubuntu, Roboto_Slab } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./globals.css";
@@ -9,6 +9,20 @@ const poppins = Poppins({
   weight: ['300', '400', '600', '700'],
   display: 'swap',
   variable: '--font-poppins',
+});
+
+const ubuntu = Ubuntu({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  display: 'swap',
+  variable: '--font-ubuntu',
+});
+
+const robotoSlab = Roboto_Slab({
+  subsets: ['latin'],
+  weight: ['300', '400', '700'],
+  display: 'swap',
+  variable: '--font-roboto-slab',
 });
 
 export const metadata: Metadata = {
@@ -57,7 +71,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={poppins.variable}>
+    <html lang="en" className={`${poppins.variable} ${ubuntu.variable} ${robotoSlab.variable}`}>
       <body>{children}</body>
     </html>
   );

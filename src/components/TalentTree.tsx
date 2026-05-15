@@ -1,21 +1,30 @@
-import React from "react";
+import React, { memo, useMemo } from "react";
 import TalentNode from "./TalentNode";
-import talents from "@/data/talents.json";
+import talentsData from "@/data/talents.json";
 
 interface TalentTreeProps {
   currentConfig: any;
 }
 
-export default function TalentTree({ currentConfig }: TalentTreeProps) {
-  // Helper to get talent by ID
-  const getTalent = (id: number) => talents.find((t) => t.id === id);
+const TalentTree = ({ currentConfig }: TalentTreeProps) => {
+  // Memoize the talents map for O(1) lookup
+  const talentsMap = useMemo(() => {
+    const map: Record<number, any> = {};
+    talentsData.forEach((t) => {
+      map[t.id] = t;
+    });
+    return map;
+  }, []);
 
-  // Group into rows
-  const rows = [];
-  for (let i = 21; i >= 0; i--) {
-    rows.push([i * 3 + 1, i * 3 + 2, i * 3 + 3]);
-  }
-  rows.push([0]); // The final single node
+  // Memoize rows structure (it never changes)
+  const rows = useMemo(() => {
+    const r = [];
+    for (let i = 21; i >= 0; i--) {
+      r.push([i * 3 + 1, i * 3 + 2, i * 3 + 3]);
+    }
+    r.push([0]);
+    return r;
+  }, []);
 
   const isUnlocked = (id: number) => {
     if (!currentConfig) return false;
@@ -34,7 +43,7 @@ export default function TalentTree({ currentConfig }: TalentTreeProps) {
           {rows.map((row, rowIndex) => (
             <div key={rowIndex} className={`talent__row ${row.length === 1 ? "talent__row--single" : ""}`}>
               {row.map((id, colIndex) => {
-                const talent = getTalent(id);
+                const talent = talentsMap[id];
                 if (!talent) return null;
 
                 const unlocked = isUnlocked(id);
@@ -50,7 +59,6 @@ export default function TalentTree({ currentConfig }: TalentTreeProps) {
                 if (id === 0) {
                     // No downstream
                 } else if (id >= 1 && id <= 3) {
-                    // Row 2 connects to Row 1 (ID 0)
                     if (id === 2) {
                         hasVertical = true;
                         showVertical = unlocked && isUnlocked(0);
@@ -62,7 +70,6 @@ export default function TalentTree({ currentConfig }: TalentTreeProps) {
                         showDiagonalRight = unlocked && isUnlocked(0);
                     }
                 } else {
-                    // Standard vertical connection to id - 3
                     hasVertical = true;
                     showVertical = unlocked && isUnlocked(id - 3);
                 }
@@ -99,4 +106,7 @@ export default function TalentTree({ currentConfig }: TalentTreeProps) {
       </div>
     </section>
   );
-}
+};
+
+// Use memo to prevent re-renders when modal opens/closes
+export default memo(TalentTree);
