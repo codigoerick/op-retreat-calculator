@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
     // 1. Fallback for Master Admin (Player810)
     const masterPassword = process.env.ADMIN_PASSWORD;
-    if (username === "Player810" && password === masterPassword) {
+    if (username.toLowerCase() === "player810" && password === masterPassword) {
       console.log("Master login success for Player810");
       return NextResponse.json({ success: true, user: "Player810 (Master)" });
     }

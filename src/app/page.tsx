@@ -173,7 +173,6 @@ export default function Home() {
             <div className="col-md-6 text-center text-md-start mb-3 mb-md-0">
               <p className="mb-0" style={{ fontSize: "0.9rem" }}>
                 OP Retreat Calculator © 2025 - 2026. <br /><br className="d-md-none" />
-                Desarrollado por <a href="/team" className="text-warning fw-bold text-decoration-none hover-underline">el Equipo de OP Retreat</a>
               </p>
             </div>
             <div className="col-md-6 d-flex justify-content-center justify-content-md-end gap-3">

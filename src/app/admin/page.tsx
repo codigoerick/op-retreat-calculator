@@ -89,6 +89,7 @@ export default function AdminPage() {
   };
 
   const handleSaveSettings = async () => {
+    if (isLoading) return;
     setIsSavingSettings(true);
     const res = await fetch("/api/admin/settings", {
       method: "POST",
@@ -336,9 +337,9 @@ export default function AdminPage() {
                         <button 
                           className="btn btn-primary fw-bold mt-2" 
                           onClick={handleSaveSettings}
-                          disabled={isSavingSettings}
+                          disabled={isSavingSettings || isLoading}
                         >
-                          {isSavingSettings ? "GUARDANDO AJUSTES..." : "GUARDAR CAMBIOS"}
+                          {isLoading ? "CARGANDO..." : isSavingSettings ? "GUARDANDO..." : "GUARDAR CAMBIOS"}
                         </button>
                       </div>
                     </div>
