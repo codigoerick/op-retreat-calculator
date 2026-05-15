@@ -77,13 +77,14 @@ export default function AdminPage() {
       method: "POST",
       body: JSON.stringify({ username, password }),
     });
+    const data = await res.json();
     if (res.ok) {
       setIsAuthenticated(true);
       setLoginError("");
       localStorage.setItem("admin_session", "true");
       localStorage.setItem("admin_user", username);
     } else {
-      setLoginError("Usuario o contraseña incorrectos");
+      setLoginError(data.error || "Error desconocido al iniciar sesión");
     }
   };
 
