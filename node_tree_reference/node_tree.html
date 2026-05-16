@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Node Tree Reference</title>
+    <style>
+        :root {
+            --color-bg-dark: #292929;
+            --talent-node-size: 100px;
+            --talent-bg-size: 96px;
+            --talent-icon-size: 50px;
+            --talent-star-size: 11px;
+            --talent-lock-size: 40px;
+            --talent-row-gap: 25px;
+        }
+        body { 
+            background: var(--color-bg-dark); 
+            color: white; 
+            font-family: sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            padding: 50px 0; 
+            margin: 0;
+        }
+        .talent__tree { 
+            width: 100%; 
+            max-width: 800px; 
+        }
+        .talent__rows__container { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            row-gap: var(--talent-row-gap); 
+        }
+        .talent__row { 
+            display: flex; 
+        }
+        .talent__row--single { 
+            justify-content: center; 
+        }
+        .talent__node {
+            background-image: url('../public/assets/images/backgrounds/talent_node_bg.png');
+            background-size: contain; 
+            background-repeat: no-repeat; 
+            background-position: center;
+            width: var(--talent-node-size); 
+            height: var(--talent-node-size);
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            position: relative;
+        }
+        .talent__bg {
+            background-size: contain; 
+            background-repeat: no-repeat; 
+            background-position: center;
+            width: var(--talent-bg-size); 
+            height: var(--talent-bg-size);
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            position: relative;
+        }
+        .talent__bg__red { background-image: url('../public/assets/images/backgrounds/bg_red.png'); }
+        .talent__bg__blue { background-image: url('../public/assets/images/backgrounds/bg_blue.png'); }
+        .talent__bg__green { background-image: url('../public/assets/images/backgrounds/bg_green.png'); }
+        .talent__icon { width: var(--talent-icon-size); height: var(--talent-icon-size); object-fit: contain; }
+        .talent__level-bar {
+            position: absolute; 
+            bottom: 1px; 
+            left: 50%; 
+            transform: translateX(-50%);
+            width: 100%; 
+            display: flex; 
+            justify-content: center; 
+            gap: 4px;
+            background: rgba(0,0,0,0.5); 
+            padding: 3px 0; 
+            border-radius: 0 0 10px 10px;
+        }
+        .talent__level-star { width: var(--talent-star-size); height: var(--talent-star-size); }
+        .connection__horizontal__bg {
+            width: 40px; 
+            height: 15px; 
+            align-self: center;
+            background-image: url('../public/assets/images/icons/talent_progressBg.png');
+            background-size: 100% 100%; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+        }
+        .connection__vertical__bg {
+            width: 15px; 
+            height: 25px; 
+            position: absolute; 
+            bottom: -25px; 
+            left: 50%; 
+            transform: translateX(-50%);
+            background-image: url('../public/assets/images/icons/talent_progressBg.png');
+            background-size: 100% 100%;
+        }
+        .connection__diagonal__left__bg {
+            width: 18px; 
+            height: 175px; 
+            position: absolute; 
+            bottom: -125px; 
+            left: 50%;
+            transform: translateX(-50%) rotate(-45deg); 
+            transform-origin: top center;
+            background-image: url('../public/assets/images/icons/talent_progressBg.png');
+            background-size: 100% 100%; 
+            z-index: -1;
+        }
+        .connection__diagonal__right__bg {
+            width: 18px; 
+            height: 175px; 
+            position: absolute; 
+            bottom: -125px; 
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg); 
+            transform-origin: top center;
+            background-image: url('../public/assets/images/icons/talent_progressBg.png');
+            background-size: 100% 100%; 
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <section class='talent__tree'>
+        <div class='talent__rows__container'>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='64'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/elite-player.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='65'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/flesh-bargain.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='66'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/neck-and-neck.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='61'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/hot-blooded.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='62'>
+                    <div class='talent__bg talent__bg__blue'>
+                        <img src='../public/assets/images/talents/golden-touch.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='63'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/core-strength.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='58'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/shield-cycle.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='59'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/core-strength.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='60'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/eternally-clad.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='55'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/core-strength.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='56'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/death-immunity.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='57'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/altar-envoy.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='52'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/corrupted.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='53'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/shield-conversion.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='54'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/conversion.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='49'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/matyr.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='50'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/sacred-sword.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='51'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/woundless.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='46'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/titan-shield.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='47'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/gas-mask.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='48'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/core-strength.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='43'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/blood-frenzy.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='44'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/core-strength.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='45'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/shield-bash.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='40'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/breath-of-life.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='41'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/damage-conversion.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='42'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/first-strike.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='37'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/three-strikes.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='38'>
+                    <div class='talent__bg talent__bg__blue'>
+                        <img src='../public/assets/images/talents/family-empire.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='39'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/double-edged-sword.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='34'>
+                    <div class='talent__bg talent__bg__blue'>
+                        <img src='../public/assets/images/talents/weak-prey.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='35'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/reverse-guard.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='36'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/delayed-pain.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='31'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/core-strength.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='32'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/born-again.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='33'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/double-blessing.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='28'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/gunmeister.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='29'>
+                    <div class='talent__bg talent__bg__blue'>
+                        <img src='../public/assets/images/talents/safe-box.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='30'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/core-strength.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='25'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/skill-collector.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='26'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/all-in.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='27'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/witchs-brew.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='22'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/unwavering-will.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='23'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/core-strength.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='24'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/bounty-contract.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='19'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/energized.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='20'>
+                    <div class='talent__bg talent__bg__blue'>
+                        <img src='../public/assets/images/talents/finance-advisor.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='21'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/dauntless.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='16'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/risk-and-reward.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='17'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/shield-frenzy.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='18'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/bloodletting.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='13'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/intensity.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='14'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/ninja.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='15'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/warding-talisman.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='10'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/high-overload.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='11'>
+                    <div class='talent__bg talent__bg__blue'>
+                        <img src='../public/assets/images/talents/one-more-time.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='12'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/blood-giant.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='7'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/core-strength.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='8'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/meat-mountain.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='9'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/core-strength.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='4'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/born-to-die.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='5'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/charge-shield.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='6'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/clarity-boost.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row '>
+                <div class='talent__node' data-id='1'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/relative-speed.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__diagonal__left__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='2'>
+                    <div class='talent__bg talent__bg__blue'>
+                        <img src='../public/assets/images/talents/lv3-bag.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__vertical__bg'></div>
+                </div>
+                <div class='connection__horizontal__bg'></div>
+                <div class='talent__node' data-id='3'>
+                    <div class='talent__bg talent__bg__green'>
+                        <img src='../public/assets/images/talents/adrenal-surge.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    <div class='connection__diagonal__right__bg'></div>
+                </div>
+            </div>
+            <div class='talent__row talent__row--single'>
+                <div class='talent__node' data-id='0'>
+                    <div class='talent__bg talent__bg__red'>
+                        <img src='../public/assets/images/talents/core-strength.webp' class='talent__icon'>
+                        <div class='talent__level-bar'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                            <img src='../public/assets/images/icons/talent-level.webp' class='talent__level-star'>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

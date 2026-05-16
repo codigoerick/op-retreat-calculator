@@ -3,6 +3,8 @@ import { Poppins } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./globals.css";
+import MaintenanceAlert from "@/components/MaintenanceAlert";
+
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -58,7 +60,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={poppins.variable}>
-      <body>{children}</body>
+      <body>
+        <MaintenanceAlert />
+        {children}
+      </body>
     </html>
   );
 }
