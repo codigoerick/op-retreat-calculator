@@ -87,7 +87,7 @@ export default function TalentEditor({ initialMode }: TalentEditorProps) {
     } catch (e: any) {
       alert("Error al guardar: " + e.message);
     } finally {
-      setIsSavingSettings(false);
+      setIsSaving(false);
     }
   };
 
