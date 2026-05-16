@@ -36,15 +36,18 @@ export default function CalculatorModal({
 
   const handleManualSubmit = () => {
     const val = parseInt(manualInput);
-    if (isNaN(val) || val < 80 || val > 200) {
-      setError("Por favor ingresa un valor entre 80 y 200.");
+    if (isNaN(val) || val < 0 || val > 200) {
+      setError("Por favor ingresa un valor entre 0 y 200.");
       return;
     }
 
+    // Removed strict check for manual input to allow additive logic
+    /*
     if (!isAvailable(val)) {
       setError(`La configuración para el nivel ${val} (${mode === 'low' ? 'Low HP' : 'Full HP'}) aún no ha sido cargada por el administrador.`);
       return;
     }
+    */
 
     onApplyManual(val);
     onClose();
@@ -64,7 +67,7 @@ export default function CalculatorModal({
             
             {/* Section 1: Manual Calculation */}
             <div className="mb-4">
-              <label className="form-label text-light small uppercase">Ingresa tus puntos actuales <br/>(80 - 200)</label>
+              <label className="form-label text-light small uppercase">Ingresa tus puntos actuales <br/>(0 - 200)</label>
               <div className="input-group justify-content-center">
                 <input
                   type="number"
@@ -75,7 +78,7 @@ export default function CalculatorModal({
                     setManualInput(e.target.value);
                     setError("");
                   }}
-                  placeholder="80-200"
+                  placeholder="0-200"
                 />
               </div>
               {error && <div className="text-danger small mt-2">{error}</div>}

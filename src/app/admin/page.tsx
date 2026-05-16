@@ -5,8 +5,9 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import { useTalentCalculator } from "@/hooks/useTalentCalculator";
 import { supabase } from "@/lib/supabase";
+import TalentEditor from "@/components/TalentEditor";
 
-type AdminTab = "dashboard" | "vision" | "settings" | "team";
+type AdminTab = "dashboard" | "editor" | "settings" | "team";
 
 export default function AdminPage() {
   const { configsLow, configsFull, isMaintenance, maintenanceMessage, isLoading } = useTalentCalculator();
@@ -17,7 +18,6 @@ export default function AdminPage() {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
 
-  const [isUploading, setIsUploading] = useState(false);
   const [logs, setLogs] = useState<{ id: number; message: string; type: "info" | "success" | "error" }[]>([]);
 
   const [maintEnabled, setMaintEnabled] = useState(false);
@@ -55,12 +55,15 @@ export default function AdminPage() {
     }
   };
 
+  const [isMaintLoaded, setIsMaintLoaded] = useState(false);
+
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && !isMaintLoaded) {
       setMaintEnabled(isMaintenance);
       setMaintMsg(maintenanceMessage);
+      setIsMaintLoaded(true);
     }
-  }, [isLoading, isMaintenance, maintenanceMessage]);
+  }, [isLoading, isMaintenance, maintenanceMessage, isMaintLoaded]);
 
   // Persist session
   useEffect(() => {
@@ -88,48 +91,55 @@ export default function AdminPage() {
     }
   };
 
-  const handleSaveSettings = async () => {
-    if (isLoading) return;
-    setIsSavingSettings(true);
-    const res = await fetch("/api/admin/settings", {
-      method: "POST",
-      body: JSON.stringify({ enabled: maintEnabled, message: maintMsg }),
-    });
-    if (res.ok) {
-      alert("Ajustes vBulletin actualizados");
+
+
+  const handleDeleteLevel = async (mode: "low" | "full", level: string) => {
+    if (!confirm(`¿Estás seguro de que quieres borrar el nivel ${level} en modo ${mode}?`)) return;
+
+    try {
+      const res = await fetch("/api/admin/delete-level", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode, level }),
+      });
+      if (res.ok) {
+        alert(`Nivel ${level} eliminado`);
+        window.location.reload(); // Quick way to refresh states
+      } else {
+        const data = await res.json();
+        alert(data.error);
+      }
+    } catch (error) {
+      alert("Error de conexión");
     }
-    setIsSavingSettings(false);
+  };
+
+  const handleSaveSettings = async () => {
+    if (!isMaintLoaded) return;
+    setIsSavingSettings(true);
+    try {
+      const { error } = await supabase
+        .from("site_settings")
+        .update({ 
+          value: { enabled: maintEnabled, message: maintMsg } 
+        })
+        .eq("key", "maintenance");
+        
+      if (error) throw error;
+      alert("MANTENIMIENTO ACTIVADO: El sitio ahora está bloqueado.");
+      window.location.reload();
+    } catch (error: any) {
+      alert("Error al activar mantenimiento: " + error.message);
+    } finally {
+      setIsSavingSettings(false);
+    }
   };
 
   const addLog = (message: string, type: "info" | "success" | "error" = "info") => {
     setLogs((prev) => [...prev, { id: Date.now() + Math.random(), message, type }]);
   };
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) return;
-    const files = Array.from(e.target.files);
-    
-    setIsUploading(true);
-    for (const file of files) {
-      addLog(`[V-VISION] Procesando ${file.name}...`, "info");
-      const formData = new FormData();
-      formData.append("file", file);
 
-      try {
-        const res = await fetch("/api/parse-talents", { method: "POST", body: formData });
-        const data = await res.json();
-        if (res.ok) {
-          addLog(`[V-VISION] ¡Éxito! ${file.name} sincronizado.`, "success");
-        } else {
-          addLog(`[V-VISION] Error en ${file.name}: ${data.error}`, "error");
-        }
-      } catch (error: any) {
-        addLog(`[V-VISION] Fallo crítico de red: ${error.message}`, "error");
-      }
-    }
-    setIsUploading(false);
-    e.target.value = "";
-  };
 
   if (!isAuthenticated) {
     return (
@@ -188,8 +198,8 @@ export default function AdminPage() {
           <div className={`${styles.menuItem} ${activeTab === 'dashboard' ? styles.menuItemActive : ''}`} onClick={() => setActiveTab('dashboard')}>
             <i className="bi bi-speedometer2"></i> Dashboard
           </div>
-          <div className={`${styles.menuItem} ${activeTab === 'vision' ? styles.menuItemActive : ''}`} onClick={() => setActiveTab('vision')}>
-            <i className="bi bi-eye"></i> V-Vision Sync
+          <div className={`${styles.menuItem} ${activeTab === 'editor' ? styles.menuItemActive : ''}`} onClick={() => setActiveTab('editor')}>
+            <i className="bi bi-pencil-square"></i> Talent Editor
           </div>
           <div className={`${styles.menuItem} ${activeTab === 'settings' ? styles.menuItemActive : ''}`} onClick={() => setActiveTab('settings')}>
             <i className="bi bi-gear"></i> Site Settings
@@ -238,21 +248,45 @@ export default function AdminPage() {
                     <div className="col-md-6 mb-4 mb-md-0">
                       <h6 className="text-secondary small mb-3">MODO LOW HP</h6>
                       <div className={styles.statusGrid}>
-                        {allLevels.map(lvl => (
-                          <div key={lvl} className={`${styles.badgeLevel} ${lowLevels.includes(lvl.toString()) ? styles.active : ''}`}>
-                            {lvl}
-                          </div>
-                        ))}
+                        {allLevels.map(lvl => {
+                          const active = lowLevels.includes(lvl.toString());
+                          return (
+                            <div key={lvl} className={`${styles.badgeLevel} ${active ? styles.active : ''} position-relative group`}>
+                              {lvl}
+                              {active && (
+                                <button 
+                                  className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border-0 opacity-0 group-hover-opacity-100 transition-opacity"
+                                  onClick={() => handleDeleteLevel('low', lvl.toString())}
+                                  style={{ fontSize: '0.5rem', cursor: 'pointer', zIndex: 10 }}
+                                >
+                                  X
+                                </button>
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                     <div className="col-md-6">
                       <h6 className="text-secondary small mb-3">MODO FULL HP</h6>
                       <div className={styles.statusGrid}>
-                        {allLevels.map(lvl => (
-                          <div key={lvl} className={`${styles.badgeLevel} ${fullLevels.includes(lvl.toString()) ? styles.active : ''}`}>
-                            {lvl}
-                          </div>
-                        ))}
+                        {allLevels.map(lvl => {
+                          const active = fullLevels.includes(lvl.toString());
+                          return (
+                            <div key={lvl} className={`${styles.badgeLevel} ${active ? styles.active : ''} position-relative group`}>
+                              {lvl}
+                              {active && (
+                                <button 
+                                  className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border-0 opacity-0 group-hover-opacity-100 transition-opacity"
+                                  onClick={() => handleDeleteLevel('full', lvl.toString())}
+                                  style={{ fontSize: '0.5rem', cursor: 'pointer', zIndex: 10 }}
+                                >
+                                  X
+                                </button>
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
@@ -261,47 +295,11 @@ export default function AdminPage() {
             </div>
           )}
 
-          {/* V-VISION SYNC TAB */}
-          {activeTab === 'vision' && (
+          {/* MANUAL EDITOR TAB */}
+          {activeTab === 'editor' && (
             <div className="animate-fade-in">
-              <h2 className="text-white mb-4" style={{ fontFamily: 'var(--font-heading)' }}>V-Vision Sync</h2>
-              <div className="row">
-                <div className="col-md-7">
-                  <div className={styles.vbBlock}>
-                    <div className={styles.vbBlockHeader}>
-                      <h6 className={styles.vbBlockTitle}>Carga de Capturas Inteligente</h6>
-                    </div>
-                    <div className={styles.vbBlockContent}>
-                      <div className={styles.uploadArea}>
-                        <i className="bi bi-cloud-upload text-secondary fs-1 mb-3"></i>
-                        <p className="text-secondary mb-3">Sincronización visual mediante IA Gemini 2.5</p>
-                        <label htmlFor="file-upload" className={`btn btn-primary fw-bold px-4 ${isUploading ? 'disabled' : ''}`}>
-                          {isUploading ? "PROCESANDO..." : "SELECCIONAR IMÁGENES"}
-                        </label>
-                        <input id="file-upload" type="file" multiple accept="image/*" className="d-none" onChange={handleFileUpload} disabled={isUploading} />
-                        <div className="mt-3 text-muted x-small">Recomendado: 1080x2400 (Vertical)</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-5">
-                  <div className={styles.vbBlock}>
-                    <div className={styles.vbBlockHeader}>
-                      <h6 className={styles.vbBlockTitle}>Terminal de Logs</h6>
-                    </div>
-                    <div className={styles.vbBlockContent} style={{ padding: '0' }}>
-                      <div className={styles.logsConsole}>
-                        {logs.length === 0 && <span className="text-muted small">Sin actividad...</span>}
-                        {logs.map(log => (
-                          <div key={log.id} className={`${styles.logEntry} ${log.type === 'error' ? styles.logError : log.type === 'success' ? styles.logSuccess : styles.logInfo}`}>
-                            {log.message}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <h2 className="text-white mb-4" style={{ fontFamily: 'var(--font-heading)' }}>Manual Talent Editor</h2>
+              <TalentEditor initialMode="low" />
             </div>
           )}
 

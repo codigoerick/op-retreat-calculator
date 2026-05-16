@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { useState, useEffect } from "react";
 import TalentTree from "@/components/TalentTree";
 import ControlsBar from "@/components/ControlsBar";
@@ -69,6 +71,10 @@ export default function Home() {
   if (isMaintenance && !isAdmin) {
     return (
       <main className="container-fluid p-0 min-vh-100 d-flex flex-column align-items-center justify-content-center bg-dark text-center px-4">
+        <div className="mb-4 d-flex align-items-center gap-3">
+          <Image src="/assets/images/icons/gears.svg" alt="Logo" width={60} height={60} />
+          <h1 className="text-white fw-bold mb-0" style={{ fontFamily: 'var(--font-heading)', fontSize: '2.5rem' }}>OP Retreat</h1>
+        </div>
         <Image src="/assets/images/LoadUI.png" alt="Maintenance" width={400} height={200} className="mb-4 rounded-3 shadow-lg" style={{ objectFit: 'contain' }} />
         <h1 className="text-warning mb-3" style={{ fontFamily: 'var(--font-heading)' }}>Actualizando el sitio</h1>
         <p className="text-white fs-5 max-w-600">{maintenanceMessage}</p>

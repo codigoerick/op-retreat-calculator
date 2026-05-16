@@ -1109,7 +1109,19 @@ html {
       height: 45px;
    }
 }
-
+/* Admin Deletion Badges */
+.group:hover .group-hover-opacity-100 {
+  opacity: 1 !important;
+}
+.transition-opacity {
+  transition: opacity 0.2s ease-in-out;
+}
+.badgeLevel {
+  transition: transform 0.1s ease-in-out;
+}
+.badgeLevel:hover {
+  transform: scale(1.05);
+}
 .maintenance-alert-bar {
    background-color: #f59e0b;
    color: #000;

@@ -27,7 +27,7 @@ export function useTalentCalculator() {
       try {
         setIsLoading(true);
         
-        // Fetch Configs and Settings in parallel for speed
+        // Fetch Configs and Maintenance Status in parallel
         const [configRes, settingsRes] = await Promise.all([
           supabase.from('talent_presets').select('mode, config_data'),
           supabase.from('site_settings').select('*').eq('key', 'maintenance').single()
@@ -69,10 +69,10 @@ export function useTalentCalculator() {
     const p = manualPoints;
     if (configs[p.toString()]) return configs[p.toString()];
 
-    const baseLevel = Math.floor(p / 10) * 10;
+    const baseLevels = Object.keys(configs).map(Number).sort((a, b) => b - a);
+    const baseLevel = baseLevels.find(l => l <= p) ?? baseLevels[baseLevels.length - 1];
     const baseConfig = configs[baseLevel.toString()];
-    if (!baseConfig) return configs["80"]; 
-
+    if (!baseConfig) return null;
     const newConfig = JSON.parse(JSON.stringify(baseConfig));
     const pointsToAdd = p - baseLevel;
     const sequence = (diffSequences as any)[baseLevel.toString()];
