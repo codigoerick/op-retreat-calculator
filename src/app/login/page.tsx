@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function LoginPage() {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,7 +20,7 @@ export default function LoginPage() {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ username, password }),
       });
 
       if (res.ok) {
@@ -27,7 +28,7 @@ export default function LoginPage() {
         router.refresh();
       } else {
         const data = await res.json();
-        setError(data.error || "Contraseña incorrecta");
+        setError(data.error || "Credenciales incorrectas");
       }
     } catch {
       setError("Error de conexión");
@@ -37,38 +38,48 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-dark">
-      <div className="login-card p-5 rounded-4 shadow-lg" style={{ backgroundColor: "#1a1a1a", border: "1px solid #333", maxWidth: "400px", width: "100%" }}>
-        <div className="text-center mb-4">
-          <Image 
-            src="/assets/images/icons/gears.svg" 
-            alt="Admin Login" 
-            width={60} 
-            height={60} 
-            className="mb-3"
-            style={{ opacity: 0.9 }}
-          />
-          <h3 className="text-gold fw-bold mb-1">OP Retreat</h3>
-          <p className="text-secondary small text-uppercase" style={{ letterSpacing: "0.08em" }}>Control Panel Access</p>
+    <main style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#0f0f0f" }}>
+      <div style={{ backgroundColor: "#1a1a1a", border: "1px solid #2e2e2e", borderRadius: "16px", padding: "40px", maxWidth: "380px", width: "100%", boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}>
+        
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: "32px" }}>
+          <Image src="/assets/images/icons/gears.svg" alt="OP Retreat" width={52} height={52} style={{ marginBottom: "12px", opacity: 0.9 }} />
+          <h2 style={{ color: "#f59e0b", fontWeight: 700, fontSize: "20px", margin: 0 }}>OP Retreat</h2>
+          <p style={{ color: "#6b7280", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.1em", marginTop: "4px" }}>Control Panel</p>
         </div>
 
-        <form onSubmit={handleLogin}>
-          <div className="mb-4">
-            <label className="form-label text-light small mb-2">Contraseña</label>
+        {/* Form */}
+        <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            <label style={{ color: "#a1a1aa", fontSize: "12px", fontWeight: 600 }}>Usuario</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Player810"
+              required
+              autoFocus
+              autoComplete="username"
+              style={{ background: "#121212", border: "1px solid #2e2e2e", borderRadius: "8px", color: "white", padding: "12px 14px", fontSize: "14px", outline: "none" }}
+            />
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            <label style={{ color: "#a1a1aa", fontSize: "12px", fontWeight: 600 }}>Contraseña</label>
             <input
               type="password"
-              className="form-control bg-dark text-light border-secondary"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
-              autoFocus
-              style={{ padding: "12px" }}
+              autoComplete="current-password"
+              style={{ background: "#121212", border: "1px solid #2e2e2e", borderRadius: "8px", color: "white", padding: "12px 14px", fontSize: "14px", outline: "none" }}
             />
           </div>
 
           {error && (
-            <div className="alert py-2 px-3 small text-center mb-4" style={{ backgroundColor: "rgba(220, 53, 69, 0.1)", color: "#ef4444", border: "1px solid rgba(220, 53, 69, 0.2)" }}>
+            <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: "8px", color: "#ef4444", padding: "10px 14px", fontSize: "13px", textAlign: "center" }}>
               {error}
             </div>
           )}
@@ -76,8 +87,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="btn w-100 fw-bold"
-            style={{ backgroundColor: "#f59e0b", color: "#000", padding: "12px", transition: "all 0.2s ease" }}
+            style={{ background: loading ? "#374151" : "#f59e0b", color: loading ? "#9ca3af" : "#000", border: "none", borderRadius: "8px", padding: "13px", fontSize: "14px", fontWeight: 700, cursor: loading ? "not-allowed" : "pointer", transition: "all 0.2s", marginTop: "4px" }}
           >
             {loading ? "Verificando..." : "Ingresar"}
           </button>

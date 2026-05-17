@@ -3,15 +3,21 @@ import { cookies } from 'next/headers';
 
 export async function POST(request: Request) {
   try {
-    const { password } = await request.json();
+    const { username, password } = await request.json();
 
+    const adminUsername = process.env.ADMIN_USERNAME;
     const adminPassword = process.env.ADMIN_PASSWORD;
-    if (!adminPassword) {
+
+    if (!adminUsername || !adminPassword) {
       return NextResponse.json({ error: 'Servidor no configurado' }, { status: 500 });
     }
 
-    if (password !== adminPassword) {
-      return NextResponse.json({ error: 'Contraseña incorrecta' }, { status: 401 });
+    // Case-insensitive username check + exact password match
+    if (
+      username?.toLowerCase() !== adminUsername.toLowerCase() ||
+      password !== adminPassword
+    ) {
+      return NextResponse.json({ error: 'Usuario o contraseña incorrectos' }, { status: 401 });
     }
 
     const cookieStore = await cookies();
