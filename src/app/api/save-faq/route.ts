@@ -2,7 +2,9 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { supabase } from '@/lib/supabase';
 
-export async function GET() {
+export const dynamic = 'force-dynamic';
+
+export async function GET(request: Request) {
   try {
     const { data, error } = await supabase.from('op_retreat_faqs').select('*').order('order_num', { ascending: true });
     if (error) throw error;
