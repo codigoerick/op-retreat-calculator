@@ -1,25 +1,25 @@
 "use client";
 
+import { useSettings } from "@/context/SettingsContext";
+
 interface ControlsBarProps {
-  onReset: () => void;
+  onReset?: () => void; // Keep optional for backward compatibility
   onOpenCalculator: () => void;
-  onOpenReport: () => void;
+  onOpenReport?: () => void;
 }
 
-export default function ControlsBar({ onReset, onOpenCalculator, onOpenReport }: ControlsBarProps) {
+export default function ControlsBar({ onOpenCalculator }: ControlsBarProps) {
+  const { language } = useSettings();
+
   return (
-    <div className="controls-bar">
-      <div className="controls-grid">
-        <button className="modal-btn-cancel" id="btn-reset" onClick={onReset}>
-          Reset
-        </button>
-        <button className="modal-btn-calc" onClick={onOpenCalculator}>
-          Calculate
-        </button>
-        <button className="btn-bug-report" title="Report a Bug" onClick={onOpenReport}>
-          <i className="bi bi-bug-fill"></i>
-        </button>
-      </div>
-    </div>
+    <button
+      className="floating-options-pill"
+      onClick={onOpenCalculator}
+      title={language === "es" ? "Mostrar opciones de configuración" : "Show configuration options"}
+    >
+      {/* @ts-ignore */}
+      <ion-icon name="options-outline" style={{ fontSize: "1.25rem" }}></ion-icon>
+      <span>{language === "es" ? "Opciones" : "Options"}</span>
+    </button>
   );
 }

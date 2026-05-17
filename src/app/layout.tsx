@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./globals.css";
 import MaintenanceAlert from "@/components/MaintenanceAlert";
+import Script from "next/script";
 
 
 const poppins = Poppins({
@@ -53,6 +54,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { SettingsProvider } from "@/context/SettingsContext";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -61,8 +64,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={poppins.variable}>
       <body>
-        <MaintenanceAlert />
-        {children}
+        <SettingsProvider>
+          <MaintenanceAlert />
+          {children}
+        </SettingsProvider>
+        <Script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" strategy="lazyOnload" />
+        <Script noModule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" strategy="lazyOnload" />
       </body>
     </html>
   );

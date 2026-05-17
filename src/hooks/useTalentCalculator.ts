@@ -1,80 +1,66 @@
-"use client";
+import { useState, useEffect, useMemo } from "react";
 
-import { useState, useMemo } from "react";
-import talentsData from "@/data/talents.json";
-import talentsConfigLow from "@/data/talents_config.json";
-import talentsConfigFull from "@/data/talents_config_full.json";
-import diffSequences from "@/data/diff_sequences.json";
+type TalentConfig = Record<string, [number]>;
 
-interface Talent {
-  id: number;
-  name: string;
-  icon: string;
-  bgClass: string;
-}
+// Cache in memory to avoid repeated fetches during a session
+let configCache: Record<string, Record<string, TalentConfig>> = { low: {}, full: {} };
+let cacheLoaded: Record<string, boolean> = { low: false, full: false };
 
-interface Config {
-  [key: string]: number[];
+async function fetchConfigs(mode: string): Promise<Record<string, TalentConfig>> {
+  if (cacheLoaded[mode]) return configCache[mode];
+  try {
+    const res = await fetch(`/api/talent-configs?mode=${mode}`);
+    const data: { level: number; config: TalentConfig }[] = await res.json();
+    const map: Record<string, TalentConfig> = {};
+    data.forEach((row) => { map[row.level.toString()] = row.config; });
+    configCache[mode] = map;
+    cacheLoaded[mode] = true;
+    return map;
+  } catch {
+    return {};
+  }
 }
 
 export function useTalentCalculator() {
-  const [points, setPoints] = useState<number>(0);
   const [mode, setMode] = useState<"low" | "full">("low");
-  const [manualPoints, setManualPoints] = useState<number | null>(null);
+  const [points, setPoints] = useState(0);
+  const [configs, setConfigs] = useState<Record<string, TalentConfig>>({});
+  const [isLoading, setIsLoading] = useState(false);
 
-  const currentConfig = useMemo(() => {
-    const configs: any = mode === "low" ? talentsConfigLow : talentsConfigFull;
-    
-    // If it's an exact level (80, 90, etc.)
-    if (manualPoints === null) {
-        if (points === 0) return null;
-        return configs[points.toString()];
-    }
+  // Fetch configs whenever mode changes
+  useEffect(() => {
+    setIsLoading(true);
+    fetchConfigs(mode).then((data) => {
+      setConfigs(data);
+      setIsLoading(false);
+    });
+  }, [mode]);
 
-    // Manual Calculation logic
-    const p = manualPoints;
-    if (configs[p.toString()]) return configs[p.toString()];
+  const currentConfig = useMemo<TalentConfig | null>(() => {
+    if (points === 0) return null;
 
-    const baseLevel = Math.floor(p / 10) * 10;
-    const baseConfig = configs[baseLevel.toString()];
-    if (!baseConfig) return configs["80"]; // Fallback
+    // Exact match
+    if (configs[points.toString()]) return configs[points.toString()];
 
-    const newConfig = JSON.parse(JSON.stringify(baseConfig));
-    const pointsToAdd = p - baseLevel;
-    const sequence = (diffSequences as any)[baseLevel.toString()];
+    // Find closest level below
+    const levels = Object.keys(configs).map(Number).sort((a, b) => b - a);
+    const closest = levels.find((l) => l <= points);
+    return closest !== undefined ? configs[closest.toString()] : null;
+  }, [points, configs]);
 
-    if (sequence) {
-      for (let i = 0; i < pointsToAdd; i++) {
-        if (i < sequence.length) {
-          const talentId = sequence[i];
-          if (!newConfig[talentId]) newConfig[talentId] = [0];
-          newConfig[talentId][0]++;
-        }
-      }
-    }
-    return newConfig;
-  }, [points, mode, manualPoints]);
+  const availableLevels = Object.keys(configs).map(Number);
 
-  const reset = () => {
-    setPoints(0);
-    setManualPoints(null);
-  };
-
-  const applyLevel = (lvl: number) => {
-    setPoints(lvl);
-    setManualPoints(null);
-  };
-
-  const applyManual = (p: number) => {
-    setManualPoints(p);
-    setPoints(p);
-  };
+  const reset = () => setPoints(0);
+  const applyLevel = (lvl: number) => setPoints(lvl);
+  const applyManual = (p: number) => setPoints(p);
 
   return {
-    points,
     mode,
     setMode,
+    points,
     currentConfig,
+    isLoading,
+    availableLevels,
     reset,
     applyLevel,
     applyManual,
