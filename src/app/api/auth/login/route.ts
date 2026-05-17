@@ -1,55 +1,31 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { cookies } from 'next/headers';
 
 export async function POST(request: Request) {
   try {
-    const { identifier, password } = await request.json();
+    const { password } = await request.json();
 
-    if (!identifier || !password) {
-      return NextResponse.json({ error: 'Credenciales requeridas' }, { status: 400 });
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    if (!adminPassword) {
+      return NextResponse.json({ error: 'Servidor no configurado' }, { status: 500 });
     }
 
-    let email = identifier;
-
-    // If the identifier has no @, treat it as a username and look up the email
-    if (!identifier.includes('@')) {
-      const adminClient = createAdminClient();
-      const { data: { users }, error: listError } = await adminClient.auth.admin.listUsers();
-
-      if (listError) {
-        console.error('Admin lookup error:', listError);
-        return NextResponse.json({ error: 'Error al buscar usuario' }, { status: 500 });
-      }
-
-      // Match against user_metadata.username or user_metadata.name
-      const match = users.find((u) => {
-        const meta = u.user_metadata || {};
-        return (
-          meta.username?.toLowerCase() === identifier.toLowerCase() ||
-          meta.name?.toLowerCase() === identifier.toLowerCase()
-        );
-      });
-
-      if (!match || !match.email) {
-        return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 401 });
-      }
-
-      email = match.email;
-    }
-
-    // Sign in with resolved email
-    const supabase = await createClient();
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-    if (error) {
+    if (password !== adminPassword) {
       return NextResponse.json({ error: 'Contraseña incorrecta' }, { status: 401 });
     }
 
-    return NextResponse.json({ success: true, user: data.user });
-  } catch (error: any) {
+    const cookieStore = await cookies();
+    cookieStore.set('admin_session', 'true', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json({ error: 'Error del servidor' }, { status: 500 });
   }
 }
-

@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function LoginPage() {
-  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,7 +19,7 @@ export default function LoginPage() {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ identifier, password }),
+        body: JSON.stringify({ password }),
       });
 
       if (res.ok) {
@@ -28,7 +27,7 @@ export default function LoginPage() {
         router.refresh();
       } else {
         const data = await res.json();
-        setError(data.error || "Credenciales incorrectas");
+        setError(data.error || "Contraseña incorrecta");
       }
     } catch {
       setError("Error de conexión");
@@ -50,25 +49,10 @@ export default function LoginPage() {
             style={{ opacity: 0.9 }}
           />
           <h3 className="text-gold fw-bold mb-1">OP Retreat</h3>
-          <p className="text-secondary small text-uppercase tracking-wider">Control Panel Access</p>
+          <p className="text-secondary small text-uppercase" style={{ letterSpacing: "0.08em" }}>Control Panel Access</p>
         </div>
 
         <form onSubmit={handleLogin}>
-          <div className="mb-3">
-            <label className="form-label text-light small mb-2">Usuario o Correo</label>
-            <input
-              type="text"
-              className="form-control bg-dark text-light border-secondary"
-              value={identifier}
-              onChange={(e) => setIdentifier(e.target.value)}
-              placeholder="Player810 o tu@correo.com"
-              required
-              autoFocus
-              autoComplete="username"
-              style={{ padding: "12px" }}
-            />
-          </div>
-
           <div className="mb-4">
             <label className="form-label text-light small mb-2">Contraseña</label>
             <input
@@ -78,12 +62,13 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
+              autoFocus
               style={{ padding: "12px" }}
             />
           </div>
 
           {error && (
-            <div className="alert alert-danger py-2 px-3 small text-center shake mb-4" style={{ backgroundColor: "rgba(220, 53, 69, 0.1)", color: "#ef4444", border: "1px solid rgba(220, 53, 69, 0.2)" }}>
+            <div className="alert py-2 px-3 small text-center mb-4" style={{ backgroundColor: "rgba(220, 53, 69, 0.1)", color: "#ef4444", border: "1px solid rgba(220, 53, 69, 0.2)" }}>
               {error}
             </div>
           )}
@@ -92,14 +77,9 @@ export default function LoginPage() {
             type="submit"
             disabled={loading}
             className="btn w-100 fw-bold"
-            style={{ 
-              backgroundColor: "#f59e0b", 
-              color: "#000", 
-              padding: "12px",
-              transition: "all 0.2s ease"
-            }}
+            style={{ backgroundColor: "#f59e0b", color: "#000", padding: "12px", transition: "all 0.2s ease" }}
           >
-            {loading ? "Autenticando..." : "Ingresar"}
+            {loading ? "Verificando..." : "Ingresar"}
           </button>
         </form>
       </div>

@@ -7,12 +7,9 @@ const defaultLocale = "en";
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // 0. Protect Admin Routes: check for a valid Supabase session cookie
+  // 0. Protect Admin Routes
   if (pathname.startsWith("/control-panel")) {
-    // Supabase SSR stores the session in a cookie prefixed with "sb-"
-    const hasSession = request.cookies.getAll().some(
-      (c) => c.name.startsWith("sb-") && c.name.endsWith("-auth-token")
-    );
+    const hasSession = request.cookies.has("admin_session");
     if (!hasSession) {
       return NextResponse.redirect(new URL("/login", request.url));
     }

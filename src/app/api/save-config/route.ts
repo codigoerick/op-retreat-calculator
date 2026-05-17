@@ -1,18 +1,17 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
 import fs from 'fs/promises';
 import path from 'path';
 
 export async function POST(request: Request) {
   try {
-    // Verify Supabase session
-    const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
+    const cookieStore = await cookies();
+    if (!cookieStore.has('admin_session')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { type, data } = await request.json();
+
     
     let filePath = '';
     
