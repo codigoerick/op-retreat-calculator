@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TalentTree from "@/components/TalentTree";
 import ControlsBar from "@/components/ControlsBar";
 import CalculatorModal from "@/components/CalculatorModal";
@@ -31,6 +31,16 @@ export default function Home() {
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [currentSection, setCurrentSection] = useState<'calculator' | 'faq' | 'exchange' | 'guides'>('calculator');
+  const [faqData, setFaqData] = useState<{id: string, order: number, question_es: string, answer_es: string, question_en: string, answer_en: string}[]>([]);
+
+  // Load FAQ from API
+  useEffect(() => {
+    fetch('/api/save-faq')
+      .then(res => res.json())
+      .then(data => setFaqData(data.faqs || []))
+      .catch(err => console.error("Error loading FAQs:", err));
+  }, []);
 
   const handleApplyLevel = (lvl: number) => {
     applyLevel(lvl);
@@ -75,6 +85,25 @@ export default function Home() {
             <ion-icon name="close-outline" style={{ fontSize: "1.8rem" }}></ion-icon>
           </button>
         </div>
+
+        <nav className="sidebar-nav" style={{display:'flex', flexDirection:'column', padding:'20px 0'}}>
+          <a href="#" className={`sidebar-link ${currentSection === 'calculator' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setCurrentSection('calculator'); setIsSidebarOpen(false); }}>
+            {/* @ts-ignore */}
+            <ion-icon name="calculator-outline"></ion-icon> <span>Calculadora</span>
+          </a>
+          <a href="#" className={`sidebar-link ${currentSection === 'faq' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setCurrentSection('faq'); setIsSidebarOpen(false); }}>
+            {/* @ts-ignore */}
+            <ion-icon name="help-circle-outline"></ion-icon> <span>FAQ</span>
+          </a>
+          <a href="#" className={`sidebar-link ${currentSection === 'exchange' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setCurrentSection('exchange'); setIsSidebarOpen(false); }}>
+            {/* @ts-ignore */}
+            <ion-icon name="swap-horizontal-outline"></ion-icon> <span>Tienda (WIP)</span>
+          </a>
+          <a href="#" className={`sidebar-link ${currentSection === 'guides' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setCurrentSection('guides'); setIsSidebarOpen(false); }}>
+            {/* @ts-ignore */}
+            <ion-icon name="book-outline"></ion-icon> <span>Guías (WIP)</span>
+          </a>
+        </nav>
 
         {/* Sidebar Footer (Language and Theme Toggles) */}
         <div className="sidebar-footer">
@@ -209,13 +238,98 @@ export default function Home() {
           </div>
         </nav>
 
+        {/* Subnavbar - Desktop Only */}
+        <nav className="app-subnavbar d-none d-md-block">
+          <div className="app-subnavbar__container" style={{display:'flex', gap:'30px', padding:'0 24px'}}>
+            <a href="#" className={`subnav-link ${currentSection === 'calculator' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setCurrentSection('calculator'); }} style={{padding:'12px 0', fontWeight: currentSection === 'calculator' ? 'bold' : 'normal', color: currentSection === 'calculator' ? '#3ecf8e' : '#8a8a8a', borderBottom: currentSection === 'calculator' ? '2px solid #3ecf8e' : 'none', textDecoration:'none'}}>
+              Calculadora
+            </a>
+            <a href="#" className={`subnav-link ${currentSection === 'faq' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setCurrentSection('faq'); }} style={{padding:'12px 0', fontWeight: currentSection === 'faq' ? 'bold' : 'normal', color: currentSection === 'faq' ? '#3ecf8e' : '#8a8a8a', borderBottom: currentSection === 'faq' ? '2px solid #3ecf8e' : 'none', textDecoration:'none'}}>
+              FAQ
+            </a>
+            <a href="#" className={`subnav-link ${currentSection === 'exchange' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setCurrentSection('exchange'); }} style={{padding:'12px 0', fontWeight: currentSection === 'exchange' ? 'bold' : 'normal', color: currentSection === 'exchange' ? '#3ecf8e' : '#8a8a8a', borderBottom: currentSection === 'exchange' ? '2px solid #3ecf8e' : 'none', textDecoration:'none'}}>
+              Tienda
+            </a>
+            <a href="#" className={`subnav-link ${currentSection === 'guides' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setCurrentSection('guides'); }} style={{padding:'12px 0', fontWeight: currentSection === 'guides' ? 'bold' : 'normal', color: currentSection === 'guides' ? '#3ecf8e' : '#8a8a8a', borderBottom: currentSection === 'guides' ? '2px solid #3ecf8e' : 'none', textDecoration:'none'}}>
+              Guías
+            </a>
+          </div>
+        </nav>
+
       </header>
 
-      <div className="flex-grow-1 d-flex flex-column">
-        <TalentTree currentConfig={currentConfig} />
-        <ControlsBar
-          onOpenCalculator={() => setShowCalcModal(true)}
-        />
+      <div className="flex-grow-1 d-flex flex-column" style={{position:'relative', zIndex:1}}>
+        {currentSection === 'calculator' && (
+          <>
+            <TalentTree currentConfig={currentConfig} />
+            <ControlsBar onOpenCalculator={() => setShowCalcModal(true)} />
+          </>
+        )}
+
+        {currentSection === 'faq' && (
+          <div className="container py-5" style={{maxWidth:'800px', margin:'0 auto'}}>
+            <h2 className="text-center mb-5 fw-bold" style={{color:'var(--color-primary)'}}>
+              {language === 'es' ? 'Preguntas Frecuentes (FAQ)' : 'Frequently Asked Questions (FAQ)'}
+            </h2>
+            <div className="accordion" id="faqAccordion">
+              {faqData.sort((a,b) => a.order - b.order).map((faq, idx) => (
+                <div className="accordion-item" key={faq.id} style={{background:'var(--color-bg-light)', border:'1px solid var(--color-border)', marginBottom:'16px', borderRadius:'12px', overflow:'hidden'}}>
+                  <h2 className="accordion-header" id={`heading-${faq.id}`}>
+                    <button 
+                      className="accordion-button collapsed" 
+                      type="button" 
+                      data-bs-toggle="collapse" 
+                      data-bs-target={`#collapse-${faq.id}`} 
+                      aria-expanded="false" 
+                      aria-controls={`collapse-${faq.id}`}
+                      style={{background:'transparent', color:'var(--color-text-main)', fontWeight:'600', boxShadow:'none', padding:'20px'}}
+                    >
+                      {language === 'es' ? faq.question_es : faq.question_en}
+                    </button>
+                  </h2>
+                  <div id={`collapse-${faq.id}`} className="accordion-collapse collapse" aria-labelledby={`heading-${faq.id}`} data-bs-parent="#faqAccordion">
+                    <div 
+                      className="accordion-body faq-content-html" 
+                      style={{color:'var(--color-text-muted)', borderTop:'1px solid var(--color-border)', padding:'20px', whiteSpace:'normal'}}
+                      dangerouslySetInnerHTML={{ __html: language === 'es' ? faq.answer_es : faq.answer_en }}
+                    />
+                  </div>
+                </div>
+              ))}
+              {faqData.length === 0 && (
+                <div className="text-center p-5 text-muted">
+                  Cargando / Loading FAQs...
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {currentSection === 'exchange' && (
+          <div className="container py-5 text-center" style={{maxWidth:'800px', margin:'0 auto'}}>
+            <h2 className="fw-bold mb-4" style={{color:'var(--color-primary)'}}>
+              {language === 'es' ? 'Tienda de Retiro (Próximamente)' : 'Retreat Exchange (Coming Soon)'}
+            </h2>
+            <p className="text-muted">
+              {language === 'es' 
+                ? 'Esta sección mostrará los objetos temporales que puedes comprar con tus Monedas de Retiro.' 
+                : 'This section will show the temporary items you can buy with your Retreat Coins.'}
+            </p>
+          </div>
+        )}
+
+        {currentSection === 'guides' && (
+          <div className="container py-5 text-center" style={{maxWidth:'800px', margin:'0 auto'}}>
+            <h2 className="fw-bold mb-4" style={{color:'var(--color-primary)'}}>
+              {language === 'es' ? 'Guías y Tips (Próximamente)' : 'Guides & Tips (Coming Soon)'}
+            </h2>
+            <p className="text-muted">
+              {language === 'es' 
+                ? 'Aprende las mejores estrategias para sobrevivir más tiempo y asegurar tu botín.' 
+                : 'Learn the best strategies to survive longer and secure your loot.'}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Modals */}

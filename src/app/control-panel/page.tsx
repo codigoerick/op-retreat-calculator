@@ -1,7 +1,11 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+import "react-quill-new/dist/quill.snow.css";
 import talents from "@/data/talents.json";
+
+const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
 const LEVELS = [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200];
 type Config = Record<string, [number]>;
@@ -271,6 +275,7 @@ export default function AdminTalentEditor() {
           { tab: 'editor', label: 'Talent Editor', icon: '🎯' },
           { tab: 'database', label: 'Tables / DB Editor', icon: '🗃️' },
           { tab: 'analytics', label: 'Analytics Insights', icon: '📈' },
+          { tab: 'faq', label: 'FAQ Manager', icon: '📖' },
           { tab: 'settings', label: 'Project Settings', icon: '⚙️' }
         ].map((item) => {
           const isActive = activeTab === item.tab;
@@ -879,15 +884,15 @@ export default function AdminTalentEditor() {
                         placeholder="Pregunta en español..."
                         style={{background:'#121212',border:'1px solid #2e2e2e',color:'white',padding:'12px',borderRadius:'6px',fontSize:'13px',outline:'none',width:'100%'}}
                       />
-                      <textarea 
+                      <ReactQuill 
+                        theme="snow"
                         value={faq.answer_es} 
-                        onChange={(e) => {
+                        onChange={(val) => {
                           const updated = [...faqs];
-                          updated[index].answer_es = e.target.value;
+                          updated[index].answer_es = val;
                           setFaqs(updated);
                         }}
-                        placeholder="Respuesta en español..."
-                        style={{background:'#121212',border:'1px solid #2e2e2e',color:'white',padding:'12px',borderRadius:'6px',fontSize:'13px',minHeight:'140px',resize:'vertical',outline:'none',width:'100%'}}
+                        style={{background:'#121212', color:'white', borderRadius:'6px', height:'200px', marginBottom:'40px'}}
                       />
                     </div>
                     
@@ -906,15 +911,15 @@ export default function AdminTalentEditor() {
                         placeholder="Question in English..."
                         style={{background:'#121212',border:'1px solid #2e2e2e',color:'white',padding:'12px',borderRadius:'6px',fontSize:'13px',outline:'none',width:'100%'}}
                       />
-                      <textarea 
+                      <ReactQuill 
+                        theme="snow"
                         value={faq.answer_en} 
-                        onChange={(e) => {
+                        onChange={(val) => {
                           const updated = [...faqs];
-                          updated[index].answer_en = e.target.value;
+                          updated[index].answer_en = val;
                           setFaqs(updated);
                         }}
-                        placeholder="Answer in English..."
-                        style={{background:'#121212',border:'1px solid #2e2e2e',color:'white',padding:'12px',borderRadius:'6px',fontSize:'13px',minHeight:'140px',resize:'vertical',outline:'none',width:'100%'}}
+                        style={{background:'#121212', color:'white', borderRadius:'6px', height:'200px', marginBottom:'40px'}}
                       />
                     </div>
                   </div>
