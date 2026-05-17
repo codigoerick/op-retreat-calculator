@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,17 +20,17 @@ export default function LoginPage() {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ identifier, password }),
       });
 
       if (res.ok) {
         router.push("/control-panel");
-        router.refresh(); // Refresh to update middleware state
+        router.refresh();
       } else {
         const data = await res.json();
         setError(data.error || "Credenciales incorrectas");
       }
-    } catch (err) {
+    } catch {
       setError("Error de conexión");
     } finally {
       setLoading(false);
@@ -55,15 +55,16 @@ export default function LoginPage() {
 
         <form onSubmit={handleLogin}>
           <div className="mb-3">
-            <label className="form-label text-light small mb-2">Correo Electrónico</label>
+            <label className="form-label text-light small mb-2">Usuario o Correo</label>
             <input
-              type="email"
+              type="text"
               className="form-control bg-dark text-light border-secondary"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@opretreat.com"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+              placeholder="Player810 o tu@correo.com"
               required
               autoFocus
+              autoComplete="username"
               style={{ padding: "12px" }}
             />
           </div>
