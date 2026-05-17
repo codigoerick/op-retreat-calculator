@@ -279,31 +279,23 @@ export default function AdminTalentEditor() {
 
         <div style={{flex:1}} />
 
-        {/* Logout Button At Bottom */}
-        <button
-          onClick={async () => {
-            await fetch('/api/auth/logout', { method: 'POST' });
-            router.push('/login');
-          }}
-          style={{
-            width:'32px',
-            height:'32px',
-            borderRadius:'50%',
-            background:'#2e2e2e',
-            color:'#ef4444',
-            border:'1px solid #ef4444',
-            display:'flex',
-            alignItems:'center',
-            justifyContent:'center',
-            fontWeight:'bold',
-            cursor:'pointer',
-            fontSize:'14px',
-            transition:'all 0.2s'
-          }}
-          title="Logout"
-        >
-          ⏻
-        </button>
+        {/* Profile Avatar At Bottom */}
+        <div style={{
+          width:'32px',
+          height:'32px',
+          borderRadius:'50%',
+          background:'#2e2e2e',
+          color:'#3ecf8e',
+          border:'1px solid #3ecf8e',
+          display:'flex',
+          alignItems:'center',
+          justifyContent:'center',
+          fontWeight:'bold',
+          cursor:'pointer',
+          fontSize:'11px'
+        }} title="Project Admin">
+          A
+        </div>
       </nav>
 
       {/* PANE 2: SUB-SIDEBAR (Clean Supabase Second Column) */}
@@ -479,10 +471,37 @@ export default function AdminTalentEditor() {
             {activeTab === 'settings' && "Engine Settings & Maintenance Alerts"}
           </span>
 
-          <div style={{marginLeft:'auto',display:'flex',alignItems:'center',gap:'8px'}}>
+          <div style={{marginLeft:'auto',display:'flex',alignItems:'center',gap:'12px'}}>
             {isLoading && <span style={{color:'#f1c40f',fontSize:'11px'}}>⟳ Syncing database...</span>}
             {hasSaved && !hasChanges && <span style={{background:'rgba(62,207,142,0.1)',color:'#3ecf8e',padding:'2px 10px',borderRadius:'4px',fontSize:'11px',border:'1px solid rgba(62,207,142,0.2)',fontWeight:'bold'}}>SYNCED WITH DATABASE</span>}
             {hasChanges && <span style={{background:'rgba(245,158,11,0.1)',color:'#f59e0b',padding:'2px 10px',borderRadius:'4px',fontSize:'11px',border:'1px solid rgba(245,158,11,0.2)',fontWeight:'bold'}}>UNSAVED PARAMETERS</span>}
+            
+            <div style={{width:'1px',height:'16px',background:'#2e2e2e',margin:'0 4px'}} />
+            
+            <button
+              onClick={async () => {
+                await fetch('/api/auth/logout', { method: 'POST' });
+                router.push('/login');
+              }}
+              style={{
+                background:'transparent',
+                color:'#ef4444',
+                border:'1px solid rgba(239, 68, 68, 0.3)',
+                padding:'4px 12px',
+                borderRadius:'4px',
+                fontSize:'11.5px',
+                fontWeight:'600',
+                cursor:'pointer',
+                transition:'all 0.2s',
+                display:'flex',
+                alignItems:'center',
+                gap:'6px'
+              }}
+              onMouseOver={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'}
+              onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <span>⏻</span> Cerrar Sesión
+            </button>
           </div>
         </div>
 
