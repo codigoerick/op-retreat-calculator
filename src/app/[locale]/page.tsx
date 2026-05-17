@@ -272,30 +272,14 @@ export default function Home() {
               {language === 'es' ? 'Preguntas Frecuentes (FAQ)' : 'Frequently Asked Questions (FAQ)'}
             </h2>
             <div className="accordion" id="faqAccordion">
-              {faqData.sort((a,b) => a.order - b.order).map((faq, idx) => (
-                <div className="accordion-item" key={faq.id} style={{background:'var(--color-bg-light)', border:'1px solid var(--color-border)', marginBottom:'16px', borderRadius:'12px', overflow:'hidden'}}>
-                  <h2 className="accordion-header" id={`heading-${faq.id}`}>
-                    <button 
-                      className="accordion-button collapsed" 
-                      type="button" 
-                      data-bs-toggle="collapse" 
-                      data-bs-target={`#collapse-${faq.id}`} 
-                      aria-expanded="false" 
-                      aria-controls={`collapse-${faq.id}`}
-                      style={{background:'transparent', color:'var(--color-text-main)', fontWeight:'600', boxShadow:'none', padding:'20px'}}
-                    >
-                      {language === 'es' ? faq.question_es : faq.question_en}
-                    </button>
-                  </h2>
-                  <div id={`collapse-${faq.id}`} className="accordion-collapse collapse" aria-labelledby={`heading-${faq.id}`} data-bs-parent="#faqAccordion">
-                    <div 
-                      className="accordion-body faq-content-html" 
-                      style={{color:'var(--color-text-muted)', borderTop:'1px solid var(--color-border)', padding:'20px', whiteSpace:'normal'}}
-                      dangerouslySetInnerHTML={{ __html: language === 'es' ? faq.answer_es : faq.answer_en }}
-                    />
-                  </div>
-                </div>
-              ))}
+              {faqData.sort((a,b) => a.order - b.order).map((faq, idx) => {
+                // Determine if this FAQ is currently open based on URL hash or just use a local state. 
+                // Since we can't easily add a new useState hook at the top level without replacing the whole component,
+                // we'll use a trick: store the open state in the component's dataset or just use a small inline component wrapper if needed.
+                // Wait, it's a map. I can't declare state inside a map.
+                // But I can create a custom component right inside the file!
+                return <FaqAccordionItem key={faq.id} faq={faq} language={language} />;
+              })}
               {faqData.length === 0 && (
                 <div className="text-center p-5 text-muted">
                   Cargando / Loading FAQs...
@@ -421,5 +405,31 @@ export default function Home() {
         </button>
       </div>
     </main>
+  );
+}
+
+function FaqAccordionItem({ faq, language }: { faq: any, language: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="accordion-item" style={{background:'var(--color-bg-light)', border:'1px solid var(--color-border)', marginBottom:'16px', borderRadius:'12px', overflow:'hidden'}}>
+      <h2 className="accordion-header">
+        <button 
+          className={`accordion-button ${isOpen ? '' : 'collapsed'}`}
+          type="button" 
+          onClick={() => setIsOpen(!isOpen)}
+          style={{background:'transparent', color:'var(--color-text-main)', fontWeight:'600', boxShadow:'none', padding:'20px'}}
+        >
+          {language === 'es' ? faq.question_es : faq.question_en}
+        </button>
+      </h2>
+      <div className={`accordion-collapse collapse ${isOpen ? 'show' : ''}`}>
+        <div 
+          className="accordion-body faq-content-html" 
+          style={{color:'var(--color-text-muted)', borderTop:'1px solid var(--color-border)', padding:'20px', whiteSpace:'normal'}}
+          dangerouslySetInnerHTML={{ __html: language === 'es' ? faq.answer_es : faq.answer_en }}
+        />
+      </div>
+    </div>
   );
 }
