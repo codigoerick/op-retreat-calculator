@@ -6,7 +6,11 @@ import path from 'path';
 export async function POST(request: Request) {
   try {
     const cookieStore = await cookies();
-    if (!cookieStore.has('admin_session')) {
+    const adminPassword = process.env.ADMIN_PASSWORD || '';
+    const expectedToken = Buffer.from(`${adminPassword}-opretreat-secure-token`).toString('base64');
+    const cookieValue = cookieStore.get('admin_session')?.value;
+
+    if (!cookieValue || cookieValue !== expectedToken) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

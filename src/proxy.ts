@@ -9,8 +9,11 @@ export function proxy(request: NextRequest) {
 
   // 0. Protect Admin Routes
   if (pathname.startsWith("/control-panel")) {
-    const hasSession = request.cookies.has("admin_session");
-    if (!hasSession) {
+    const adminPassword = process.env.ADMIN_PASSWORD || '';
+    const expectedToken = btoa(`${adminPassword}-opretreat-secure-token`);
+    const cookieValue = request.cookies.get("admin_session")?.value;
+
+    if (!cookieValue || cookieValue !== expectedToken) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
   }

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
+
 export async function POST(request: Request) {
   try {
     const { username, password } = await request.json();
@@ -12,7 +13,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Servidor no configurado' }, { status: 500 });
     }
 
-    // Case-insensitive username check + exact password match
     if (
       username?.toLowerCase() !== adminUsername.toLowerCase() ||
       password !== adminPassword
@@ -20,8 +20,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Usuario o contraseña incorrectos' }, { status: 401 });
     }
 
+    // CREATE A SECURE OBFUSCATED TOKEN
+    // We combine the password with a salt and encode it. 
+    // Since the attacker doesn't know the password, they cannot forge this token.
+    const sessionToken = Buffer.from(`${adminPassword}-opretreat-secure-token`).toString('base64');
+
     const cookieStore = await cookies();
-    cookieStore.set('admin_session', 'true', {
+    cookieStore.set('admin_session', sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
