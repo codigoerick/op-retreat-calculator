@@ -15,7 +15,7 @@ interface DbRow {
 
 export default function AdminTalentEditor() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"editor" | "database" | "analytics" | "settings">("editor");
+  const [activeTab, setActiveTab] = useState<"editor" | "database" | "analytics" | "settings" | "faq">("editor");
   const [mode, setMode] = useState<"low"|"full">("low");
   const [level, setLevel] = useState(10);
   const [config, setConfig] = useState<Config>({});
@@ -26,8 +26,9 @@ export default function AdminTalentEditor() {
   const [mounted, setMounted] = useState(false);
   const [toast, setToast] = useState<{msg:string;ok:boolean}|null>(null);
 
-  // Settings
+  // Settings & FAQ
   const [maintenanceMessage, setMaintenanceMessage] = useState("We are optimizing talent trees for season 2.");
+  const [faqs, setFaqs] = useState<{id: string, order: number, question_es: string, answer_es: string, question_en: string, answer_en: string}[]>([]);
 
   useEffect(()=>{ setMounted(true); },[]);
 
@@ -66,9 +67,24 @@ export default function AdminTalentEditor() {
     }
   }, [mode, level]);
 
+  const loadFaqs = useCallback(async () => {
+    try {
+      const res = await fetch("/api/save-faq");
+      if (res.ok) {
+        const data = await res.json();
+        setFaqs(data.faqs || []);
+      }
+    } catch {
+      console.error("Failed to load FAQs");
+    }
+  }, []);
+
   useEffect(() => {
-    if (mounted) loadAllConfigs();
-  }, [mounted]);
+    if (mounted) {
+      loadAllConfigs();
+      loadFaqs();
+    }
+  }, [mounted, loadAllConfigs, loadFaqs]);
 
   // Sync editing config when mode or level selection changes
   useEffect(() => {
@@ -130,6 +146,24 @@ export default function AdminTalentEditor() {
       showToast(`Level ${level} (${mode.toUpperCase()}) successfully deployed!`);
     } catch {
       showToast("Deployment failed", false);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const saveFaqs = async () => {
+    if(!confirm(`Save FAQ updates to the live database?`)) return;
+    setIsSaving(true);
+    try {
+      const res = await fetch('/api/save-faq', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ faqs })
+      });
+      if(!res.ok) throw new Error();
+      showToast("FAQ successfully updated globally!");
+    } catch {
+      showToast("Failed to save FAQ", false);
     } finally {
       setIsSaving(false);
     }
@@ -468,6 +502,7 @@ export default function AdminTalentEditor() {
             {activeTab === 'editor' && "Talent Tree Editor"}
             {activeTab === 'database' && "Supabase Studio DB Browser"}
             {activeTab === 'analytics' && "Performance & Allocation Density"}
+            {activeTab === 'faq' && "Content & FAQ Editor"}
             {activeTab === 'settings' && "Engine Settings & Maintenance Alerts"}
           </span>
 
@@ -793,6 +828,114 @@ export default function AdminTalentEditor() {
                   <div style={{height:'100%',width:`${(fullSavedCount/20)*100}%`,background:'#3ecf8e',borderRadius:'4px'}} />
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* FAQ MANAGER */}
+        {activeTab === 'faq' && (
+          <div style={{padding:'40px',maxWidth:'1200px'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'32px'}}>
+              <div>
+                <h2 style={{color:'white',fontWeight:'700',fontSize:'20px',margin:0}}>FAQ Manager</h2>
+                <p style={{color:'#8a8a8a',fontSize:'13px',marginTop:'4px'}}>Manage bilingual Frequently Asked Questions displayed on the homepage.</p>
+              </div>
+              <button onClick={() => {
+                const newId = `faq-${Date.now()}`;
+                setFaqs([...faqs, { id: newId, order: faqs.length + 1, question_es: '', answer_es: '', question_en: '', answer_en: '' }]);
+                setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }), 100);
+              }} style={supabaseBtnStyle('#3ecf8e', '#121212', 'none')}>
+                <span style={{fontSize:'16px'}}>+</span> Add Question
+              </button>
+            </div>
+
+            <div style={{display:'flex',flexDirection:'column',gap:'20px'}}>
+              {faqs.sort((a,b) => a.order - b.order).map((faq, index) => (
+                <div key={faq.id} style={{background:'#1e1e1e',border:'1px solid #2e2e2e',borderRadius:'8px',padding:'24px',display:'flex',flexDirection:'column',gap:'16px'}}>
+                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                    <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
+                      <span style={{background:'#2e2e2e',color:'white',padding:'4px 10px',borderRadius:'4px',fontSize:'12px',fontWeight:'bold'}}>Q{index + 1}</span>
+                    </div>
+                    <button onClick={() => {
+                      if(confirm('Permanently delete this question?')) {
+                        setFaqs(faqs.filter(f => f.id !== faq.id));
+                      }
+                    }} style={{background:'transparent',border:'none',color:'#ef4444',cursor:'pointer',fontSize:'12px',fontWeight:'bold',padding:'4px'}}>Remove</button>
+                  </div>
+                  
+                  <div style={{display:'flex',gap:'24px',flexWrap:'wrap'}}>
+                    {/* Spanish Column */}
+                    <div style={{flex:'1 1 300px',display:'flex',flexDirection:'column',gap:'12px'}}>
+                      <h4 style={{color:'#3ecf8e',fontSize:'13px',margin:0,display:'flex',alignItems:'center',gap:'6px'}}>
+                        <span>🇲🇽</span> Español
+                      </h4>
+                      <input 
+                        value={faq.question_es} 
+                        onChange={(e) => {
+                          const updated = [...faqs];
+                          updated[index].question_es = e.target.value;
+                          setFaqs(updated);
+                        }}
+                        placeholder="Pregunta en español..."
+                        style={{background:'#121212',border:'1px solid #2e2e2e',color:'white',padding:'12px',borderRadius:'6px',fontSize:'13px',outline:'none',width:'100%'}}
+                      />
+                      <textarea 
+                        value={faq.answer_es} 
+                        onChange={(e) => {
+                          const updated = [...faqs];
+                          updated[index].answer_es = e.target.value;
+                          setFaqs(updated);
+                        }}
+                        placeholder="Respuesta en español..."
+                        style={{background:'#121212',border:'1px solid #2e2e2e',color:'white',padding:'12px',borderRadius:'6px',fontSize:'13px',minHeight:'140px',resize:'vertical',outline:'none',width:'100%'}}
+                      />
+                    </div>
+                    
+                    {/* English Column */}
+                    <div style={{flex:'1 1 300px',display:'flex',flexDirection:'column',gap:'12px'}}>
+                      <h4 style={{color:'#60a5fa',fontSize:'13px',margin:0,display:'flex',alignItems:'center',gap:'6px'}}>
+                        <span>🇺🇸</span> English
+                      </h4>
+                      <input 
+                        value={faq.question_en} 
+                        onChange={(e) => {
+                          const updated = [...faqs];
+                          updated[index].question_en = e.target.value;
+                          setFaqs(updated);
+                        }}
+                        placeholder="Question in English..."
+                        style={{background:'#121212',border:'1px solid #2e2e2e',color:'white',padding:'12px',borderRadius:'6px',fontSize:'13px',outline:'none',width:'100%'}}
+                      />
+                      <textarea 
+                        value={faq.answer_en} 
+                        onChange={(e) => {
+                          const updated = [...faqs];
+                          updated[index].answer_en = e.target.value;
+                          setFaqs(updated);
+                        }}
+                        placeholder="Answer in English..."
+                        style={{background:'#121212',border:'1px solid #2e2e2e',color:'white',padding:'12px',borderRadius:'6px',fontSize:'13px',minHeight:'140px',resize:'vertical',outline:'none',width:'100%'}}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              
+              {faqs.length === 0 && (
+                <div style={{textAlign:'center',padding:'60px',color:'#8a8a8a',border:'1px dashed #2e2e2e',borderRadius:'8px',background:'#171717'}}>
+                  No FAQs added yet. Click "Add Question" to start.
+                </div>
+              )}
+            </div>
+
+            <div style={{marginTop:'32px',paddingTop:'24px',borderTop:'1px solid #2e2e2e',display:'flex',justifyContent:'flex-end',position:'sticky',bottom:'0',background:'#171717',paddingBottom:'24px',zIndex:10}}>
+              <button 
+                onClick={saveFaqs} 
+                disabled={isSaving}
+                style={{...supabaseBtnStyle('#3ecf8e', '#121212', 'none'), padding:'10px 24px', fontSize:'14px', opacity: isSaving ? 0.7 : 1}}
+              >
+                {isSaving ? "Saving to Database..." : "Save All Changes"}
+              </button>
             </div>
           </div>
         )}
