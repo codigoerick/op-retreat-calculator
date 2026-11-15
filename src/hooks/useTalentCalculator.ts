@@ -1,11 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
 import {
-  PUBLISHED_LEVELS,
   STANDARD_LEVELS,
+  hasTalentPoints,
+  type TalentConfig,
   type TalentMode,
-} from "@/data/published-levels";
-
-type TalentConfig = Record<string, [number]>;
+} from "@/data/talent-levels";
 
 // Cache in memory to avoid repeated fetches during a session
 const configCache: Record<string, Record<string, TalentConfig>> = { low: {}, full: {} };
@@ -16,10 +15,12 @@ async function fetchConfigs(mode: TalentMode): Promise<Record<string, TalentConf
   try {
     const res = await fetch(`/api/talent-configs?mode=${mode}`);
     const data: { level: number; config: TalentConfig }[] = await res.json();
-    const published = new Set(PUBLISHED_LEVELS[mode]);
+    const standardLevels = new Set(STANDARD_LEVELS);
     const map: Record<string, TalentConfig> = {};
     data.forEach((row) => {
-      if (published.has(row.level)) map[row.level.toString()] = row.config;
+      if (!standardLevels.has(row.level)) return;
+      if (!hasTalentPoints(row.config)) return;
+      map[row.level.toString()] = row.config;
     });
     configCache[mode] = map;
     cacheLoaded[mode] = true;

@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import talents from "@/data/talents.json";
 import { TalentTree } from "@/components/talent-tree/TalentTree";
-import { STANDARD_LEVELS, isPublishedLevel } from "@/data/published-levels";
+import { STANDARD_LEVELS, getConfigPoints } from "@/data/talent-levels";
 
 const LEVELS = STANDARD_LEVELS;
 type Config = Record<string, [number]>;
@@ -25,6 +25,7 @@ export default function AdminTalentEditor() {
   const [allConfigsFull, setAllConfigsFull] = useState<Record<string,Config>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [toast, setToast] = useState<{msg:string;ok:boolean}|null>(null);
 
@@ -145,10 +146,11 @@ export default function AdminTalentEditor() {
       } else {
         setAllConfigsFull(prev => ({ ...prev, [level.toString()]: JSON.parse(JSON.stringify(config)) }));
       }
+      const savedPoints = getConfigPoints(config);
       showToast(
-        isPublishedLevel(mode, level)
-          ? `Level ${level} (${mode.toUpperCase()}) successfully deployed!`
-          : `Level ${level} (${mode.toUpperCase()}) saved. Pending publish on the public site.`
+        savedPoints > 0
+          ? `Level ${level} (${mode.toUpperCase()}) deployed with ${savedPoints} points!`
+          : `Level ${level} (${mode.toUpperCase()}) saved in zero. Hidden from the public site.`
       );
     } catch {
       showToast("Deployment failed", false);
@@ -177,6 +179,7 @@ export default function AdminTalentEditor() {
 
   const deleteConfigFromDb = async (delMode: "low" | "full", delLevel: number) => {
     if (!confirm(`Are you sure you want to permanently delete Level ${delLevel} (${delMode.toUpperCase()}) config from database?`)) return;
+    setIsDeleting(true);
     try {
       const res = await fetch(`/api/talent-configs?mode=${delMode}&level=${delLevel}`, { method: 'DELETE' });
       if (!res.ok) throw new Error();
@@ -194,9 +197,15 @@ export default function AdminTalentEditor() {
           return u;
         });
       }
+
+      if (delMode === mode && delLevel === level) {
+        setConfig({});
+      }
       showToast(`Deleted level ${delLevel} config!`);
     } catch {
       showToast("Failed to delete config", false);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -205,8 +214,11 @@ export default function AdminTalentEditor() {
   const getTalent = (id:number) => talents.find(t=>t.id===id);
 
   const currentMap = mode === 'low' ? allConfigsLow : allConfigsFull;
-  const totalPts = Object.values(config).reduce((a,[v])=>a+v,0);
-  const hasSaved = !!currentMap[level.toString()];
+  const totalPts = getConfigPoints(config);
+  const savedConfig = currentMap[level.toString()];
+  const savedPoints = getConfigPoints(savedConfig);
+  const hasSaved = !!savedConfig;
+  const isPublicActive = hasSaved && savedPoints > 0;
   const hasChanges = JSON.stringify(config) !== JSON.stringify(currentMap[level.toString()]??{});
 
   // Calculate high-level stats for database & analytics views
@@ -220,7 +232,7 @@ export default function AdminTalentEditor() {
       dbRows.push({
         level: l,
         mode: 'low',
-        points: Object.values(cfg).reduce((a,[v])=>a+v,0),
+        points: getConfigPoints(cfg),
         nodesCount: Object.keys(cfg).filter(k => (cfg[k]?.[0]??0) > 0).length
       });
     }
@@ -229,7 +241,7 @@ export default function AdminTalentEditor() {
       dbRows.push({
         level: l,
         mode: 'full',
-        points: Object.values(cfg).reduce((a,[v])=>a+v,0),
+        points: getConfigPoints(cfg),
         nodesCount: Object.keys(cfg).filter(k => (cfg[k]?.[0]??0) > 0).length
       });
     }
@@ -391,26 +403,30 @@ export default function AdminTalentEditor() {
               <div style={{padding:'4px 8px'}}>
                 <div style={{display:'grid',gridTemplateColumns:'repeat(3, 1fr)',gap:'4px'}}>
                   {LEVELS.map(l => {
-                    const saved = !!(mode === 'low' ? allConfigsLow : allConfigsFull)[l.toString()];
-                    const published = isPublishedLevel(mode, l);
+                    const cfg = (mode === 'low' ? allConfigsLow : allConfigsFull)[l.toString()];
+                    const saved = Boolean(cfg);
+                    const points = getConfigPoints(cfg);
+                    const active = saved && points > 0;
                     const isActive = l === level;
                     return (
                       <button key={l} onClick={()=>setLevel(l)} title={
-                        published
-                          ? saved ? `Nivel ${l} publicado` : `Nivel ${l} sin configuración guardada`
-                          : `Nivel ${l} pendiente: se guarda pero no se muestra en el sitio público`
+                        active
+                          ? `Nivel ${l} activo en el sitio público (${points} pts)`
+                          : saved
+                            ? `Nivel ${l} guardado en cero: oculto en el sitio público`
+                            : `Nivel ${l} sin configuración guardada`
                       } style={{
                         height:'28px',
                         borderRadius:'4px',
                         border:'1px solid',
-                        borderStyle: published ? 'solid' : 'dashed',
-                        borderColor: isActive ? '#3ecf8e' : published ? '#2e2e2e' : '#52525b',
+                        borderStyle: active || isActive ? 'solid' : 'dashed',
+                        borderColor: isActive ? '#3ecf8e' : active ? '#2e2e2e' : '#52525b',
                         background: isActive ? 'rgba(62,207,142,0.1)' : '#1e1e1e',
-                        color: isActive ? '#3ecf8e' : published ? (saved ? '#a8a8a8' : '#6b7280') : '#71717a',
+                        color: isActive ? '#3ecf8e' : active ? '#a8a8a8' : '#71717a',
                         fontWeight: '700',
                         fontSize: '11px',
                         cursor: 'pointer',
-                        opacity: published ? 1 : 0.65,
+                        opacity: active || isActive ? 1 : 0.65,
                         transition: 'all 0.1s'
                       }}>
                         {l}
@@ -419,7 +435,7 @@ export default function AdminTalentEditor() {
                   })}
                 </div>
                 <div style={{color:'#71717a',fontSize:'10px',lineHeight:'1.45',padding:'10px 4px 0'}}>
-                  Borde punteado = nivel pendiente. Puedes guardarlo aquí, pero permanecerá oculto en el sitio público hasta publicarlo.
+                  Borde punteado = nivel vacío o guardado en ceros. No aparece en el sitio público hasta que tenga puntos.
                 </div>
               </div>
             </>
@@ -574,19 +590,26 @@ export default function AdminTalentEditor() {
                   {mode === 'low' ? '🛡️ Low HP' : '❤️ Full HP'}
                 </span>
                 <span style={{color:'white',fontWeight:'bold',fontSize:'14px'}}>Level {level} Profile</span>
+                <span className={`badge ${isPublicActive ? 'text-bg-success' : 'text-bg-secondary'}`}>
+                  {isPublicActive ? 'Activo en público' : 'Oculto en público'}
+                </span>
               </div>
 
               <div style={{width:'1px',height:'20px',background:'#2e2e2e',margin:'0 8px'}} />
 
-              <button onClick={copyFromPrev} disabled={LEVELS.indexOf(level)===0} style={supabaseBtnStyle()}>
+              <button onClick={copyFromPrev} disabled={LEVELS.indexOf(level)===0} className="btn btn-warning btn-sm fw-semibold">
                 ⬇ Copy Previous ({LEVELS[LEVELS.indexOf(level)-1] ?? '–'})
               </button>
 
-              <button onClick={() => { if(confirm("Clear current nodes?")) setConfig({}); }} style={supabaseBtnStyle('#ea580c', '#ffffff', 'none')}>
+              <button onClick={() => { if(confirm("Clear current nodes?")) setConfig({}); }} className="btn btn-primary btn-sm fw-semibold">
                 ✕ Reset Grid
               </button>
 
-              <button onClick={loadAllConfigs} style={supabaseBtnStyle()}>
+              <button onClick={() => deleteConfigFromDb(mode, level)} disabled={!hasSaved || isDeleting} className="btn btn-danger btn-sm fw-semibold">
+                🗑 {isDeleting ? 'Deleting...' : 'Delete'}
+              </button>
+
+              <button onClick={loadAllConfigs} className="btn btn-outline-light btn-sm fw-semibold">
                 ⟳ Sync DB
               </button>
 
@@ -598,16 +621,7 @@ export default function AdminTalentEditor() {
                   <span style={{color:'white',fontWeight:'bold'}}>{level} pts</span>
                 </div>
 
-                <button onClick={save} disabled={isSaving || !hasChanges} style={{
-                  background: !hasChanges ? '#1e1e1e' : '#3ecf8e',
-                  color: !hasChanges ? '#6b7280' : '#121212',
-                  border: !hasChanges ? '1px solid #2e2e2e' : 'none',
-                  borderRadius: '6px',
-                  padding: '6px 18px',
-                  fontWeight: '700',
-                  cursor: !hasChanges ? 'not-allowed' : 'pointer',
-                  transition: 'all 0.15s'
-                }}>
+                <button onClick={save} disabled={isSaving || !hasChanges} className="btn btn-success btn-sm fw-semibold">
                   {isSaving ? 'Deploying...' : 'Deploy Changes'}
                 </button>
               </div>
@@ -739,27 +753,8 @@ export default function AdminTalentEditor() {
                       <td style={{padding:'14px 20px'}}><span style={{color:'#3ecf8e',fontWeight:'bold'}}>{row.points}</span> points allocated</td>
                       <td style={{padding:'14px 20px'}}>{row.nodesCount} active nodes</td>
                       <td style={{padding:'14px 20px',textAlign:'right'}}>
-                        <button onClick={() => { setMode(row.mode); setLevel(row.level); setActiveTab('editor'); }} style={{
-                          background:'#171717',
-                          color:'white',
-                          border:'1px solid #2e2e2e',
-                          padding:'4px 12px',
-                          borderRadius:'4px',
-                          cursor:'pointer',
-                          fontWeight:'600',
-                          fontSize:'11.5px',
-                          marginRight:'8px'
-                        }}>Edit</button>
-                        <button onClick={() => deleteConfigFromDb(row.mode, row.level)} style={{
-                          background:'rgba(234,88,12,0.1)',
-                          color:'#ea580c',
-                          border:'1px solid rgba(234,88,12,0.2)',
-                          padding:'4px 12px',
-                          borderRadius:'4px',
-                          cursor:'pointer',
-                          fontWeight:'600',
-                          fontSize:'11.5px'
-                        }}>Delete</button>
+                        <button onClick={() => { setMode(row.mode); setLevel(row.level); setActiveTab('editor'); }} className="btn btn-primary btn-sm fw-semibold me-2">Edit</button>
+                        <button onClick={() => deleteConfigFromDb(row.mode, row.level)} disabled={isDeleting} className="btn btn-danger btn-sm fw-semibold">Delete</button>
                       </td>
                     </tr>
                   ))}
