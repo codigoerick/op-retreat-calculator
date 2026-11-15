@@ -8,7 +8,7 @@ export async function GET() {
     const filePath = path.join(process.cwd(), 'src/data/faq.json');
     const fileData = await fs.readFile(filePath, 'utf-8');
     return NextResponse.json(JSON.parse(fileData));
-  } catch (error) {
+  } catch {
     return NextResponse.json({ faqs: [] });
   }
 }
