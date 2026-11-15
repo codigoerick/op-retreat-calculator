@@ -2,8 +2,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import talents from "@/data/talents.json";
+import { TalentTree } from "@/components/talent-tree/TalentTree";
+import { STANDARD_LEVELS, isPublishedLevel } from "@/data/published-levels";
 
-const LEVELS = [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200];
+const LEVELS = STANDARD_LEVELS;
 type Config = Record<string, [number]>;
 
 interface DbRow {
@@ -143,7 +145,11 @@ export default function AdminTalentEditor() {
       } else {
         setAllConfigsFull(prev => ({ ...prev, [level.toString()]: JSON.parse(JSON.stringify(config)) }));
       }
-      showToast(`Level ${level} (${mode.toUpperCase()}) successfully deployed!`);
+      showToast(
+        isPublishedLevel(mode, level)
+          ? `Level ${level} (${mode.toUpperCase()}) successfully deployed!`
+          : `Level ${level} (${mode.toUpperCase()}) saved. Pending publish on the public site.`
+      );
     } catch {
       showToast("Deployment failed", false);
     } finally {
@@ -197,9 +203,6 @@ export default function AdminTalentEditor() {
   if(!mounted) return null;
 
   const getTalent = (id:number) => talents.find(t=>t.id===id);
-  const rows:number[][] = [];
-  for(let i=21;i>=0;i--) rows.push([i*3+1,i*3+2,i*3+3]);
-  rows.push([0]);
 
   const currentMap = mode === 'low' ? allConfigsLow : allConfigsFull;
   const totalPts = Object.values(config).reduce((a,[v])=>a+v,0);
@@ -389,24 +392,34 @@ export default function AdminTalentEditor() {
                 <div style={{display:'grid',gridTemplateColumns:'repeat(3, 1fr)',gap:'4px'}}>
                   {LEVELS.map(l => {
                     const saved = !!(mode === 'low' ? allConfigsLow : allConfigsFull)[l.toString()];
+                    const published = isPublishedLevel(mode, l);
                     const isActive = l === level;
                     return (
-                      <button key={l} onClick={()=>setLevel(l)} style={{
+                      <button key={l} onClick={()=>setLevel(l)} title={
+                        published
+                          ? saved ? `Nivel ${l} publicado` : `Nivel ${l} sin configuración guardada`
+                          : `Nivel ${l} pendiente: se guarda pero no se muestra en el sitio público`
+                      } style={{
                         height:'28px',
                         borderRadius:'4px',
                         border:'1px solid',
-                        borderColor: isActive ? '#3ecf8e' : '#2e2e2e',
+                        borderStyle: published ? 'solid' : 'dashed',
+                        borderColor: isActive ? '#3ecf8e' : published ? '#2e2e2e' : '#52525b',
                         background: isActive ? 'rgba(62,207,142,0.1)' : '#1e1e1e',
-                        color: isActive ? '#3ecf8e' : saved ? '#a8a8a8' : '#6b7280',
+                        color: isActive ? '#3ecf8e' : published ? (saved ? '#a8a8a8' : '#6b7280') : '#71717a',
                         fontWeight: '700',
                         fontSize: '11px',
                         cursor: 'pointer',
+                        opacity: published ? 1 : 0.65,
                         transition: 'all 0.1s'
                       }}>
                         {l}
                       </button>
                     );
                   })}
+                </div>
+                <div style={{color:'#71717a',fontSize:'10px',lineHeight:'1.45',padding:'10px 4px 0'}}>
+                  Borde punteado = nivel pendiente. Puedes guardarlo aquí, pero permanecerá oculto en el sitio público hasta publicarlo.
                 </div>
               </div>
             </>
@@ -635,37 +648,12 @@ export default function AdminTalentEditor() {
                   padding:'40px 30px',
                   boxShadow:'0 4px 20px rgba(0,0,0,0.2)'
                 }}>
-                  <div className="talent__rows__container">
-                    {rows.map((row,rowIndex)=>(
-                      <div key={rowIndex} className={`talent__row${row.length===1?' talent__row--single':''}`}>
-                        {row.map(id=>{
-                          const talent = getTalent(id);
-                          if(!talent) return null;
-                          const stars = config[id.toString()]?.[0]||0;
-                          return (
-                            <div key={id} className={`talent__node${stars===0?' talent--locked':''}`}
-                              onClick={()=>toggleNode(id)}
-                              onContextMenu={e=>{e.preventDefault();maxOrClearNode(id);}}
-                              title={`${talent.name} (ID:${id}) | Stars: ${stars}/${(talent as any).maxStars ?? 5}`}
-                              style={{cursor:'pointer',position:'relative',transition:'transform 0.15s'}}
-                            >
-                              <div className={`talent__bg ${talent.bgClass}`}>
-                                <div className="talent__name">{talent.name}</div>
-                                <img src={`/${talent.icon}`} alt={talent.name} className="talent__icon" style={{width:'40px',height:'40px'}}/>
-                                <div className="talent__level-bar">
-                                  {[...Array(5)].map((_,i)=>(
-                                    <img key={i} src="/assets/images/icons/talent-level.webp" alt="" className="talent__level-star" style={{opacity:i<stars?1:0,width:'11px'}}/>
-                                  ))}
-                                </div>
-                                {stars===0 && <img src="/assets/images/icons/lock.webp" alt="locked" className="talent__lock" style={{display:'block',width:'40px'}}/>}
-                                {stars>0 && <span style={{position:'absolute',top:'-8px',right:'-8px',background:'#3ecf8e',color:'#121212',width:'20px',height:'20px',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:'900',fontSize:'11px',pointerEvents:'none',border:'1.5px solid #171717'}}>{stars}</span>}
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    ))}
-                  </div>
+                  <TalentTree
+                    config={config}
+                    onCycle={toggleNode}
+                    onMax={maxOrClearNode}
+                    size="compact"
+                  />
                 </div>
               </div>
 
@@ -1036,7 +1024,6 @@ export default function AdminTalentEditor() {
       <style jsx global>{`
         @keyframes slideIn { from { transform: translateY(20px); opacity:0; } to { transform: translateY(0); opacity:1; } }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .talent__row { display:flex; justify-content:center; gap:60px; margin-bottom:40px; }
       `}</style>
     </div>
   );

@@ -1,24 +1,36 @@
 import { useState, useEffect, useMemo } from "react";
+import {
+  PUBLISHED_LEVELS,
+  STANDARD_LEVELS,
+  type TalentMode,
+} from "@/data/published-levels";
 
 type TalentConfig = Record<string, [number]>;
 
 // Cache in memory to avoid repeated fetches during a session
-let configCache: Record<string, Record<string, TalentConfig>> = { low: {}, full: {} };
-let cacheLoaded: Record<string, boolean> = { low: false, full: false };
+const configCache: Record<string, Record<string, TalentConfig>> = { low: {}, full: {} };
+const cacheLoaded: Record<string, boolean> = { low: false, full: false };
 
-async function fetchConfigs(mode: string): Promise<Record<string, TalentConfig>> {
+async function fetchConfigs(mode: TalentMode): Promise<Record<string, TalentConfig>> {
   if (cacheLoaded[mode]) return configCache[mode];
   try {
     const res = await fetch(`/api/talent-configs?mode=${mode}`);
     const data: { level: number; config: TalentConfig }[] = await res.json();
+    const published = new Set(PUBLISHED_LEVELS[mode]);
     const map: Record<string, TalentConfig> = {};
-    data.forEach((row) => { map[row.level.toString()] = row.config; });
+    data.forEach((row) => {
+      if (published.has(row.level)) map[row.level.toString()] = row.config;
+    });
     configCache[mode] = map;
     cacheLoaded[mode] = true;
     return map;
   } catch {
     return {};
   }
+}
+
+function isStandardLevel(level: number): boolean {
+  return STANDARD_LEVELS.includes(level);
 }
 
 export function useTalentCalculator() {
@@ -42,13 +54,19 @@ export function useTalentCalculator() {
     // Exact match
     if (configs[points.toString()]) return configs[points.toString()];
 
-    // Find closest level below
+    // A standard preset without a published config must stay empty instead of
+    // falling back to a stale configuration from the previous update.
+    if (isStandardLevel(points)) return null;
+
+    // Manual values between presets can use the closest published level below.
     const levels = Object.keys(configs).map(Number).sort((a, b) => b - a);
     const closest = levels.find((l) => l <= points);
     return closest !== undefined ? configs[closest.toString()] : null;
   }, [points, configs]);
 
-  const availableLevels = Object.keys(configs).map(Number);
+  const availableLevels = Object.keys(configs)
+    .map(Number)
+    .sort((a, b) => a - b);
 
   const reset = () => setPoints(0);
   const applyLevel = (lvl: number) => setPoints(lvl);

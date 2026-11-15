@@ -29,7 +29,7 @@ export const translations: Record<string, Record<string, string>> = {
     // One-time update alert
     "alert.badge": "New",
     "alert.title": "New talent configurations available",
-    "alert.body": "The Low HP and Full HP configurations from 80 to 200 points are now published. Open Options to choose your level.",
+    "alert.body": "The new Low HP and Full HP configurations are published for levels 80–130 and 200. Other levels will be enabled as they become available. Open Options to choose your level.",
     "alert.button": "Got it",
     "alert.once": "This notice is shown only once.",
 
@@ -68,7 +68,7 @@ export const translations: Record<string, Record<string, string>> = {
     // Aviso de actualización (una sola vez)
     "alert.badge": "Nuevo",
     "alert.title": "Nuevas configuraciones de talentos",
-    "alert.body": "Ya están publicadas las configuraciones de Vida baja y Vida completa de 80 a 200 puntos. Abre Opciones para elegir tu nivel.",
+    "alert.body": "Las nuevas configuraciones de Vida baja y Vida completa ya están publicadas para los niveles 80–130 y 200. Los demás niveles se habilitarán cuando estén disponibles. Abre Opciones para elegir tu nivel.",
     "alert.button": "Entendido",
     "alert.once": "Este aviso se muestra solo una vez.",
 
