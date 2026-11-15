@@ -7,6 +7,13 @@ import { supabase } from "@/lib/supabase";
 const BASE_VISITS = 1780;
 const BASE_CALCULATIONS = 1669;
 
+// Fixed locale so the server and client render the same separators.
+const STAT_NUMBER_FORMAT = new Intl.NumberFormat("en-US");
+
+function formatStat(value: number): string {
+  return STAT_NUMBER_FORMAT.format(value);
+}
+
 export default function StatsDisplay({ className = "" }: { className?: string }) {
   const [stats, setStats] = useState({ visits: 0, calculations: 0 });
 
@@ -44,7 +51,7 @@ export default function StatsDisplay({ className = "" }: { className?: string })
           table: 'site_stats',
         },
         (payload) => {
-          setStats(payload.new as any);
+          setStats(payload.new as { visits: number; calculations: number });
         }
       )
       .subscribe();
@@ -59,12 +66,12 @@ export default function StatsDisplay({ className = "" }: { className?: string })
       <div className="d-flex align-items-center gap-3 gap-sm-4 flex-wrap justify-content-center">
         <div className="stat-item d-flex align-items-center">
           <i className="bi bi-eye-fill text-muted me-2" style={{ fontSize: "1.2rem" }} title="Visitas"></i>
-          <span className="stat-value text-warning">{(stats.visits + BASE_VISITS).toLocaleString()}</span>
+          <span className="stat-value text-warning">{formatStat(stats.visits + BASE_VISITS)}</span>
         </div>
         <div className="stat-divider" style={{ color: "#444", opacity: 0.5 }}>|</div>
         <div className="stat-item d-flex align-items-center">
           <i className="bi bi-calculator-fill text-muted me-2" style={{ fontSize: "1.1rem" }} title="Calculado"></i>
-          <span className="stat-value text-success">{(stats.calculations + BASE_CALCULATIONS).toLocaleString()}</span>
+          <span className="stat-value text-success">{formatStat(stats.calculations + BASE_CALCULATIONS)}</span>
         </div>
       </div>
     </div>
