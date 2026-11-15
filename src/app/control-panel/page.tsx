@@ -219,6 +219,8 @@ export default function AdminTalentEditor() {
   const savedPoints = getConfigPoints(savedConfig);
   const hasSaved = !!savedConfig;
   const isPublicActive = hasSaved && savedPoints > 0;
+  const previousLevel = LEVELS[LEVELS.indexOf(level) - 1];
+  const canCopyPrevious = previousLevel !== undefined && Boolean(currentMap[previousLevel.toString()]);
   const hasChanges = JSON.stringify(config) !== JSON.stringify(currentMap[level.toString()]??{});
 
   // Calculate high-level stats for database & analytics views
@@ -597,8 +599,8 @@ export default function AdminTalentEditor() {
 
               <div style={{width:'1px',height:'20px',background:'#2e2e2e',margin:'0 8px'}} />
 
-              <button onClick={copyFromPrev} disabled={LEVELS.indexOf(level)===0} className="btn btn-warning btn-sm fw-semibold">
-                ⬇ Copy Previous ({LEVELS[LEVELS.indexOf(level)-1] ?? '–'})
+              <button onClick={copyFromPrev} disabled={!canCopyPrevious} className="btn btn-warning btn-sm fw-semibold">
+                ⬇ Copy Previous ({previousLevel ?? '–'})
               </button>
 
               <button onClick={() => { if(confirm("Clear current nodes?")) setConfig({}); }} className="btn btn-primary btn-sm fw-semibold">
