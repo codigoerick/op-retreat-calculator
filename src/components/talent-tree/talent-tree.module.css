@@ -1,0 +1,299 @@
+/* Ported from node_tree_reference/assets/css/index.css.
+   Every dimension derives from --node so the whole tree scales without
+   media-query overrides. */
+
+.tree {
+  --node: clamp(58px, 23vw, 100px);
+  --node-bg: calc(var(--node) * 0.96);
+  --icon: calc(var(--node) * 0.5);
+  --star: calc(var(--node) * 0.11);
+  --lock: calc(var(--node) * 0.4);
+  --row-gap: calc(var(--node) * 0.25);
+  --h-connector: calc(var(--node) * 0.4);
+
+  /* Diagonal from one node centre to the node centred below it:
+     dx = node + h-connector (1.4), dy = node + row-gap (1.25). */
+  --diag-length: calc(var(--node) * 1.877);
+  --diag-angle: 48.2deg;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: var(--row-gap);
+  width: fit-content;
+  margin-inline: auto;
+  padding-block: 8px 4px;
+}
+
+/* Editor mode: bigger targets without touching the default calculator. */
+.tree--large {
+  --node: clamp(64px, 9vw, 108px);
+}
+
+/* The panel shares width with two sidebars, so keep the same design compact. */
+.tree--compact {
+  --node: clamp(54px, 5.5vw, 88px);
+}
+
+.row {
+  display: flex;
+}
+
+.row--single {
+  justify-content: center;
+}
+
+/* ---------- Node ---------- */
+
+.node {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--node);
+  height: var(--node);
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background-color: transparent;
+  background-image: url("/assets/images/backgrounds/talent_node_bg.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  color: inherit;
+  font: inherit;
+}
+
+/* Read-only nodes are divs; only the editor renders buttons. */
+button.node {
+  cursor: pointer;
+  transition: transform 120ms ease;
+}
+
+button.node:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+button.node:active:not(:disabled) {
+  transform: translateY(0) scale(0.97);
+}
+
+button.node:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.node:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* Editor-only star total, useful while building a configuration. */
+.levelBadge {
+  position: absolute;
+  top: calc(var(--node) * 0.02);
+  right: calc(var(--node) * 0.02);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: calc(var(--node) * 0.22);
+  height: calc(var(--node) * 0.22);
+  padding: 0 calc(var(--node) * 0.05);
+  border: 1.5px solid #171717;
+  border-radius: 999px;
+  background: #3ecf8e;
+  color: #121212;
+  font-size: calc(var(--node) * 0.13);
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.bg {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--node-bg);
+  height: var(--node-bg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.bg--red {
+  background-image: url("/assets/images/backgrounds/bg_red.png");
+}
+
+.bg--blue {
+  background-image: url("/assets/images/backgrounds/bg_blue.png");
+}
+
+.bg--green {
+  background-image: url("/assets/images/backgrounds/bg_green.png");
+}
+
+.icon {
+  width: var(--icon);
+  height: var(--icon);
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.levelBar {
+  position: absolute;
+  bottom: 1px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--node) * 0.04);
+  width: 100%;
+  padding: calc(var(--node) * 0.03) 0;
+  border-radius: 0 0 10px 10px;
+  background: rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+
+.star {
+  width: var(--star);
+  height: var(--star);
+  object-fit: contain;
+  opacity: 0.15;
+  transition: opacity 120ms ease;
+}
+
+.star[data-on="true"] {
+  opacity: 1;
+}
+
+.lock {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  width: var(--lock);
+  height: var(--lock);
+  object-fit: contain;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.node[data-locked="true"] .bg,
+.node[data-locked="true"] .icon {
+  filter: grayscale(100%) brightness(0.4);
+}
+
+.node[data-locked="true"] .levelBar {
+  display: none;
+}
+
+.node[data-locked="false"] .lock {
+  display: none;
+}
+
+/* ---------- Tooltip ---------- */
+
+.name {
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: 50%;
+  z-index: 20;
+  padding: 2px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%);
+  transition: opacity 120ms ease;
+}
+
+.node:hover .name,
+.node:focus-within .name {
+  opacity: 1;
+}
+
+/* ---------- Connections ---------- */
+
+.connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  background-image: url("/assets/images/icons/talent_progressBg.png");
+}
+
+.connector::after {
+  content: "";
+  display: block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  background-image: url("/assets/images/icons/talent_progressBar.png");
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.connector[data-active="true"]::after {
+  opacity: 1;
+}
+
+.horizontal {
+  width: var(--h-connector);
+  height: calc(var(--node) * 0.15);
+  align-self: center;
+}
+
+.horizontal::after {
+  width: 95%;
+  height: 53%;
+}
+
+.vertical,
+.diagonal {
+  position: absolute;
+  left: 50%;
+  z-index: 0;
+  width: calc(var(--node) * 0.15);
+}
+
+.vertical {
+  bottom: calc(var(--row-gap) * -1);
+  height: var(--row-gap);
+}
+
+.vertical::after {
+  width: 53%;
+  height: 92%;
+}
+
+.diagonal {
+  top: 50%;
+  height: var(--diag-length);
+  width: calc(var(--node) * 0.18);
+  transform-origin: top center;
+}
+
+.diagonal::after {
+  width: 55%;
+  height: 97%;
+}
+
+.diagonal--left {
+  transform: translateX(-50%) rotate(calc(-1 * var(--diag-angle)));
+}
+
+.diagonal--right {
+  transform: translateX(-50%) rotate(var(--diag-angle));
+}

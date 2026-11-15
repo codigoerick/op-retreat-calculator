@@ -2,8 +2,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import talents from "@/data/talents.json";
+import { TalentTree } from "@/components/talent-tree/TalentTree";
+import { STANDARD_LEVELS, getConfigPoints } from "@/data/talent-levels";
 
-const LEVELS = [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200];
+const LEVELS = STANDARD_LEVELS;
 type Config = Record<string, [number]>;
 
 interface DbRow {
@@ -23,6 +25,7 @@ export default function AdminTalentEditor() {
   const [allConfigsFull, setAllConfigsFull] = useState<Record<string,Config>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [toast, setToast] = useState<{msg:string;ok:boolean}|null>(null);
 
@@ -143,7 +146,12 @@ export default function AdminTalentEditor() {
       } else {
         setAllConfigsFull(prev => ({ ...prev, [level.toString()]: JSON.parse(JSON.stringify(config)) }));
       }
-      showToast(`Level ${level} (${mode.toUpperCase()}) successfully deployed!`);
+      const savedPoints = getConfigPoints(config);
+      showToast(
+        savedPoints > 0
+          ? `Level ${level} (${mode.toUpperCase()}) deployed with ${savedPoints} points!`
+          : `Level ${level} (${mode.toUpperCase()}) saved in zero. Hidden from the public site.`
+      );
     } catch {
       showToast("Deployment failed", false);
     } finally {
@@ -171,6 +179,7 @@ export default function AdminTalentEditor() {
 
   const deleteConfigFromDb = async (delMode: "low" | "full", delLevel: number) => {
     if (!confirm(`Are you sure you want to permanently delete Level ${delLevel} (${delMode.toUpperCase()}) config from database?`)) return;
+    setIsDeleting(true);
     try {
       const res = await fetch(`/api/talent-configs?mode=${delMode}&level=${delLevel}`, { method: 'DELETE' });
       if (!res.ok) throw new Error();
@@ -188,27 +197,35 @@ export default function AdminTalentEditor() {
           return u;
         });
       }
+
+      if (delMode === mode && delLevel === level) {
+        setConfig({});
+      }
       showToast(`Deleted level ${delLevel} config!`);
     } catch {
       showToast("Failed to delete config", false);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
   if(!mounted) return null;
 
   const getTalent = (id:number) => talents.find(t=>t.id===id);
-  const rows:number[][] = [];
-  for(let i=21;i>=0;i--) rows.push([i*3+1,i*3+2,i*3+3]);
-  rows.push([0]);
 
   const currentMap = mode === 'low' ? allConfigsLow : allConfigsFull;
-  const totalPts = Object.values(config).reduce((a,[v])=>a+v,0);
-  const hasSaved = !!currentMap[level.toString()];
+  const totalPts = getConfigPoints(config);
+  const savedConfig = currentMap[level.toString()];
+  const savedPoints = getConfigPoints(savedConfig);
+  const hasSaved = !!savedConfig;
+  const isPublicActive = hasSaved && savedPoints > 0;
+  const previousLevel = LEVELS[LEVELS.indexOf(level) - 1];
+  const canCopyPrevious = previousLevel !== undefined && Boolean(currentMap[previousLevel.toString()]);
   const hasChanges = JSON.stringify(config) !== JSON.stringify(currentMap[level.toString()]??{});
 
   // Calculate high-level stats for database & analytics views
-  const lowSavedCount = Object.keys(allConfigsLow).length;
-  const fullSavedCount = Object.keys(allConfigsFull).length;
+  const lowActiveCount = Object.values(allConfigsLow).filter((cfg) => getConfigPoints(cfg) > 0).length;
+  const fullActiveCount = Object.values(allConfigsFull).filter((cfg) => getConfigPoints(cfg) > 0).length;
   const dbRows: DbRow[] = [];
   
   LEVELS.forEach(l => {
@@ -217,7 +234,7 @@ export default function AdminTalentEditor() {
       dbRows.push({
         level: l,
         mode: 'low',
-        points: Object.values(cfg).reduce((a,[v])=>a+v,0),
+        points: getConfigPoints(cfg),
         nodesCount: Object.keys(cfg).filter(k => (cfg[k]?.[0]??0) > 0).length
       });
     }
@@ -226,7 +243,7 @@ export default function AdminTalentEditor() {
       dbRows.push({
         level: l,
         mode: 'full',
-        points: Object.values(cfg).reduce((a,[v])=>a+v,0),
+        points: getConfigPoints(cfg),
         nodesCount: Object.keys(cfg).filter(k => (cfg[k]?.[0]??0) > 0).length
       });
     }
@@ -388,25 +405,39 @@ export default function AdminTalentEditor() {
               <div style={{padding:'4px 8px'}}>
                 <div style={{display:'grid',gridTemplateColumns:'repeat(3, 1fr)',gap:'4px'}}>
                   {LEVELS.map(l => {
-                    const saved = !!(mode === 'low' ? allConfigsLow : allConfigsFull)[l.toString()];
+                    const cfg = (mode === 'low' ? allConfigsLow : allConfigsFull)[l.toString()];
+                    const saved = Boolean(cfg);
+                    const points = getConfigPoints(cfg);
+                    const active = saved && points > 0;
                     const isActive = l === level;
                     return (
-                      <button key={l} onClick={()=>setLevel(l)} style={{
+                      <button key={l} onClick={()=>setLevel(l)} title={
+                        active
+                          ? `Nivel ${l} activo en el sitio público (${points} pts)`
+                          : saved
+                            ? `Nivel ${l} guardado en cero: oculto en el sitio público`
+                            : `Nivel ${l} sin configuración guardada`
+                      } style={{
                         height:'28px',
                         borderRadius:'4px',
                         border:'1px solid',
-                        borderColor: isActive ? '#3ecf8e' : '#2e2e2e',
+                        borderStyle: active ? 'solid' : 'dashed',
+                        borderColor: isActive ? '#3ecf8e' : active ? '#2e2e2e' : '#52525b',
                         background: isActive ? 'rgba(62,207,142,0.1)' : '#1e1e1e',
-                        color: isActive ? '#3ecf8e' : saved ? '#a8a8a8' : '#6b7280',
+                        color: isActive ? '#3ecf8e' : active ? '#a8a8a8' : '#71717a',
                         fontWeight: '700',
                         fontSize: '11px',
                         cursor: 'pointer',
+                        opacity: active || isActive ? 1 : 0.65,
                         transition: 'all 0.1s'
                       }}>
                         {l}
                       </button>
                     );
                   })}
+                </div>
+                <div style={{color:'#71717a',fontSize:'10px',lineHeight:'1.45',padding:'10px 4px 0'}}>
+                  Borde punteado = nivel vacío o guardado en ceros. No aparece en el sitio público hasta que tenga puntos.
                 </div>
               </div>
             </>
@@ -466,14 +497,14 @@ export default function AdminTalentEditor() {
           flexDirection:'column',
           gap:'6px'
         }}>
-          <span style={{color:'#6b7280',fontSize:'10px',fontWeight:'700',textTransform:'uppercase'}}>Deployment Status</span>
+          <span style={{color:'#6b7280',fontSize:'10px',fontWeight:'700',textTransform:'uppercase'}}>Public Coverage</span>
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'11.5px',color:'#8a8a8a'}}>
             <span>low_hp:</span>
-            <span style={{color:'#3ecf8e',fontWeight:'bold'}}>{lowSavedCount} / 20</span>
+            <span style={{color:'#3ecf8e',fontWeight:'bold'}}>{lowActiveCount} / 20</span>
           </div>
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'11.5px',color:'#8a8a8a'}}>
             <span>full_hp:</span>
-            <span style={{color:'#3ecf8e',fontWeight:'bold'}}>{fullSavedCount} / 20</span>
+            <span style={{color:'#3ecf8e',fontWeight:'bold'}}>{fullActiveCount} / 20</span>
           </div>
         </div>
 
@@ -561,19 +592,26 @@ export default function AdminTalentEditor() {
                   {mode === 'low' ? '🛡️ Low HP' : '❤️ Full HP'}
                 </span>
                 <span style={{color:'white',fontWeight:'bold',fontSize:'14px'}}>Level {level} Profile</span>
+                <span className={`badge ${isPublicActive ? 'text-bg-success' : 'text-bg-secondary'}`}>
+                  {isPublicActive ? 'Activo en público' : 'Oculto en público'}
+                </span>
               </div>
 
               <div style={{width:'1px',height:'20px',background:'#2e2e2e',margin:'0 8px'}} />
 
-              <button onClick={copyFromPrev} disabled={LEVELS.indexOf(level)===0} style={supabaseBtnStyle()}>
-                ⬇ Copy Previous ({LEVELS[LEVELS.indexOf(level)-1] ?? '–'})
+              <button onClick={copyFromPrev} disabled={!canCopyPrevious} className="btn btn-warning btn-sm fw-semibold">
+                ⬇ Copy Previous ({previousLevel ?? '–'})
               </button>
 
-              <button onClick={() => { if(confirm("Clear current nodes?")) setConfig({}); }} style={supabaseBtnStyle('#ea580c', '#ffffff', 'none')}>
+              <button onClick={() => { if(confirm("Clear current nodes?")) setConfig({}); }} className="btn btn-primary btn-sm fw-semibold">
                 ✕ Reset Grid
               </button>
 
-              <button onClick={loadAllConfigs} style={supabaseBtnStyle()}>
+              <button onClick={() => deleteConfigFromDb(mode, level)} disabled={!hasSaved || isDeleting} className="btn btn-danger btn-sm fw-semibold">
+                🗑 {isDeleting ? 'Deleting...' : 'Delete'}
+              </button>
+
+              <button onClick={loadAllConfigs} className="btn btn-outline-light btn-sm fw-semibold">
                 ⟳ Sync DB
               </button>
 
@@ -585,16 +623,7 @@ export default function AdminTalentEditor() {
                   <span style={{color:'white',fontWeight:'bold'}}>{level} pts</span>
                 </div>
 
-                <button onClick={save} disabled={isSaving || !hasChanges} style={{
-                  background: !hasChanges ? '#1e1e1e' : '#3ecf8e',
-                  color: !hasChanges ? '#6b7280' : '#121212',
-                  border: !hasChanges ? '1px solid #2e2e2e' : 'none',
-                  borderRadius: '6px',
-                  padding: '6px 18px',
-                  fontWeight: '700',
-                  cursor: !hasChanges ? 'not-allowed' : 'pointer',
-                  transition: 'all 0.15s'
-                }}>
+                <button onClick={save} disabled={isSaving || !hasChanges} className="btn btn-success btn-sm fw-semibold">
                   {isSaving ? 'Deploying...' : 'Deploy Changes'}
                 </button>
               </div>
@@ -635,37 +664,12 @@ export default function AdminTalentEditor() {
                   padding:'40px 30px',
                   boxShadow:'0 4px 20px rgba(0,0,0,0.2)'
                 }}>
-                  <div className="talent__rows__container">
-                    {rows.map((row,rowIndex)=>(
-                      <div key={rowIndex} className={`talent__row${row.length===1?' talent__row--single':''}`}>
-                        {row.map(id=>{
-                          const talent = getTalent(id);
-                          if(!talent) return null;
-                          const stars = config[id.toString()]?.[0]||0;
-                          return (
-                            <div key={id} className={`talent__node${stars===0?' talent--locked':''}`}
-                              onClick={()=>toggleNode(id)}
-                              onContextMenu={e=>{e.preventDefault();maxOrClearNode(id);}}
-                              title={`${talent.name} (ID:${id}) | Stars: ${stars}/${(talent as any).maxStars ?? 5}`}
-                              style={{cursor:'pointer',position:'relative',transition:'transform 0.15s'}}
-                            >
-                              <div className={`talent__bg ${talent.bgClass}`}>
-                                <div className="talent__name">{talent.name}</div>
-                                <img src={`/${talent.icon}`} alt={talent.name} className="talent__icon" style={{width:'40px',height:'40px'}}/>
-                                <div className="talent__level-bar">
-                                  {[...Array(5)].map((_,i)=>(
-                                    <img key={i} src="/assets/images/icons/talent-level.webp" alt="" className="talent__level-star" style={{opacity:i<stars?1:0,width:'11px'}}/>
-                                  ))}
-                                </div>
-                                {stars===0 && <img src="/assets/images/icons/lock.webp" alt="locked" className="talent__lock" style={{display:'block',width:'40px'}}/>}
-                                {stars>0 && <span style={{position:'absolute',top:'-8px',right:'-8px',background:'#3ecf8e',color:'#121212',width:'20px',height:'20px',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:'900',fontSize:'11px',pointerEvents:'none',border:'1.5px solid #171717'}}>{stars}</span>}
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    ))}
-                  </div>
+                  <TalentTree
+                    config={config}
+                    onCycle={toggleNode}
+                    onMax={maxOrClearNode}
+                    size="compact"
+                  />
                 </div>
               </div>
 
@@ -751,27 +755,8 @@ export default function AdminTalentEditor() {
                       <td style={{padding:'14px 20px'}}><span style={{color:'#3ecf8e',fontWeight:'bold'}}>{row.points}</span> points allocated</td>
                       <td style={{padding:'14px 20px'}}>{row.nodesCount} active nodes</td>
                       <td style={{padding:'14px 20px',textAlign:'right'}}>
-                        <button onClick={() => { setMode(row.mode); setLevel(row.level); setActiveTab('editor'); }} style={{
-                          background:'#171717',
-                          color:'white',
-                          border:'1px solid #2e2e2e',
-                          padding:'4px 12px',
-                          borderRadius:'4px',
-                          cursor:'pointer',
-                          fontWeight:'600',
-                          fontSize:'11.5px',
-                          marginRight:'8px'
-                        }}>Edit</button>
-                        <button onClick={() => deleteConfigFromDb(row.mode, row.level)} style={{
-                          background:'rgba(234,88,12,0.1)',
-                          color:'#ea580c',
-                          border:'1px solid rgba(234,88,12,0.2)',
-                          padding:'4px 12px',
-                          borderRadius:'4px',
-                          cursor:'pointer',
-                          fontWeight:'600',
-                          fontSize:'11.5px'
-                        }}>Delete</button>
+                        <button onClick={() => { setMode(row.mode); setLevel(row.level); setActiveTab('editor'); }} className="btn btn-primary btn-sm fw-semibold me-2">Edit</button>
+                        <button onClick={() => deleteConfigFromDb(row.mode, row.level)} disabled={isDeleting} className="btn btn-danger btn-sm fw-semibold">Delete</button>
                       </td>
                     </tr>
                   ))}
@@ -812,20 +797,20 @@ export default function AdminTalentEditor() {
               <div style={{background:'#1e1e1e',border:'1px solid #2e2e2e',borderRadius:'8px',padding:'24px'}}>
                 <span style={{color:'#8a8a8a',fontSize:'11px',fontWeight:'bold',textTransform:'uppercase',letterSpacing:'1.2px'}}>low_hp coverage</span>
                 <div style={{display:'flex',alignItems:'baseline',gap:'10px',marginTop:'12px',marginBottom:'16px'}}>
-                  <span style={{fontSize:'36px',fontWeight:'700',color:'white'}}>{lowSavedCount} / 20</span>
+                  <span style={{fontSize:'36px',fontWeight:'700',color:'white'}}>{lowActiveCount} / 20</span>
                 </div>
                 <div style={{height:'6px',background:'#121212',borderRadius:'4px',overflow:'hidden',marginBottom:'12px'}}>
-                  <div style={{height:'100%',width:`${(lowSavedCount/20)*100}%`,background:'#3ecf8e',borderRadius:'4px'}} />
+                  <div style={{height:'100%',width:`${(lowActiveCount/20)*100}%`,background:'#3ecf8e',borderRadius:'4px'}} />
                 </div>
               </div>
 
               <div style={{background:'#1e1e1e',border:'1px solid #2e2e2e',borderRadius:'8px',padding:'24px'}}>
                 <span style={{color:'#8a8a8a',fontSize:'11px',fontWeight:'bold',textTransform:'uppercase',letterSpacing:'1.2px'}}>full_hp coverage</span>
                 <div style={{display:'flex',alignItems:'baseline',gap:'10px',marginTop:'12px',marginBottom:'16px'}}>
-                  <span style={{fontSize:'36px',fontWeight:'700',color:'white'}}>{fullSavedCount} / 20</span>
+                  <span style={{fontSize:'36px',fontWeight:'700',color:'white'}}>{fullActiveCount} / 20</span>
                 </div>
                 <div style={{height:'6px',background:'#121212',borderRadius:'4px',overflow:'hidden',marginBottom:'12px'}}>
-                  <div style={{height:'100%',width:`${(fullSavedCount/20)*100}%`,background:'#3ecf8e',borderRadius:'4px'}} />
+                  <div style={{height:'100%',width:`${(fullActiveCount/20)*100}%`,background:'#3ecf8e',borderRadius:'4px'}} />
                 </div>
               </div>
             </div>
@@ -1036,7 +1021,6 @@ export default function AdminTalentEditor() {
       <style jsx global>{`
         @keyframes slideIn { from { transform: translateY(20px); opacity:0; } to { transform: translateY(0); opacity:1; } }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .talent__row { display:flex; justify-content:center; gap:60px; margin-bottom:40px; }
       `}</style>
     </div>
   );

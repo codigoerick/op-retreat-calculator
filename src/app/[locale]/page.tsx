@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import TalentTree from "@/components/TalentTree";
+import { TalentTree } from "@/components/talent-tree/TalentTree";
 import ControlsBar from "@/components/ControlsBar";
 import CalculatorModal from "@/components/CalculatorModal";
 import ReportModal from "@/components/ReportModal";
@@ -212,7 +212,11 @@ export default function Home() {
       </header>
 
       <div className="flex-grow-1 d-flex flex-column">
-        <TalentTree currentConfig={currentConfig} />
+        <section className="talent__tree">
+          <div className="container">
+            <TalentTree config={currentConfig} size="large" />
+          </div>
+        </section>
         <ControlsBar
           onOpenCalculator={() => setShowCalcModal(true)}
         />
