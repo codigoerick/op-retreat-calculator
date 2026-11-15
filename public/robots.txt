@@ -3,9 +3,12 @@
 User-agent: *
 Allow: /
 
-# Evita que se indexen archivos de sistema o scripts directamente
+# Evita que se indexen archivos de sistema, scripts o rutas privadas
 Disallow: /assets/js/
 Disallow: /node_modules/
+Disallow: /api/
+Disallow: /login
+Disallow: /control-panel
 
-# Indica la ruta de tu Sitemap (reemplaza con tu URL de Vercel)
+# Indica la ruta de tu Sitemap
 Sitemap: https://op-retreat-calculator.vercel.app/sitemap.xml

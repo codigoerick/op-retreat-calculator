@@ -26,6 +26,13 @@ export const translations: Record<string, Record<string, string>> = {
     "modal.btn.calculate": "Calculate",
     "modal.btn.cancel": "Cancel",
 
+    // One-time update alert
+    "alert.badge": "New",
+    "alert.title": "New talent configurations available",
+    "alert.body": "The Low HP and Full HP configurations from 80 to 200 points are now published. Open Options to choose your level.",
+    "alert.button": "Got it",
+    "alert.once": "This notice is shown only once.",
+
     // Footer
     "footer.rights": "© 2025 - 2026. All rights reserved.",
     "footer.privacy": "Privacy Policy",
@@ -57,6 +64,13 @@ export const translations: Record<string, Record<string, string>> = {
     "modal.manual.error": "Por favor ingrese un valor entre 1 and 200.",
     "modal.btn.calculate": "Calcular",
     "modal.btn.cancel": "Cancelar",
+
+    // Aviso de actualización (una sola vez)
+    "alert.badge": "Nuevo",
+    "alert.title": "Nuevas configuraciones de talentos",
+    "alert.body": "Ya están publicadas las configuraciones de Vida baja y Vida completa de 80 a 200 puntos. Abre Opciones para elegir tu nivel.",
+    "alert.button": "Entendido",
+    "alert.once": "Este aviso se muestra solo una vez.",
 
     // Footer
     "footer.rights": "© 2025 - 2026. Todos los derechos reservados.",

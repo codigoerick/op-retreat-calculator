@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { isAdminRequest } from '@/lib/admin-auth';
 
 // GET /api/talent-configs?mode=low  → returns all configs for that mode
 export async function GET(request: Request) {
@@ -16,6 +17,10 @@ export async function GET(request: Request) {
 
 // POST /api/talent-configs  body: { mode, level, config }  → upsert
 export async function POST(request: Request) {
+  if (!(await isAdminRequest())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const body = await request.json();
   const { mode, level, config } = body;
 
@@ -33,6 +38,10 @@ export async function POST(request: Request) {
 
 // DELETE /api/talent-configs?mode=low&level=20
 export async function DELETE(request: Request) {
+  if (!(await isAdminRequest())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const { searchParams } = new URL(request.url);
   const mode = searchParams.get('mode');
   const level = searchParams.get('level');

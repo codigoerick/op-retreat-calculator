@@ -1,16 +1,11 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 import fs from 'fs/promises';
 import path from 'path';
+import { isAdminRequest } from '@/lib/admin-auth';
 
 export async function POST(request: Request) {
   try {
-    const cookieStore = await cookies();
-    const adminPassword = process.env.ADMIN_PASSWORD || '';
-    const expectedToken = Buffer.from(`${adminPassword}-opretreat-secure-token`).toString('base64');
-    const cookieValue = cookieStore.get('admin_session')?.value;
-
-    if (!cookieValue || cookieValue !== expectedToken) {
+    if (!(await isAdminRequest())) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
