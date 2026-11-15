@@ -222,8 +222,8 @@ export default function AdminTalentEditor() {
   const hasChanges = JSON.stringify(config) !== JSON.stringify(currentMap[level.toString()]??{});
 
   // Calculate high-level stats for database & analytics views
-  const lowSavedCount = Object.keys(allConfigsLow).length;
-  const fullSavedCount = Object.keys(allConfigsFull).length;
+  const lowActiveCount = Object.values(allConfigsLow).filter((cfg) => getConfigPoints(cfg) > 0).length;
+  const fullActiveCount = Object.values(allConfigsFull).filter((cfg) => getConfigPoints(cfg) > 0).length;
   const dbRows: DbRow[] = [];
   
   LEVELS.forEach(l => {
@@ -495,14 +495,14 @@ export default function AdminTalentEditor() {
           flexDirection:'column',
           gap:'6px'
         }}>
-          <span style={{color:'#6b7280',fontSize:'10px',fontWeight:'700',textTransform:'uppercase'}}>Deployment Status</span>
+          <span style={{color:'#6b7280',fontSize:'10px',fontWeight:'700',textTransform:'uppercase'}}>Public Coverage</span>
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'11.5px',color:'#8a8a8a'}}>
             <span>low_hp:</span>
-            <span style={{color:'#3ecf8e',fontWeight:'bold'}}>{lowSavedCount} / 20</span>
+            <span style={{color:'#3ecf8e',fontWeight:'bold'}}>{lowActiveCount} / 20</span>
           </div>
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'11.5px',color:'#8a8a8a'}}>
             <span>full_hp:</span>
-            <span style={{color:'#3ecf8e',fontWeight:'bold'}}>{fullSavedCount} / 20</span>
+            <span style={{color:'#3ecf8e',fontWeight:'bold'}}>{fullActiveCount} / 20</span>
           </div>
         </div>
 
@@ -795,20 +795,20 @@ export default function AdminTalentEditor() {
               <div style={{background:'#1e1e1e',border:'1px solid #2e2e2e',borderRadius:'8px',padding:'24px'}}>
                 <span style={{color:'#8a8a8a',fontSize:'11px',fontWeight:'bold',textTransform:'uppercase',letterSpacing:'1.2px'}}>low_hp coverage</span>
                 <div style={{display:'flex',alignItems:'baseline',gap:'10px',marginTop:'12px',marginBottom:'16px'}}>
-                  <span style={{fontSize:'36px',fontWeight:'700',color:'white'}}>{lowSavedCount} / 20</span>
+                  <span style={{fontSize:'36px',fontWeight:'700',color:'white'}}>{lowActiveCount} / 20</span>
                 </div>
                 <div style={{height:'6px',background:'#121212',borderRadius:'4px',overflow:'hidden',marginBottom:'12px'}}>
-                  <div style={{height:'100%',width:`${(lowSavedCount/20)*100}%`,background:'#3ecf8e',borderRadius:'4px'}} />
+                  <div style={{height:'100%',width:`${(lowActiveCount/20)*100}%`,background:'#3ecf8e',borderRadius:'4px'}} />
                 </div>
               </div>
 
               <div style={{background:'#1e1e1e',border:'1px solid #2e2e2e',borderRadius:'8px',padding:'24px'}}>
                 <span style={{color:'#8a8a8a',fontSize:'11px',fontWeight:'bold',textTransform:'uppercase',letterSpacing:'1.2px'}}>full_hp coverage</span>
                 <div style={{display:'flex',alignItems:'baseline',gap:'10px',marginTop:'12px',marginBottom:'16px'}}>
-                  <span style={{fontSize:'36px',fontWeight:'700',color:'white'}}>{fullSavedCount} / 20</span>
+                  <span style={{fontSize:'36px',fontWeight:'700',color:'white'}}>{fullActiveCount} / 20</span>
                 </div>
                 <div style={{height:'6px',background:'#121212',borderRadius:'4px',overflow:'hidden',marginBottom:'12px'}}>
-                  <div style={{height:'100%',width:`${(fullSavedCount/20)*100}%`,background:'#3ecf8e',borderRadius:'4px'}} />
+                  <div style={{height:'100%',width:`${(fullActiveCount/20)*100}%`,background:'#3ecf8e',borderRadius:'4px'}} />
                 </div>
               </div>
             </div>
