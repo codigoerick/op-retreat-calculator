@@ -419,7 +419,7 @@ export default function AdminTalentEditor() {
                         height:'28px',
                         borderRadius:'4px',
                         border:'1px solid',
-                        borderStyle: active || isActive ? 'solid' : 'dashed',
+                        borderStyle: active ? 'solid' : 'dashed',
                         borderColor: isActive ? '#3ecf8e' : active ? '#2e2e2e' : '#52525b',
                         background: isActive ? 'rgba(62,207,142,0.1)' : '#1e1e1e',
                         color: isActive ? '#3ecf8e' : active ? '#a8a8a8' : '#71717a',
