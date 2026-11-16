@@ -1,19 +1,21 @@
-import { cookies } from 'next/headers';
-
-const ADMIN_COOKIE_NAME = 'admin_session';
+import { createClient } from "@/lib/supabase/server";
+import { isAdminUser } from "@/lib/admin";
 
 /**
- * Checks the signed-in admin cookie used by the login route and proxy.
- * API routes that write data must call this before touching Supabase.
+ * Checks the Supabase session cookie from a route handler or server action.
+ * API routes that write data must call this before touching the database.
  */
 export async function isAdminRequest(): Promise<boolean> {
-  const adminPassword = process.env.ADMIN_PASSWORD || '';
-  if (!adminPassword) return false;
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
 
-  const expectedToken = Buffer.from(
-    `${adminPassword}-opretreat-secure-token`
-  ).toString('base64');
-  const cookieStore = await cookies();
-
-  return cookieStore.get(ADMIN_COOKIE_NAME)?.value === expectedToken;
+    if (error || !user) return false;
+    return isAdminUser(user);
+  } catch {
+    return false;
+  }
 }
