@@ -9,11 +9,13 @@ import {
   formatInfoDate,
   getCategory,
   getInfoArticle,
+  getInfoNotificationKey,
   getLocalized,
   isInfoLocale,
   type InfoBlock,
   type InfoLocale,
 } from "@/data/info";
+import InfoArticleSeenTracker from "../InfoArticleSeenTracker";
 import styles from "../info.module.css";
 
 type InfoArticlePageProps = {
@@ -129,6 +131,9 @@ export default async function InfoArticlePage({
 
   return (
     <div className={styles.page}>
+      <InfoArticleSeenTracker
+        notificationKey={getInfoNotificationKey(article)}
+      />
       <div className={styles.container}>
         <nav
           className={styles.breadcrumb}

@@ -9,9 +9,11 @@ import {
   INFO_UI,
   formatInfoDate,
   getCategory,
+  getInfoNotificationKey,
   getLocalized,
   isInfoLocale,
 } from "@/data/info";
+import InfoCategoryChip from "./InfoCategoryChip";
 import styles from "./info.module.css";
 
 type InfoHubPageProps = {
@@ -140,11 +142,16 @@ export default async function InfoHubPage({ params }: InfoHubPageProps) {
 
           <div className={styles.categories}>
             {categories.map((category) => (
-              <span key={category.id} className={styles.categoryChip}>
-                <i className={`bi ${category.icon}`} aria-hidden />
-                {getLocalized(category.label, locale)}
-                <span className={styles.categoryCount}>{category.count}</span>
-              </span>
+              <InfoCategoryChip
+                key={category.id}
+                icon={category.icon}
+                label={getLocalized(category.label, locale)}
+                count={category.count}
+                articleKeys={articles
+                  .filter((article) => article.category === category.id)
+                  .map(getInfoNotificationKey)}
+                newLabel={copy.new}
+              />
             ))}
           </div>
 

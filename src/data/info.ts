@@ -99,6 +99,7 @@ export const INFO_UI = {
     moreComing: "More content coming soon",
     moreComingBody:
       "Each new topic gets its own card and detail page. That keeps the hub organized as more guides, tables, and sections are added.",
+    new: "New",
     empty: "No guides published yet.",
     notFoundTitle: "Guide not found",
     notFoundBody: "The guide you are looking for does not exist or has been moved.",
@@ -130,6 +131,7 @@ export const INFO_UI = {
     moreComing: "Más contenido próximamente",
     moreComingBody:
       "Cada tema nuevo tendrá su propia tarjeta y página de detalle. Así el centro de información se mantiene ordenado a medida que agregamos guías, tablas y secciones.",
+    new: "Nuevo",
     empty: "Todavía no hay guías publicadas.",
     notFoundTitle: "Guía no encontrada",
     notFoundBody: "La guía que buscas no existe o fue movida.",
@@ -328,6 +330,12 @@ export function getLocalized<T>(
 
 export function getInfoArticle(slug: string): InfoArticle | undefined {
   return INFO_ARTICLES.find((article) => article.slug === slug);
+}
+
+export function getInfoNotificationKey(
+  article: Pick<InfoArticle, "slug" | "updatedAt">
+): string {
+  return `${article.slug}@${article.updatedAt}`;
 }
 
 export function getCategory(

@@ -3,10 +3,25 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { useSettings } from "@/context/SettingsContext";
+import { INFO_SEEN_EVENT, hasUnseenKeys } from "@/lib/infoNotifications";
 
-export default function SiteHeader() {
+type SiteHeaderProps = {
+  notificationKeys: string[];
+};
+
+function subscribeToInfoSeen(onStoreChange: () => void) {
+  window.addEventListener(INFO_SEEN_EVENT, onStoreChange);
+  window.addEventListener("storage", onStoreChange);
+
+  return () => {
+    window.removeEventListener(INFO_SEEN_EVENT, onStoreChange);
+    window.removeEventListener("storage", onStoreChange);
+  };
+}
+
+export default function SiteHeader({ notificationKeys }: SiteHeaderProps) {
   const { theme, toggleTheme, language, setLanguage, t } = useSettings();
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -18,6 +33,12 @@ export default function SiteHeader() {
   const isCalculatorPage = normalizedPath === `/${language}`;
   const homeHref = `/${language}`;
   const infoHref = `/${language}/info`;
+  const hasNewInfo = useSyncExternalStore(
+    subscribeToInfoSeen,
+    () => hasUnseenKeys(notificationKeys),
+    () => false
+  );
+  const showNewInfo = hasNewInfo && !isInfoPage;
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -89,10 +110,22 @@ export default function SiteHeader() {
             onClick={closeSidebar}
             className={`sidebar-link ${isInfoPage ? "sidebar-link--active" : ""}`}
             aria-current={isInfoPage ? "page" : undefined}
+            aria-label={
+              showNewInfo
+                ? `${t("nav.info")}: ${t("nav.new_content")}`
+                : undefined
+            }
           >
             {/* @ts-expect-error - ion-icon is a custom element */}
             <ion-icon name="book-outline"></ion-icon>
             <span>{t("nav.info")}</span>
+            {showNewInfo && (
+              <span
+                className="sidebar-new-dot"
+                aria-hidden
+                title={t("nav.new_content")}
+              />
+            )}
           </Link>
         </nav>
 
@@ -192,8 +225,20 @@ export default function SiteHeader() {
                   href={infoHref}
                   className={`app-navbar__link ${isInfoPage ? "active" : ""}`}
                   aria-current={isInfoPage ? "page" : undefined}
+                  aria-label={
+                    showNewInfo
+                      ? `${t("nav.info")}: ${t("nav.new_content")}`
+                      : undefined
+                  }
                 >
                   {t("nav.info")}
+                  {showNewInfo && (
+                    <span
+                      className="nav-new-dot"
+                      aria-hidden
+                      title={t("nav.new_content")}
+                    />
+                  )}
                 </Link>
               </div>
             </div>
