@@ -6,6 +6,16 @@ type ResetBody = {
 };
 
 export async function POST(request: Request) {
+  if (
+    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  ) {
+    return NextResponse.json(
+      { error: "Supabase no está configurado en el servidor." },
+      { status: 500, headers: { "Cache-Control": "no-store" } }
+    );
+  }
+
   let body: ResetBody | null = null;
   try {
     body = (await request.json()) as ResetBody;
