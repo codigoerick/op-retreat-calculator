@@ -273,11 +273,12 @@
 
 .categoryNewDot {
   flex: 0 0 auto;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #ef4444;
-  box-shadow: 0 0 0 2px var(--info-surface);
+  width: 16px;
+  height: 16px;
+  background-image: url("/assets/images/icons/new.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .grid {

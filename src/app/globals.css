@@ -625,11 +625,13 @@ body.sepia-theme .btn-sidebar-close:hover {
 
 .sidebar-new-dot {
    flex: 0 0 auto;
-   width: 8px;
-   height: 8px;
+   width: 18px;
+   height: 18px;
    margin-left: auto;
-   border-radius: 50%;
-   background: #ef4444;
+   background-image: url("/assets/images/icons/new.png");
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: contain;
 }
 
 .sidebar-link:hover {
@@ -1665,22 +1667,16 @@ body.light-theme .footer-divider {
 
 .nav-new-dot {
     position: absolute;
-    top: 1px;
-    right: -4px;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #ef4444;
-    box-shadow: 0 0 0 2px rgb(31, 31, 33);
+    top: 50%;
+    right: -12px;
+    width: 16px;
+    height: 16px;
+    background-image: url("/assets/images/icons/new.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
     pointer-events: none;
-}
-
-body.light-theme .nav-new-dot {
-    box-shadow: 0 0 0 2px #ffffff;
-}
-
-body.sepia-theme .nav-new-dot {
-    box-shadow: 0 0 0 2px #f5edd9;
+    transform: translateY(-50%);
 }
 
 .app-navbar__logo img {

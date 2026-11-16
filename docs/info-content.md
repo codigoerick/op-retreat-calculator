@@ -9,6 +9,7 @@ La sección pública de información usa una estructura de contenido reutilizabl
 - `src/app/[locale]/info/[slug]/page.tsx`: plantilla de detalle para cada artículo.
 - `src/app/[locale]/info/info.module.css`: estilos compartidos del hub y los artículos.
 - `public/assets/images/info/`: imágenes públicas de las guías.
+- `public/assets/images/icons/new.png`: icono de aviso de contenido nuevo.
 
 ## Agregar una guía nueva
 
