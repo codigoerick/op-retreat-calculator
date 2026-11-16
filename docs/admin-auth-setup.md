@@ -34,9 +34,13 @@ Editor (replace the email):
 
 ```sql
 update auth.users
-set raw_app_meta_data = raw_app_meta_data || '{"role":"admin"}'::jsonb
+set raw_app_meta_data =
+  coalesce(raw_app_meta_data, '{}'::jsonb) || '{"role":"admin"}'::jsonb
 where email = 'admin@example.com';
 ```
+
+After changing the role, sign out and sign in again so the new session picks it
+up.
 
 ### Option B: server-side email allowlist
 
