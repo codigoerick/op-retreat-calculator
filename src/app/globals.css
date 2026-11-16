@@ -420,7 +420,7 @@ body.light-theme .floating-options-pill {
 
 /* Sepia Theme overrides for Floating Options Pill */
 body.sepia-theme .floating-options-pill {
-   background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+   background: linear-gradient(135deg, #d97706 0%, #a34708 100%);
    border-color: rgba(180, 83, 9, 0.2);
    box-shadow: 0 10px 30px rgba(180, 83, 9, 0.15), 0 5px 15px rgba(0, 0, 0, 0.08);
 }
@@ -623,10 +623,26 @@ body.sepia-theme .btn-sidebar-close:hover {
    font-size: 1.2rem;
 }
 
+.sidebar-new-dot {
+   flex: 0 0 auto;
+   width: 18px;
+   height: 18px;
+   margin-left: auto;
+   background-image: url("/assets/images/icons/new.png");
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: contain;
+}
+
 .sidebar-link:hover {
    background: rgba(255, 255, 255, 0.05);
    color: #ffffff;
    padding-left: 20px;
+}
+
+.sidebar-link--active {
+   background: rgba(237, 135, 60, 0.12);
+   color: #ed873c !important;
 }
 
 body.light-theme .sidebar-link {
@@ -1416,6 +1432,25 @@ body.light-theme .app-navbar__logo span {
     color: #0f172a;
 }
 
+body.light-theme .app-navbar__logo img,
+body.light-theme .footer-legal img {
+    filter: brightness(0.12);
+}
+
+body.light-theme .app-navbar__link {
+    color: #475569 !important;
+}
+
+body.light-theme .app-navbar__link:hover,
+body.light-theme .app-navbar__link.active {
+    color: #a34708 !important;
+}
+
+body.light-theme .sidebar-link--active {
+    background: rgba(237, 135, 60, 0.1);
+    color: #a34708 !important;
+}
+
 body.light-theme .app-subnavbar {
     background-color: #f8fafc;
     border-bottom: 1px solid #e2e8f0;
@@ -1426,7 +1461,7 @@ body.light-theme .subnav-link {
 }
 
 body.light-theme .subnav-link:hover {
-    color: #ed873c !important;
+    color: #a34708 !important;
 }
 
 body.light-theme .subnav-link::after {
@@ -1449,7 +1484,7 @@ body.light-theme .language-toggle {
 }
 
 body.light-theme .btn-lang-pill {
-    color: #64748b;
+    color: #475569;
 }
 
 body.light-theme .btn-lang-pill:hover {
@@ -1457,7 +1492,7 @@ body.light-theme .btn-lang-pill:hover {
 }
 
 body.light-theme .btn-lang-pill.active {
-    color: #ed873c;
+    color: #a34708;
 }
 
 body.light-theme .lang-separator {
@@ -1478,7 +1513,7 @@ body.light-theme .modal-content {
 }
 
 body.light-theme .modal-content h3 {
-   color: #ed873c;
+   color: #a34708;
 }
 
 body.light-theme .modal-content-dark {
@@ -1564,9 +1599,84 @@ body.light-theme .footer-divider {
     padding: 0 30px;
 }
 
+.app-navbar__brand-group {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    min-width: 0;
+}
+
 .app-navbar__logo {
     display: flex;
     align-items: center;
+    color: inherit;
+    text-decoration: none !important;
+}
+
+.app-navbar__nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.app-navbar__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 5px;
+    color: rgba(255, 255, 255, 0.58) !important;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.22s ease, transform 0.22s ease;
+}
+
+.app-navbar__link:hover {
+    color: #ed873c !important;
+    transform: translateY(-1px);
+}
+
+.app-navbar__link.active {
+    color: #ed873c !important;
+}
+
+.app-navbar__link::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #ed873c;
+    transform: translateX(-50%);
+    transition: width 0.22s ease;
+}
+
+.app-navbar__link:hover::after,
+.app-navbar__link.active::after {
+    width: 100%;
+}
+
+.app-navbar__link:focus-visible {
+    outline: 2px solid #ed873c;
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.nav-new-dot {
+    position: absolute;
+    top: 50%;
+    right: -12px;
+    width: 16px;
+    height: 16px;
+    background-image: url("/assets/images/icons/new.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    pointer-events: none;
+    transform: translateY(-50%);
 }
 
 .app-navbar__logo img {
@@ -1690,7 +1800,7 @@ body.sepia-theme .language-toggle ion-icon {
 .btn-lang-pill {
     background: transparent;
     border: none;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.64);
     font-size: 0.75rem;
     font-weight: 600;
     padding: 2px 8px;
@@ -1736,6 +1846,26 @@ body.sepia-theme .language-toggle ion-icon {
     margin-left: 8px;
 }
 
+.stat-value.text-success {
+    color: #4ade80 !important;
+}
+
+body.light-theme .stat-value.text-success {
+    color: #15803d !important;
+}
+
+body.light-theme .stat-value.text-warning {
+    color: #a34708 !important;
+}
+
+body.sepia-theme .stat-value.text-success {
+    color: #166534 !important;
+}
+
+body.sepia-theme .stat-value.text-warning {
+    color: #92400e !important;
+}
+
 .stat-divider {
     color: #444;
     font-weight: 300;
@@ -1748,6 +1878,54 @@ body.sepia-theme .language-toggle ion-icon {
     color: #888;
     font-size: 0.9rem;
     border-top: 1px solid #444;
+}
+
+.footer-legal-brand {
+    color: #ffffff;
+}
+
+.footer-legal-muted {
+    color: rgba(255, 255, 255, 0.68);
+}
+
+.footer-legal-link {
+    color: rgba(255, 255, 255, 0.74) !important;
+}
+
+.footer-legal-link:hover {
+    color: #ffffff !important;
+}
+
+.footer-legal-link:focus-visible {
+    outline: 2px solid #ed873c;
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+body.light-theme .footer-legal-brand {
+    color: #0f172a;
+}
+
+body.light-theme .footer-legal-muted,
+body.light-theme .footer-legal-link {
+    color: #475569 !important;
+}
+
+body.light-theme .footer-legal-link:hover {
+    color: #0f172a !important;
+}
+
+body.sepia-theme .footer-legal-brand {
+    color: #433422;
+}
+
+body.sepia-theme .footer-legal-muted,
+body.sepia-theme .footer-legal-link {
+    color: #5c4b37 !important;
+}
+
+body.sepia-theme .footer-legal-link:hover {
+    color: #433422 !important;
 }
 
 .footer-divider {
@@ -1786,6 +1964,25 @@ body.sepia-theme .app-navbar__logo span {
     color: #433422;
 }
 
+body.sepia-theme .app-navbar__logo img,
+body.sepia-theme .footer-legal img {
+    filter: brightness(0.3) sepia(0.6) saturate(1.4);
+}
+
+body.sepia-theme .app-navbar__link {
+    color: #5c4b37 !important;
+}
+
+body.sepia-theme .app-navbar__link:hover,
+body.sepia-theme .app-navbar__link.active {
+    color: #9a3412 !important;
+}
+
+body.sepia-theme .sidebar-link--active {
+    background: rgba(237, 135, 60, 0.12);
+    color: #9a3412 !important;
+}
+
 body.sepia-theme .app-subnavbar {
     background-color: #ede3cf;
     border-bottom: 1px solid #dcd0b7;
@@ -1796,7 +1993,7 @@ body.sepia-theme .subnav-link {
 }
 
 body.sepia-theme .subnav-link:hover {
-    color: #ed873c !important;
+    color: #9a3412 !important;
 }
 
 body.sepia-theme .subnav-link::after {
@@ -1819,7 +2016,7 @@ body.sepia-theme .language-toggle {
 }
 
 body.sepia-theme .btn-lang-pill {
-    color: #8c7b68;
+    color: #6b5a45;
 }
 
 body.sepia-theme .btn-lang-pill:hover {
@@ -1827,7 +2024,7 @@ body.sepia-theme .btn-lang-pill:hover {
 }
 
 body.sepia-theme .btn-lang-pill.active {
-    color: #ed873c;
+    color: #9a3412;
 }
 
 body.sepia-theme .lang-separator {
@@ -1848,7 +2045,7 @@ body.sepia-theme .modal-content {
 }
 
 body.sepia-theme .modal-content h3 {
-   color: #ed873c;
+   color: #9a3412;
 }
 
 body.sepia-theme .modal-content-dark {
@@ -1920,6 +2117,13 @@ body.sepia-theme .footer-divider {
    will-change: transform;
 }
 
+/* Hide the fixed scroll controls on info pages when they would overlap content. */
+@media (max-width: 1279.98px) {
+   .scroll-navigation-wrapper--info {
+      display: none;
+   }
+}
+
 .btn-scroll-nav {
    width: 44px;
    height: 44px;
@@ -1957,11 +2161,16 @@ body.sepia-theme .footer-divider {
 }
 
 /* Micro-animations for scroll arrows */
-.btn-scroll-nav[title="Scroll to Top"]:hover ion-icon {
+.btn-scroll-nav--top:hover ion-icon {
    transform: translateY(-2px);
 }
-.btn-scroll-nav[title="Scroll to Bottom"]:hover ion-icon {
+.btn-scroll-nav--bottom:hover ion-icon {
    transform: translateY(2px);
+}
+
+.btn-scroll-nav:focus-visible {
+   outline: 2px solid #ed873c;
+   outline-offset: 3px;
 }
 
 /* Light Theme overrides */

@@ -2,6 +2,9 @@ export const translations: Record<string, Record<string, string>> = {
   en: {
     // Navbar & Subnavbar
     "nav.title": "OP Retreat",
+    "nav.calculator": "Calculator",
+    "nav.info": "Info",
+    "nav.new_content": "New content",
     "subnav.guide": "Guide",
     "subnav.exchange": "Exchange",
     "subnav.faq": "FAQ",
@@ -41,6 +44,9 @@ export const translations: Record<string, Record<string, string>> = {
   es: {
     // Navbar & Subnavbar
     "nav.title": "OP Retreat",
+    "nav.calculator": "Calculadora",
+    "nav.info": "Información",
+    "nav.new_content": "Contenido nuevo",
     "subnav.guide": "Guía",
     "subnav.exchange": "Intercambio",
     "subnav.faq": "Preguntas Frecuentes",
