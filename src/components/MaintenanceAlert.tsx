@@ -35,8 +35,9 @@ const MaintenanceAlert = () => {
 
   const isAdminRoute =
     pathname?.startsWith("/login") || pathname?.startsWith("/control-panel");
+  const isInfoRoute = /^\/(en|es)\/info(?:\/|$)/.test(pathname || "");
 
-  if (!isVisible || isAdminRoute) return null;
+  if (!isVisible || isAdminRoute || isInfoRoute) return null;
 
   return (
     <div
