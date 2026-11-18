@@ -1,0 +1,95 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+@media (min-width: 760px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 34% minmax(0, 1fr);
+  column-gap: 12px;
+  align-items: center;
+  min-height: 112px;
+  padding: 16px 20px 16px 12px;
+  background-image: url("/assets/images/buff/DamageMeterItemBG.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  color: #e2e8f0;
+  font-family: var(--font-poppins), sans-serif;
+}
+
+.iconFrame {
+  display: grid;
+  justify-self: center;
+  place-items: center;
+  width: clamp(52px, 12vw, 64px);
+  aspect-ratio: 1;
+  background-image: url("/assets/images/buff/ExchangeShopBg.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.icon {
+  width: 82%;
+  height: 82%;
+  object-fit: contain;
+}
+
+.body {
+  min-width: 0;
+}
+
+.titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+
+.title {
+  margin: 0;
+  color: #ffa3a3;
+  font-size: clamp(0.98rem, 1.8vw, 1.12rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.42);
+}
+
+.buff .title {
+  color: #9be7c4;
+}
+
+.duration {
+  flex: 0 0 auto;
+  color: #86efac;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.42);
+}
+
+.description {
+  margin: 6px 0 0;
+  color: #e2e8f0;
+  font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+  line-height: 1.45;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 640px) {
+  .card {
+    min-height: 104px;
+    padding: 14px 16px 14px 10px;
+  }
+}

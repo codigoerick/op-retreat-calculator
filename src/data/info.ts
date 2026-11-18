@@ -83,6 +83,10 @@ export const INFO_UI = {
     readLatest: "Read latest guide",
     allGuides: "All guides",
     categories: "Categories",
+    buffsTitle: "Buffs & debuffs",
+    buffsSubtitle:
+      "Effects that can appear when clearing spawn towers and altars. More entries will be added as they are documented.",
+    buffsCount: "effects",
     readGuide: "Read guide",
     minRead: "min read",
     updated: "Updated",
@@ -115,6 +119,10 @@ export const INFO_UI = {
     readLatest: "Leer última guía",
     allGuides: "Todas las guías",
     categories: "Categorías",
+    buffsTitle: "Buffs y debuffs",
+    buffsSubtitle:
+      "Efectos que pueden aparecer al completar torres de aparición y altares. Se irán agregando más a medida que se documenten.",
+    buffsCount: "efectos",
     readGuide: "Leer guía",
     minRead: "min de lectura",
     updated: "Actualizado",

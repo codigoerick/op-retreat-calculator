@@ -10,6 +10,8 @@ La sección pública de información usa una estructura de contenido reutilizabl
 - `src/app/[locale]/info/info.module.css`: estilos compartidos del hub y los artículos.
 - `public/assets/images/info/`: imágenes públicas de las guías.
 - `public/assets/images/icons/new.png`: icono de aviso de contenido nuevo.
+- `src/data/buffs.json`: datos de buffs y debuffs.
+- `src/components/buffs/`: cartel base y galería de buffs.
 
 ## Agregar una guía nueva
 
@@ -60,6 +62,35 @@ Las notificaciones se generan automáticamente a partir de `INFO_ARTICLES`:
 No hay que mantener una lista manual de notificaciones. El estado es local a cada navegador y no requiere base de datos.
 
 Para volver a ver las notificaciones durante una prueba, borra la clave `op-info-seen-v1` de `localStorage` en el navegador.
+
+## Buffs y debuffs
+
+Los buffs se guardan en `src/data/buffs.json`, dentro del arreglo `buffs`. Cada entrada usa este formato:
+
+```json
+{
+  "id": "blurred-vision",
+  "kind": "debuff",
+  "icon": "/assets/images/buff/CommonAffixIcon_BadPerk2.png",
+  "title": { "es": "Visión borrosa", "en": "Blurred Vision" },
+  "description": { "es": "...", "en": "..." },
+  "duration": "29s"
+}
+```
+
+- `id`: identificador único, en minúsculas y sin espacios.
+- `kind`: `buff` o `debuff`; controla el color del título.
+- `icon`: ruta pública del icono del buff.
+- `title` y `description`: textos bilingües.
+- `duration`: opcional; se muestra en verde si existe.
+
+La galería se renderiza en el hub de información con `BuffGallery`. El cartel base está en `src/components/buffs/BuffCard.tsx` y usa `DamageMeterItemBG.png` como fondo, `ExchangeShopBg.png` como marco del icono y `CommonAffixIcon_BadPerk2.png` como icono de ejemplo. Para agregar más buffs no hace falta tocar el componente: basta con añadir objetos al JSON.
+
+El JSON se importa durante el build, así que los buffs nuevos requieren un nuevo build y despliegue.
+
+`public/assets/images/buff/buff-base.jpeg` es una captura de referencia visual; no se usa en la web.
+
+Las notificaciones de contenido nuevo siguen aplicando solo a los artículos de `INFO_ARTICLES`. Los buffs no generan aviso por ahora.
 
 ## SEO y sitemap
 

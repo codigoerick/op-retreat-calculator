@@ -1,0 +1,57 @@
+{
+  "buffs": [
+    {
+      "id": "blurred-vision",
+      "kind": "debuff",
+      "icon": "/assets/images/buff/CommonAffixIcon_BadPerk2.png",
+      "title": {
+        "es": "Visión borrosa",
+        "en": "Blurred Vision"
+      },
+      "description": {
+        "es": "Los enemigos a veces son invisibles (excepto élites y jefes).",
+        "en": "Enemies are sometimes invisible (except elites and bosses)."
+      },
+      "duration": "29s"
+    },
+    {
+      "id": "vulnerability-curse",
+      "kind": "debuff",
+      "icon": "/assets/images/buff/CommonAffixIcon_BadPerk2.png",
+      "title": {
+        "es": "Maldición de vulnerabilidad",
+        "en": "Vulnerability Curse"
+      },
+      "description": {
+        "es": "Daño recibido +5 %.",
+        "en": "Damage taken +5%."
+      }
+    },
+    {
+      "id": "corrosion-trial-6-move-speed",
+      "kind": "debuff",
+      "icon": "/assets/images/buff/CommonAffixIcon_BadPerk2.png",
+      "title": {
+        "es": "Prueba de corrosión (nv. 6)",
+        "en": "Corrosion Trial (Lv. 6)"
+      },
+      "description": {
+        "es": "Velocidad de movimiento de monstruo +60 %.",
+        "en": "Monster movement speed +60%."
+      }
+    },
+    {
+      "id": "corrosion-trial-6-projectile-size",
+      "kind": "debuff",
+      "icon": "/assets/images/buff/CommonAffixIcon_BadPerk2.png",
+      "title": {
+        "es": "Prueba de corrosión (nv. 6)",
+        "en": "Corrosion Trial (Lv. 6)"
+      },
+      "description": {
+        "es": "El tamaño del proyectil enemigo aumenta x1.6.",
+        "en": "Enemy projectile size increases by 1.6x."
+      }
+    }
+  ]
+}

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import BuffGallery from "@/components/buffs/BuffGallery";
+import { BUFFS } from "@/data/buffs";
 import {
   INFO_ARTICLES,
   INFO_BASE_URL,
@@ -210,6 +212,25 @@ export default async function InfoHubPage({ params }: InfoHubPageProps) {
           )}
         </div>
       </section>
+
+      {BUFFS.length > 0 && (
+        <section id="buffs" className={styles.section}>
+          <div className={styles.container}>
+            <div className={styles.sectionHeading}>
+              <div>
+                <span className={styles.eyebrow}>{copy.eyebrow}</span>
+                <h2 className={styles.sectionTitle}>{copy.buffsTitle}</h2>
+                <p className={styles.sectionIntro}>{copy.buffsSubtitle}</p>
+              </div>
+              <span className={styles.buffCount}>
+                {BUFFS.length} {copy.buffsCount}
+              </span>
+            </div>
+
+            <BuffGallery buffs={BUFFS} locale={locale} />
+          </div>
+        </section>
+      )}
 
       <section className={styles.section}>
         <div className={styles.container}>

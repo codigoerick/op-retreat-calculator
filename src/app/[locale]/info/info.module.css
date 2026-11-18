@@ -219,10 +219,34 @@
 
 .sectionHeading {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 20px;
+}
+
+.sectionIntro {
+  max-width: 72ch;
+  margin: 10px 0 0;
+  color: var(--info-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.buffCount {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--info-border);
+  border-radius: 999px;
+  background: var(--info-surface);
+  color: var(--info-muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .sectionTitle {
