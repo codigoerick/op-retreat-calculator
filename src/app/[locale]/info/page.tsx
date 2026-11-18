@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import BuffGallery from "@/components/buffs/BuffGallery";
-import { BUFFS } from "@/data/buffs";
+import { getPublicBuffs } from "@/lib/buffs";
 import {
   INFO_ARTICLES,
   INFO_BASE_URL,
@@ -83,6 +83,7 @@ export default async function InfoHubPage({ params }: InfoHubPageProps) {
   if (!isInfoLocale(locale)) notFound();
 
   const copy = INFO_UI[locale];
+  const buffs = await getPublicBuffs();
   const articles = [...INFO_ARTICLES].sort((a, b) =>
     b.updatedAt.localeCompare(a.updatedAt)
   );
@@ -213,7 +214,7 @@ export default async function InfoHubPage({ params }: InfoHubPageProps) {
         </div>
       </section>
 
-      {BUFFS.length > 0 && (
+      {buffs.length > 0 && (
         <section id="buffs" className={styles.section}>
           <div className={styles.container}>
             <div className={styles.sectionHeading}>
@@ -223,11 +224,11 @@ export default async function InfoHubPage({ params }: InfoHubPageProps) {
                 <p className={styles.sectionIntro}>{copy.buffsSubtitle}</p>
               </div>
               <span className={styles.buffCount}>
-                {BUFFS.length} {copy.buffsCount}
+                {buffs.length} {copy.buffsCount}
               </span>
             </div>
 
-            <BuffGallery buffs={BUFFS} locale={locale} />
+            <BuffGallery buffs={buffs} locale={locale} />
           </div>
         </section>
       )}

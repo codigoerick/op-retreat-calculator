@@ -10,7 +10,10 @@ La sección pública de información usa una estructura de contenido reutilizabl
 - `src/app/[locale]/info/info.module.css`: estilos compartidos del hub y los artículos.
 - `public/assets/images/info/`: imágenes públicas de las guías.
 - `public/assets/images/icons/new.png`: icono de aviso de contenido nuevo.
-- `src/data/buffs.json`: datos de buffs y debuffs.
+- `src/data/buffs.json`: datos de respaldo de buffs y debuffs.
+- `src/lib/buffs.ts`: lectura pública de buffs desde Supabase.
+- `src/app/control-panel/BuffManager.tsx`: administración de buffs.
+- `supabase/buffs.sql`: creación y seed de la tabla `public.buffs`.
 - `src/components/buffs/`: cartel base y galería de buffs.
 
 ## Agregar una guía nueva
@@ -65,28 +68,36 @@ Para volver a ver las notificaciones durante una prueba, borra la clave `op-info
 
 ## Buffs y debuffs
 
-Los buffs se guardan en `src/data/buffs.json`, dentro del arreglo `buffs`. Cada entrada usa este formato:
+La fuente pública de los buffs es la tabla `public.buffs` de Supabase. El panel `/control-panel` incluye la pestaña **Buffs / Debuffs** para crear, editar y eliminar entradas sin tocar código.
 
-```json
-{
-  "id": "blurred-vision",
-  "kind": "debuff",
-  "icon": "/assets/images/buff/CommonAffixIcon_BadPerk2.png",
-  "title": { "es": "Visión borrosa", "en": "Blurred Vision" },
-  "description": { "es": "...", "en": "..." },
-  "duration": "29s"
-}
-```
+### Configuración inicial
 
-- `id`: identificador único, en minúsculas y sin espacios.
-- `kind`: `buff` o `debuff`; controla el color del título.
-- `icon`: ruta pública del icono del buff.
-- `title` y `description`: textos bilingües.
-- `duration`: opcional; se muestra en verde si existe.
+Ejecuta una vez `supabase/buffs.sql` en el SQL Editor de Supabase. El script:
 
-La galería se renderiza en el hub de información con `BuffGallery`. El cartel base está en `src/components/buffs/BuffCard.tsx` y usa `DamageMeterItemBG.png` como fondo, `ExchangeShopBg.png` como marco del icono y `CommonAffixIcon_BadPerk2.png` como icono de ejemplo. Para agregar más buffs no hace falta tocar el componente: basta con añadir objetos al JSON.
+- Crea la tabla `public.buffs`.
+- Activa lectura pública y escritura solo para administradores autenticados.
+- Inserta los cuatro buffs iniciales si la tabla está vacía.
 
-El JSON se importa durante el build, así que los buffs nuevos requieren un nuevo build y despliegue.
+La política de escritura comprueba `app_metadata.role = "admin"`, el mismo rol que usa el panel. Si usas solo `ADMIN_EMAILS`, añade una política equivalente por email.
+
+### Administrar contenido
+
+En `/control-panel` → **Buffs / Debuffs**:
+
+- **Add Buff** crea una entrada nueva.
+- **Edit** cambia el tipo, el título y la descripción en español e inglés.
+- **Delete** elimina la entrada de la web pública.
+- **Tipo** controla el color del título: `buff` verde y `debuff` rojo.
+
+El diseño, el icono y la duración del cartel no se editan desde el formulario. Las entradas nuevas usan el icono por defecto y no muestran duración; las entradas existentes conservan su duración al editarse.
+
+### Datos y respaldo
+
+- `src/lib/buffs.ts` consulta Supabase sin caché para que los cambios aparezcan al recargar.
+- `src/data/buffs.json` sigue siendo el respaldo local y el origen de los cuatro datos iniciales.
+- Si la tabla todavía no existe, `/info` muestra el JSON de respaldo y el panel avisa que falta ejecutar `supabase/buffs.sql`.
+
+El cartel base está en `src/components/buffs/BuffCard.tsx` y usa `DamageMeterItemBG.png` como fondo, `ExchangeShopBg.png` como marco del icono y `CommonAffixIcon_BadPerk2.png` como icono de ejemplo.
 
 `public/assets/images/buff/buff-base.jpeg` es una captura de referencia visual; no se usa en la web.
 

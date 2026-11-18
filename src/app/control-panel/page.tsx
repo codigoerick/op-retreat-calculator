@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import talents from "@/data/talents.json";
 import { TalentTree } from "@/components/talent-tree/TalentTree";
 import { STANDARD_LEVELS, getConfigPoints } from "@/data/talent-levels";
+import BuffManager from "./BuffManager";
 
 const LEVELS = STANDARD_LEVELS;
 type Config = Record<string, [number]>;
@@ -17,7 +18,7 @@ interface DbRow {
 
 export default function AdminTalentEditor() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"editor" | "database" | "analytics" | "settings" | "faq">("editor");
+  const [activeTab, setActiveTab] = useState<"editor" | "database" | "analytics" | "settings" | "faq" | "buffs">("editor");
   const [mode, setMode] = useState<"low"|"full">("low");
   const [level, setLevel] = useState(10);
   const [config, setConfig] = useState<Config>({});
@@ -286,6 +287,7 @@ export default function AdminTalentEditor() {
         {/* Tab Icons List */}
         {[
           { tab: 'editor', label: 'Talent Editor', icon: '🎯' },
+          { tab: 'buffs', label: 'Buffs / Debuffs', icon: '✨' },
           { tab: 'database', label: 'Tables / DB Editor', icon: '🗃️' },
           { tab: 'analytics', label: 'Analytics Insights', icon: '📈' },
           { tab: 'settings', label: 'Project Settings', icon: '⚙️' }
@@ -369,6 +371,7 @@ export default function AdminTalentEditor() {
         }}>
           <span style={{color:'white',fontWeight:'700',fontSize:'13px',letterSpacing:'0.3px'}}>
             {activeTab === 'editor' && "Talent Studio"}
+            {activeTab === 'buffs' && "Buff Studio"}
             {activeTab === 'database' && "Supabase Studio"}
             {activeTab === 'analytics' && "Metrics & Graphs"}
             {activeTab === 'settings' && "Engine Settings"}
@@ -472,6 +475,29 @@ export default function AdminTalentEditor() {
             </>
           )}
 
+          {activeTab === 'buffs' && (
+            <>
+              <div style={{color:'#6b7280',fontSize:'10px',fontWeight:'800',textTransform:'uppercase',letterSpacing:'1px',padding:'8px 12px 4px'}}>Content Library</div>
+              <button style={subSidebarItemStyle(true)}>
+                <span>✨</span>
+                <span style={{flex:1,textAlign:'left'}}>Buffs / Debuffs</span>
+                <span style={{color:'#3ecf8e',fontSize:'10px'}}>●</span>
+              </button>
+              <div style={{color:'#71717a',fontSize:'10px',lineHeight:'1.5',padding:'12px 12px 4px'}}>
+                Los cambios se publican en el hub de Información, sección <code>/info#buffs</code>.
+              </div>
+              <a
+                href="/es/info#buffs"
+                target="_blank"
+                rel="noreferrer"
+                style={{...subSidebarItemStyle(false),color:'#3ecf8e',textDecoration:'none'}}
+              >
+                <span>↗</span>
+                <span style={{flex:1,textAlign:'left'}}>Ver sección pública</span>
+              </a>
+            </>
+          )}
+
           {activeTab === 'settings' && (
             <>
               <div style={{color:'#6b7280',fontSize:'10px',fontWeight:'800',textTransform:'uppercase',letterSpacing:'1px',padding:'8px 12px 4px'}}>Project Parameters</div>
@@ -531,6 +557,7 @@ export default function AdminTalentEditor() {
           <span>/</span>
           <span style={{color:'#3ecf8e',fontWeight:'600'}}>
             {activeTab === 'editor' && "Talent Tree Editor"}
+            {activeTab === 'buffs' && "Buffs & Debuffs Editor"}
             {activeTab === 'database' && "Supabase Studio DB Browser"}
             {activeTab === 'analytics' && "Performance & Allocation Density"}
             {activeTab === 'faq' && "Content & FAQ Editor"}
@@ -539,8 +566,8 @@ export default function AdminTalentEditor() {
 
           <div style={{marginLeft:'auto',display:'flex',alignItems:'center',gap:'12px'}}>
             {isLoading && <span style={{color:'#f1c40f',fontSize:'11px'}}>⟳ Syncing database...</span>}
-            {hasSaved && !hasChanges && <span style={{background:'rgba(62,207,142,0.1)',color:'#3ecf8e',padding:'2px 10px',borderRadius:'4px',fontSize:'11px',border:'1px solid rgba(62,207,142,0.2)',fontWeight:'bold'}}>SYNCED WITH DATABASE</span>}
-            {hasChanges && <span style={{background:'rgba(245,158,11,0.1)',color:'#f59e0b',padding:'2px 10px',borderRadius:'4px',fontSize:'11px',border:'1px solid rgba(245,158,11,0.2)',fontWeight:'bold'}}>UNSAVED PARAMETERS</span>}
+            {activeTab === 'editor' && hasSaved && !hasChanges && <span style={{background:'rgba(62,207,142,0.1)',color:'#3ecf8e',padding:'2px 10px',borderRadius:'4px',fontSize:'11px',border:'1px solid rgba(62,207,142,0.2)',fontWeight:'bold'}}>SYNCED WITH DATABASE</span>}
+            {activeTab === 'editor' && hasChanges && <span style={{background:'rgba(245,158,11,0.1)',color:'#f59e0b',padding:'2px 10px',borderRadius:'4px',fontSize:'11px',border:'1px solid rgba(245,158,11,0.2)',fontWeight:'bold'}}>UNSAVED PARAMETERS</span>}
             
             <div style={{width:'1px',height:'16px',background:'#2e2e2e',margin:'0 4px'}} />
             
@@ -923,6 +950,11 @@ export default function AdminTalentEditor() {
               </button>
             </div>
           </div>
+        )}
+
+        {/* BUFFS & DEBUFFS MANAGER */}
+        {activeTab === 'buffs' && (
+          <BuffManager showToast={showToast} />
         )}
 
         {/* 4. SETTINGS & MAINTENANCE BANNERS */}
