@@ -16,8 +16,9 @@ layout, so `/login` and `/control-panel` are unaffected.
   every 60 seconds, when the tab becomes visible, and when the browser comes
   back online. When the returned version differs, the toast appears.
 - `Actualizar ahora` reloads the page so the visitor loads the new deployment.
-  `Ahora no` hides the toast for that version in the current tab; a newer
-  deployment will show it again.
+  The notice is intentionally non-dismissible: there is no `Ahora no` action
+  and no close button, so the only way to clear it is to reload into the new
+  version. It does not depend on `localStorage` or `sessionStorage`.
 
 ## Exchange badge
 

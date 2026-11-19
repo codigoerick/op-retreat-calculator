@@ -22,7 +22,7 @@
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 14px;
-  padding: 15px 44px 15px 16px;
+  padding: 15px 16px;
   border: 1px solid var(--toast-border);
   border-radius: 18px;
   background: var(--toast-bg);
@@ -146,68 +146,7 @@
   opacity: 0.72;
 }
 
-.dismissButton {
-  border: 0;
-  border-radius: 8px;
-  padding: 9px 10px;
-  background: transparent;
-  color: var(--toast-muted);
-  font: inherit;
-  font-size: 0.76rem;
-  font-weight: 600;
-  line-height: 1;
-  white-space: nowrap;
-  cursor: pointer;
-  transition:
-    background 0.18s ease,
-    color 0.18s ease;
-}
-
-.dismissButton:hover:not(:disabled) {
-  background: var(--toast-soft);
-  color: var(--toast-text);
-}
-
-.dismissButton:disabled {
-  cursor: wait;
-  opacity: 0.72;
-}
-
-.closeButton {
-  position: absolute;
-  top: 8px;
-  right: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  border: 0;
-  border-radius: 8px;
-  background: transparent;
-  color: var(--toast-muted);
-  font-size: 0.72rem;
-  line-height: 1;
-  cursor: pointer;
-  transition:
-    background 0.18s ease,
-    color 0.18s ease;
-}
-
-.closeButton:hover:not(:disabled) {
-  background: var(--toast-soft);
-  color: var(--toast-text);
-}
-
-.closeButton:disabled {
-  cursor: wait;
-  opacity: 0.72;
-}
-
-.updateButton:focus-visible,
-.dismissButton:focus-visible,
-.closeButton:focus-visible {
+.updateButton:focus-visible {
   outline: 2px solid #ed873c;
   outline-offset: 2px;
 }
@@ -239,7 +178,7 @@
     grid-template-columns: auto minmax(0, 1fr);
     align-items: start;
     gap: 12px;
-    padding: 14px 40px 14px 14px;
+    padding: 14px;
   }
 
   .actions {
@@ -258,9 +197,7 @@
     animation: none;
   }
 
-  .updateButton,
-  .dismissButton,
-  .closeButton {
+  .updateButton {
     transition: none;
   }
 }
