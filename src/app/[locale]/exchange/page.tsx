@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ExchangeCatalog from "@/components/exchange/ExchangeCatalog";
+import SeenTracker from "@/components/SeenTracker";
 import {
   EXCHANGE_BASE_URL,
   EXCHANGE_CURRENCY,
@@ -13,6 +14,7 @@ import {
   getExchangeTotalStock,
   isExchangeLocale,
 } from "@/data/exchange";
+import { EXCHANGE_NOTIFICATION_KEY } from "@/lib/exchangeNotifications";
 import styles from "@/components/exchange/exchange.module.css";
 
 type ExchangePageProps = {
@@ -86,6 +88,7 @@ export default async function ExchangePage({ params }: ExchangePageProps) {
 
   return (
     <div className={styles.page}>
+      <SeenTracker notificationKey={EXCHANGE_NOTIFICATION_KEY} />
       <section className={styles.hero}>
         <div className={styles.container}>
           <div className={styles.heroInner}>

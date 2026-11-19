@@ -1665,6 +1665,16 @@ body.light-theme .footer-divider {
     border-radius: 4px;
 }
 
+.app-navbar__link--new {
+    gap: 6px;
+}
+
+.app-navbar__link--new .nav-new-dot {
+    position: static;
+    flex: 0 0 16px;
+    transform: none;
+}
+
 .nav-new-dot {
     position: absolute;
     top: 50%;
@@ -1694,6 +1704,25 @@ body.light-theme .footer-divider {
     font-size: 25px;
     font-weight: 600;
     color: rgb(234, 217, 200);
+    white-space: nowrap;
+}
+
+@media (min-width: 768px) and (max-width: 900px) {
+    .app-navbar__container {
+        padding: 0 18px;
+    }
+
+    .app-navbar__brand-group {
+        gap: 16px;
+    }
+
+    .app-navbar__logo span {
+        font-size: 22px;
+    }
+
+    .app-navbar__link {
+        letter-spacing: 0.05em;
+    }
 }
 
 /* Subnavbar */

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { useSettings } from "@/context/SettingsContext";
+import { EXCHANGE_NOTIFICATION_KEY } from "@/lib/exchangeNotifications";
 import { INFO_SEEN_EVENT, hasUnseenKeys } from "@/lib/infoNotifications";
 
 type SiteHeaderProps = {
@@ -42,7 +43,13 @@ export default function SiteHeader({ notificationKeys }: SiteHeaderProps) {
     () => hasUnseenKeys(notificationKeys),
     () => false
   );
+  const hasNewExchange = useSyncExternalStore(
+    subscribeToInfoSeen,
+    () => hasUnseenKeys([EXCHANGE_NOTIFICATION_KEY]),
+    () => false
+  );
   const showNewInfo = hasNewInfo && !isInfoPage;
+  const showNewExchange = hasNewExchange && !isExchangePage;
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -114,10 +121,22 @@ export default function SiteHeader({ notificationKeys }: SiteHeaderProps) {
             onClick={closeSidebar}
             className={`sidebar-link ${isExchangePage ? "sidebar-link--active" : ""}`}
             aria-current={isExchangePage ? "page" : undefined}
+            aria-label={
+              showNewExchange
+                ? `${t("subnav.exchange")}: ${t("nav.new_content")}`
+                : undefined
+            }
           >
             {/* @ts-expect-error - ion-icon is a custom element */}
             <ion-icon name="swap-horizontal-outline"></ion-icon>
             <span>{t("subnav.exchange")}</span>
+            {showNewExchange && (
+              <span
+                className="sidebar-new-dot"
+                aria-hidden
+                title={t("nav.new_content")}
+              />
+            )}
           </Link>
           <Link
             href={infoHref}
@@ -237,14 +256,26 @@ export default function SiteHeader({ notificationKeys }: SiteHeaderProps) {
                 </Link>
                 <Link
                   href={exchangeHref}
-                  className={`app-navbar__link ${isExchangePage ? "active" : ""}`}
+                  className={`app-navbar__link ${isExchangePage ? "active" : ""} ${showNewExchange ? "app-navbar__link--new" : ""}`}
                   aria-current={isExchangePage ? "page" : undefined}
+                  aria-label={
+                    showNewExchange
+                      ? `${t("subnav.exchange")}: ${t("nav.new_content")}`
+                      : undefined
+                  }
                 >
                   {t("subnav.exchange")}
+                  {showNewExchange && (
+                    <span
+                      className="nav-new-dot"
+                      aria-hidden
+                      title={t("nav.new_content")}
+                    />
+                  )}
                 </Link>
                 <Link
                   href={infoHref}
-                  className={`app-navbar__link ${isInfoPage ? "active" : ""}`}
+                  className={`app-navbar__link ${isInfoPage ? "active" : ""} ${showNewInfo ? "app-navbar__link--new" : ""}`}
                   aria-current={isInfoPage ? "page" : undefined}
                   aria-label={
                     showNewInfo
