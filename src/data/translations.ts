@@ -34,12 +34,14 @@ export const translations: Record<string, Record<string, string>> = {
     "modal.btn.calculate": "Calculate",
     "modal.btn.cancel": "Cancel",
 
-    // One-time update alert
-    "alert.badge": "New",
-    "alert.title": "New talent configurations available",
-    "alert.body": "The new Low HP and Full HP configurations are published for levels 80–130 and 200. Other levels will be enabled as they become available. Open Options to choose your level.",
-    "alert.button": "Got it",
-    "alert.once": "This notice is shown only once.",
+    // Release notice
+    "release.badge": "What's new",
+    "release.title": "The site has been updated",
+    "release.body": "There is new content on the site. Check Exchange and Info to see the latest changes.",
+    "release.exchange": "View Exchange",
+    "release.info": "View Info",
+    "release.dismiss": "Got it",
+    "release.once": "This notice appears once per update.",
 
     // Footer
     "footer.rights": "© 2025 - 2026. All rights reserved.",
@@ -81,12 +83,14 @@ export const translations: Record<string, Record<string, string>> = {
     "modal.btn.calculate": "Calcular",
     "modal.btn.cancel": "Cancelar",
 
-    // Aviso de actualización (una sola vez)
-    "alert.badge": "Nuevo",
-    "alert.title": "Nuevas configuraciones de talentos",
-    "alert.body": "Las nuevas configuraciones de Vida baja y Vida completa ya están publicadas para los niveles 80–130 y 200. Los demás niveles se habilitarán cuando estén disponibles. Abre Opciones para elegir tu nivel.",
-    "alert.button": "Entendido",
-    "alert.once": "Este aviso se muestra solo una vez.",
+    // Aviso de novedades por despliegue
+    "release.badge": "Novedades",
+    "release.title": "La web se ha actualizado",
+    "release.body": "Hay contenido nuevo en la web. Revisa Exchange e Información para ver los últimos cambios.",
+    "release.exchange": "Ver Exchange",
+    "release.info": "Ver Info",
+    "release.dismiss": "Entendido",
+    "release.once": "Este aviso aparece una vez por actualización.",
 
     // Footer
     "footer.rights": "© 2025 - 2026. Todos los derechos reservados.",

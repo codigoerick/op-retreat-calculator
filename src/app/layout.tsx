@@ -3,7 +3,8 @@ import { Poppins } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./globals.css";
-import MaintenanceAlert from "@/components/MaintenanceAlert";
+import ReleaseNotice from "@/components/ReleaseNotice";
+import { getAppVersion } from "@/lib/appVersion";
 import Script from "next/script";
 
 
@@ -61,11 +62,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const buildVersion = getAppVersion();
+
   return (
     <html lang="en" className={poppins.variable}>
       <body>
         <SettingsProvider>
-          <MaintenanceAlert />
+          <ReleaseNotice buildVersion={buildVersion} />
           {children}
         </SettingsProvider>
         <Script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" strategy="lazyOnload" />
