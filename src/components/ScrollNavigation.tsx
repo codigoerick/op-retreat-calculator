@@ -7,7 +7,9 @@ export default function ScrollNavigation() {
   const { language } = useSettings();
   const pathname = usePathname();
   const isSpanish = language === "es";
-  const isInfoPage = /^\/(en|es)\/info(?:\/|$)/.test(pathname || "");
+  const isContentPage = /^\/(en|es)\/(?:info|exchange)(?:\/|$)/.test(
+    pathname || ""
+  );
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -23,7 +25,7 @@ export default function ScrollNavigation() {
   return (
     <div
       className={`scroll-navigation-wrapper ${
-        isInfoPage ? "scroll-navigation-wrapper--info" : ""
+        isContentPage ? "scroll-navigation-wrapper--content" : ""
       }`}
     >
       <button

@@ -2117,9 +2117,9 @@ body.sepia-theme .footer-divider {
    will-change: transform;
 }
 
-/* Hide the fixed scroll controls on info pages when they would overlap content. */
+/* Hide the fixed scroll controls on content pages when they would overlap content. */
 @media (max-width: 1279.98px) {
-   .scroll-navigation-wrapper--info {
+   .scroll-navigation-wrapper--content {
       display: none;
    }
 }

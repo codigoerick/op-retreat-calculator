@@ -14,6 +14,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: `${INFO_BASE_URL}/${locale}/exchange`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
       url: `${INFO_BASE_URL}/${locale}/info`,
       lastModified: now,
       changeFrequency: "weekly",

@@ -31,8 +31,12 @@ export default function SiteHeader({ notificationKeys }: SiteHeaderProps) {
     normalizedPath === `/${language}/info` ||
     normalizedPath.startsWith(`/${language}/info/`);
   const isCalculatorPage = normalizedPath === `/${language}`;
+  const isExchangePage =
+    normalizedPath === `/${language}/exchange` ||
+    normalizedPath.startsWith(`/${language}/exchange/`);
   const homeHref = `/${language}`;
   const infoHref = `/${language}/info`;
+  const exchangeHref = `/${language}/exchange`;
   const hasNewInfo = useSyncExternalStore(
     subscribeToInfoSeen,
     () => hasUnseenKeys(notificationKeys),
@@ -104,6 +108,16 @@ export default function SiteHeader({ notificationKeys }: SiteHeaderProps) {
             {/* @ts-expect-error - ion-icon is a custom element */}
             <ion-icon name="calculator-outline"></ion-icon>
             <span>{t("nav.calculator")}</span>
+          </Link>
+          <Link
+            href={exchangeHref}
+            onClick={closeSidebar}
+            className={`sidebar-link ${isExchangePage ? "sidebar-link--active" : ""}`}
+            aria-current={isExchangePage ? "page" : undefined}
+          >
+            {/* @ts-expect-error - ion-icon is a custom element */}
+            <ion-icon name="swap-horizontal-outline"></ion-icon>
+            <span>{t("subnav.exchange")}</span>
           </Link>
           <Link
             href={infoHref}
@@ -220,6 +234,13 @@ export default function SiteHeader({ notificationKeys }: SiteHeaderProps) {
                   aria-current={isCalculatorPage ? "page" : undefined}
                 >
                   {t("nav.calculator")}
+                </Link>
+                <Link
+                  href={exchangeHref}
+                  className={`app-navbar__link ${isExchangePage ? "active" : ""}`}
+                  aria-current={isExchangePage ? "page" : undefined}
+                >
+                  {t("subnav.exchange")}
                 </Link>
                 <Link
                   href={infoHref}
